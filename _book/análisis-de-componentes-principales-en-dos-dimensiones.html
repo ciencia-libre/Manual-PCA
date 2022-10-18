@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title> 3 Análisis de componentes principales en dos dimensiones | Análisis de Componentes Principales paso a paso con R</title>
+  <meta name="description" content=" 3 Análisis de componentes principales en dos dimensiones | Análisis de Componentes Principales paso a paso con R" />
+  <meta name="generator" content="bookdown 0.29 and GitBook 2.6.7" />
+
+  <meta property="og:title" content=" 3 Análisis de componentes principales en dos dimensiones | Análisis de Componentes Principales paso a paso con R" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content=" 3 Análisis de componentes principales en dos dimensiones | Análisis de Componentes Principales paso a paso con R" />
+  
+  
+  
+
+<meta name="author" content="Juan Pablo Carreón Hidalgo" />
+
+
+<meta name="date" content="2022-10-18" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="algunas-operaciones-básicas-de-álgebra-lineal.html"/>
+<link rel="next" href="genaralización-del-pca-a-más-de-tres-dimensiones.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<script src="libs/plotly-binding-4.10.0/plotly.js"></script>
+<script src="libs/typedarray-0.1/typedarray.min.js"></script>
+<link href="libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
+<link href="libs/plotly-htmlwidgets-css-2.5.1/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="libs/plotly-main-2.5.1/plotly-latest.min.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">PCA paso a paso con R</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Sobre este manual</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#un-poco-acerca-del-autor"><i class="fa fa-check"></i><b>1.1</b> Un poco acerca del autor</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#paquetes-utilizados-para-la-escritura-de-este-manual"><i class="fa fa-check"></i><b>1.2</b> Paquetes utilizados para la escritura de este manual</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="algunas-operaciones-básicas-de-álgebra-lineal.html"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html"><i class="fa fa-check"></i><b>2</b> Algunas operaciones básicas de álgebra lineal</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="algunas-operaciones-básicas-de-álgebra-lineal.html"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#operaciones-con-vectores"><i class="fa fa-check"></i><b>2.1</b> Operaciones con vectores</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="algunas-operaciones-básicas-de-álgebra-lineal.html"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#crear-vectores"><i class="fa fa-check"></i><b>2.1.1</b> Crear vectores</a></li>
+<li class="chapter" data-level="2.1.2" data-path="algunas-operaciones-básicas-de-álgebra-lineal.html"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#suma-de-vectores"><i class="fa fa-check"></i><b>2.1.2</b> Suma de vectores</a></li>
+<li class="chapter" data-level="2.1.3" data-path="algunas-operaciones-básicas-de-álgebra-lineal.html"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#multiplicación-de-un-vector-por-un-escalar"><i class="fa fa-check"></i><b>2.1.3</b> Multiplicación de un vector por un escalar</a></li>
+<li class="chapter" data-level="2.1.4" data-path="algunas-operaciones-básicas-de-álgebra-lineal.html"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#producto-punto-o-producto-interno"><i class="fa fa-check"></i><b>2.1.4</b> Producto punto o producto interno</a></li>
+<li class="chapter" data-level="2.1.5" data-path="algunas-operaciones-básicas-de-álgebra-lineal.html"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#norma-o-magnitud-de-un-vector"><i class="fa fa-check"></i><b>2.1.5</b> Norma o magnitud de un vector</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="algunas-operaciones-básicas-de-álgebra-lineal.html"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#operaciones-con-matrices"><i class="fa fa-check"></i><b>2.2</b> Operaciones con matrices</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="algunas-operaciones-básicas-de-álgebra-lineal.html"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#definir-matrices"><i class="fa fa-check"></i><b>2.2.1</b> Definir matrices</a></li>
+<li class="chapter" data-level="2.2.2" data-path="algunas-operaciones-básicas-de-álgebra-lineal.html"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#multiplicar-una-matriz-por-un-vector"><i class="fa fa-check"></i><b>2.2.2</b> Multiplicar una matriz por un vector</a></li>
+<li class="chapter" data-level="2.2.3" data-path="algunas-operaciones-básicas-de-álgebra-lineal.html"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#multiplicación-de-matrices"><i class="fa fa-check"></i><b>2.2.3</b> Multiplicación de matrices</a></li>
+<li class="chapter" data-level="2.2.4" data-path="algunas-operaciones-básicas-de-álgebra-lineal.html"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#multiplicación-de-un-escalar-por-una-matriz"><i class="fa fa-check"></i><b>2.2.4</b> Multiplicación de un escalar por una matriz</a></li>
+<li class="chapter" data-level="2.2.5" data-path="algunas-operaciones-básicas-de-álgebra-lineal.html"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#transpuesta-de-una-matriz"><i class="fa fa-check"></i><b>2.2.5</b> Transpuesta de una matriz</a></li>
+<li class="chapter" data-level="2.2.6" data-path="algunas-operaciones-básicas-de-álgebra-lineal.html"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#matriz-identidad"><i class="fa fa-check"></i><b>2.2.6</b> Matriz identidad</a></li>
+<li class="chapter" data-level="2.2.7" data-path="algunas-operaciones-básicas-de-álgebra-lineal.html"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#valores-y-vectores-propios-de-una-matriz"><i class="fa fa-check"></i><b>2.2.7</b> Valores y vectores propios de una matriz</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="algunas-operaciones-básicas-de-álgebra-lineal.html"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#algunos-extra"><i class="fa fa-check"></i><b>2.3</b> Algunos extra</a>
+<ul>
+<li class="chapter" data-level="2.3.1" data-path="algunas-operaciones-básicas-de-álgebra-lineal.html"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#resolver-sistemas-de-ecuaciones-lineales"><i class="fa fa-check"></i><b>2.3.1</b> Resolver sistemas de ecuaciones lineales</a></li>
+<li class="chapter" data-level="2.3.2" data-path="algunas-operaciones-básicas-de-álgebra-lineal.html"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#promedio-y-varianza-con-operaciones-de-álgebra-lineal"><i class="fa fa-check"></i><b>2.3.2</b> Promedio y varianza con operaciones de álgebra lineal</a></li>
+<li class="chapter" data-level="2.3.3" data-path="algunas-operaciones-básicas-de-álgebra-lineal.html"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#varianza"><i class="fa fa-check"></i><b>2.3.3</b> Varianza</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="análisis-de-componentes-principales-en-dos-dimensiones.html"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html"><i class="fa fa-check"></i><b>3</b> Análisis de componentes principales en dos dimensiones</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="análisis-de-componentes-principales-en-dos-dimensiones.html"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#datos"><i class="fa fa-check"></i><b>3.1</b> Datos</a></li>
+<li class="chapter" data-level="3.2" data-path="análisis-de-componentes-principales-en-dos-dimensiones.html"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#centrar-los-datos"><i class="fa fa-check"></i><b>3.2</b> Centrar los datos</a></li>
+<li class="chapter" data-level="3.3" data-path="análisis-de-componentes-principales-en-dos-dimensiones.html"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#calcular-la-matriz-de-covarianza"><i class="fa fa-check"></i><b>3.3</b> Calcular la matriz de covarianza</a></li>
+<li class="chapter" data-level="3.4" data-path="análisis-de-componentes-principales-en-dos-dimensiones.html"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#obtener-los-valores-y-vectores-propios-de-la-matriz-de-covarianza"><i class="fa fa-check"></i><b>3.4</b> Obtener los valores y vectores propios de la matriz de covarianza</a></li>
+<li class="chapter" data-level="3.5" data-path="análisis-de-componentes-principales-en-dos-dimensiones.html"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#gráfica-de-barras-para-la-varianza-de-cada-componente-principal"><i class="fa fa-check"></i><b>3.5</b> Gráfica de barras para la varianza de cada componente principal</a></li>
+<li class="chapter" data-level="3.6" data-path="análisis-de-componentes-principales-en-dos-dimensiones.html"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#pesos-loading-scores"><i class="fa fa-check"></i><b>3.6</b> Pesos (<em>Loading scores</em>)</a></li>
+<li class="chapter" data-level="3.7" data-path="análisis-de-componentes-principales-en-dos-dimensiones.html"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#representar-los-datos-en-menos-dimensiones"><i class="fa fa-check"></i><b>3.7</b> Representar los datos en menos dimensiones</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="genaralización-del-pca-a-más-de-tres-dimensiones.html"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html"><i class="fa fa-check"></i><b>4</b> Genaralización del PCA a más de tres dimensiones</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="genaralización-del-pca-a-más-de-tres-dimensiones.html"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#datos-1"><i class="fa fa-check"></i><b>4.1</b> Datos</a></li>
+<li class="chapter" data-level="4.2" data-path="genaralización-del-pca-a-más-de-tres-dimensiones.html"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#centrar-cada-variable-y-dividir-por-su-desviación-estándar"><i class="fa fa-check"></i><b>4.2</b> Centrar cada variable y dividir por su desviación estándar</a></li>
+<li class="chapter" data-level="4.3" data-path="genaralización-del-pca-a-más-de-tres-dimensiones.html"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#calcular-la-matriz-de-covarianzas"><i class="fa fa-check"></i><b>4.3</b> Calcular la matriz de covarianzas</a></li>
+<li class="chapter" data-level="4.4" data-path="genaralización-del-pca-a-más-de-tres-dimensiones.html"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#obtener-los-valores-y-vectores-propios-de-la-matriz-de-covarianzas"><i class="fa fa-check"></i><b>4.4</b> Obtener los valores y vectores propios de la matriz de covarianzas</a></li>
+<li class="chapter" data-level="4.5" data-path="genaralización-del-pca-a-más-de-tres-dimensiones.html"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#gráfica-de-barras-para-el-porcentaje-de-variación-de-cada-componente-principal"><i class="fa fa-check"></i><b>4.5</b> Gráfica de barras para el porcentaje de variación de cada componente principal</a></li>
+<li class="chapter" data-level="4.6" data-path="genaralización-del-pca-a-más-de-tres-dimensiones.html"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#representar-los-datos-en-dos-dimensiones"><i class="fa fa-check"></i><b>4.6</b> Representar los datos en dos dimensiones</a></li>
+<li class="chapter" data-level="4.7" data-path="genaralización-del-pca-a-más-de-tres-dimensiones.html"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#pesos-loading-scores-1"><i class="fa fa-check"></i><b>4.7</b> Pesos (Loading scores)</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html"><i class="fa fa-check"></i><b>5</b> Análisis de componentes principales con descomposición de valores singulares</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#descomposición-de-valores-singulares"><i class="fa fa-check"></i><b>5.1</b> Descomposición de valores singulares</a></li>
+<li class="chapter" data-level="5.2" data-path="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#svd-para-llevar-a-cabo-pca"><i class="fa fa-check"></i><b>5.2</b> SVD para llevar a cabo PCA</a></li>
+<li class="chapter" data-level="5.3" data-path="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#datos-2"><i class="fa fa-check"></i><b>5.3</b> Datos</a></li>
+<li class="chapter" data-level="5.4" data-path="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#análisis-de-componentes-principales-con-la-función-svd"><i class="fa fa-check"></i><b>5.4</b> Análisis de componentes principales con la función svd()</a>
+<ul>
+<li class="chapter" data-level="5.4.1" data-path="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#gráfica-de-barras-para-la-varianza-de-cada-componente-principal-1"><i class="fa fa-check"></i><b>5.4.1</b> Gráfica de barras para la varianza de cada componente principal</a></li>
+<li class="chapter" data-level="5.4.2" data-path="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#representación-de-los-datos-en-dos-dimensiones"><i class="fa fa-check"></i><b>5.4.2</b> Representación de los datos en dos dimensiones</a></li>
+<li class="chapter" data-level="5.4.3" data-path="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#vectors-propios-y-pesos"><i class="fa fa-check"></i><b>5.4.3</b> Vectors propios y pesos</a></li>
+</ul></li>
+<li class="chapter" data-level="5.5" data-path="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#análisis-de-componente-principales-con-la-función-prcomp"><i class="fa fa-check"></i><b>5.5</b> Análisis de componente principales con la función prcomp()</a>
+<ul>
+<li class="chapter" data-level="5.5.1" data-path="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#gráfica-de-barras-para-la-varianza-de-cada-componente-principal-2"><i class="fa fa-check"></i><b>5.5.1</b> Gráfica de barras para la varianza de cada componente principal</a></li>
+<li class="chapter" data-level="5.5.2" data-path="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#representación-de-los-datos-en-dos-dimensiones-1"><i class="fa fa-check"></i><b>5.5.2</b> Representación de los datos en dos dimensiones</a></li>
+<li class="chapter" data-level="5.5.3" data-path="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#vectores-propios-y-pesos"><i class="fa fa-check"></i><b>5.5.3</b> Vectores propios y pesos</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="análisis-de-componentes-principales-aplicado-a-metabolómica.html"><a href="análisis-de-componentes-principales-aplicado-a-metabolómica.html"><i class="fa fa-check"></i><b>6</b> Análisis de componentes principales aplicado a metabolómica</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="análisis-de-componentes-principales-aplicado-a-metabolómica.html"><a href="análisis-de-componentes-principales-aplicado-a-metabolómica.html#datos-3"><i class="fa fa-check"></i><b>6.1</b> Datos</a></li>
+<li class="chapter" data-level="6.2" data-path="análisis-de-componentes-principales-aplicado-a-metabolómica.html"><a href="análisis-de-componentes-principales-aplicado-a-metabolómica.html#reordenamiento-de-los-datos"><i class="fa fa-check"></i><b>6.2</b> Reordenamiento de los datos</a></li>
+<li class="chapter" data-level="6.3" data-path="análisis-de-componentes-principales-aplicado-a-metabolómica.html"><a href="análisis-de-componentes-principales-aplicado-a-metabolómica.html#análisis-de-componentes-principales-con-prcomp"><i class="fa fa-check"></i><b>6.3</b> Análisis de componentes principales con prcomp()</a>
+<ul>
+<li class="chapter" data-level="6.3.1" data-path="análisis-de-componentes-principales-aplicado-a-metabolómica.html"><a href="análisis-de-componentes-principales-aplicado-a-metabolómica.html#gráfica-de-barras-con-la-varianza-de-cada-componente-principal"><i class="fa fa-check"></i><b>6.3.1</b> Gráfica de barras con la varianza de cada componente principal</a></li>
+<li class="chapter" data-level="6.3.2" data-path="análisis-de-componentes-principales-aplicado-a-metabolómica.html"><a href="análisis-de-componentes-principales-aplicado-a-metabolómica.html#gráfica-de-dispesión-con-los-primeros-dos-componentes"><i class="fa fa-check"></i><b>6.3.2</b> Gráfica de dispesión con los primeros dos componentes</a></li>
+<li class="chapter" data-level="6.3.3" data-path="análisis-de-componentes-principales-aplicado-a-metabolómica.html"><a href="análisis-de-componentes-principales-aplicado-a-metabolómica.html#peso-o-loadings-de-pc1-y-pc2"><i class="fa fa-check"></i><b>6.3.3</b> Peso o <em>loadings</em> de PC1 y PC2</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="una-shiny-app-para-automatizar-el-análisis-de-componentes-principales.html"><a href="una-shiny-app-para-automatizar-el-análisis-de-componentes-principales.html"><i class="fa fa-check"></i><b>7</b> Una Shiny App para automatizar el análisis de componentes principales</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="una-shiny-app-para-automatizar-el-análisis-de-componentes-principales.html"><a href="una-shiny-app-para-automatizar-el-análisis-de-componentes-principales.html#qué-es-pca-maker"><i class="fa fa-check"></i><b>7.1</b> ¿Qué es <em>PCA Maker</em>?</a></li>
+<li class="chapter" data-level="7.2" data-path="una-shiny-app-para-automatizar-el-análisis-de-componentes-principales.html"><a href="una-shiny-app-para-automatizar-el-análisis-de-componentes-principales.html#instalar-y-usar"><i class="fa fa-check"></i><b>7.2</b> Instalar y usar</a>
+<ul>
+<li class="chapter" data-level="7.2.1" data-path="una-shiny-app-para-automatizar-el-análisis-de-componentes-principales.html"><a href="una-shiny-app-para-automatizar-el-análisis-de-componentes-principales.html#descargar-de-github"><i class="fa fa-check"></i><b>7.2.1</b> Descargar de GitHub</a></li>
+<li class="chapter" data-level="7.2.2" data-path="una-shiny-app-para-automatizar-el-análisis-de-componentes-principales.html"><a href="una-shiny-app-para-automatizar-el-análisis-de-componentes-principales.html#como-un-paquete"><i class="fa fa-check"></i><b>7.2.2</b> Como un paquete</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="una-shiny-app-para-automatizar-el-análisis-de-componentes-principales.html"><a href="una-shiny-app-para-automatizar-el-análisis-de-componentes-principales.html#ejemplo"><i class="fa fa-check"></i><b>7.3</b> Ejemplo</a>
+<ul>
+<li class="chapter" data-level="7.3.1" data-path="una-shiny-app-para-automatizar-el-análisis-de-componentes-principales.html"><a href="una-shiny-app-para-automatizar-el-análisis-de-componentes-principales.html#datos-4"><i class="fa fa-check"></i><b>7.3.1</b> Datos</a></li>
+<li class="chapter" data-level="7.3.2" data-path="una-shiny-app-para-automatizar-el-análisis-de-componentes-principales.html"><a href="una-shiny-app-para-automatizar-el-análisis-de-componentes-principales.html#subir-o-cargar-los-datos"><i class="fa fa-check"></i><b>7.3.2</b> Subir o cargar los datos</a></li>
+<li class="chapter" data-level="7.3.3" data-path="una-shiny-app-para-automatizar-el-análisis-de-componentes-principales.html"><a href="una-shiny-app-para-automatizar-el-análisis-de-componentes-principales.html#personalizar-el-análisis"><i class="fa fa-check"></i><b>7.3.3</b> Personalizar el análisis</a></li>
+<li class="chapter" data-level="7.3.4" data-path="una-shiny-app-para-automatizar-el-análisis-de-componentes-principales.html"><a href="una-shiny-app-para-automatizar-el-análisis-de-componentes-principales.html#porcentajes-de-variación"><i class="fa fa-check"></i><b>7.3.4</b> Porcentajes de variación</a></li>
+<li class="chapter" data-level="7.3.5" data-path="una-shiny-app-para-automatizar-el-análisis-de-componentes-principales.html"><a href="una-shiny-app-para-automatizar-el-análisis-de-componentes-principales.html#proyecciones"><i class="fa fa-check"></i><b>7.3.5</b> Proyecciones</a></li>
+<li class="chapter" data-level="7.3.6" data-path="una-shiny-app-para-automatizar-el-análisis-de-componentes-principales.html"><a href="una-shiny-app-para-automatizar-el-análisis-de-componentes-principales.html#pesos"><i class="fa fa-check"></i><b>7.3.6</b> Pesos</a></li>
+<li class="chapter" data-level="7.3.7" data-path="una-shiny-app-para-automatizar-el-análisis-de-componentes-principales.html"><a href="una-shiny-app-para-automatizar-el-análisis-de-componentes-principales.html#bi-plot"><i class="fa fa-check"></i><b>7.3.7</b> <em>Bi-plot</em></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i><b>8</b> Referencias</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Análisis de Componentes Principales paso a paso con R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="análisis-de-componentes-principales-en-dos-dimensiones" class="section level1 hasAnchor" number="3">
+<h1><span class="header-section-number"> 3</span> Análisis de componentes principales en dos dimensiones<a href="análisis-de-componentes-principales-en-dos-dimensiones.html#análisis-de-componentes-principales-en-dos-dimensiones" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>Es hora de abordar el tema principal de este manual. De aquí en adelante abreviaré el nombre de “análisis de componentes principales” como <em>PCA</em> por sus siglas en inglés.</p>
+<p>El <em>PCA</em> es un análisis exploratorio de datos basado en la reducción de dimensiones. La idea general es reducir el conjunto de datos para que tenga menos dimensiones y, al mismo tiempo, conservar la mayor cantidad de información posible.</p>
+<p>El <em>PCA</em> nos permite hacer representaciones visuales en dos dimensiones y comprobar si hay grupos o diferencias en los datos relacionados con diferentes estados, tratamientos, etc. Además, podemos obtener alguna pista sobre qué variables en los datos son responsables de las diferencias visuales.</p>
+<p>Es importante destacar que el <em>PCA</em> no se utiliza exclusivamente para lo anterior y como es un análisis exploratorio las similitudes o diferencias de los datos deben ser consideradas en el contexto del que provienen.</p>
+<p>Comencemos con un caso simple que nos ayudará a comprender el <em>PCA</em>. Utilizaré solo dos variables para mostrar algunos conceptos básicos detrás y luego podremos generalizar a datos con más dimensiones.</p>
+<div id="datos" class="section level2 hasAnchor" number="3.1">
+<h2><span class="header-section-number">3.1</span> Datos<a href="análisis-de-componentes-principales-en-dos-dimensiones.html#datos" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Para la primera variable tomé como base una distribución normal, y para la segunda consideré cierto grado de dependencia con la primera y añadí un poco de ruido también con una distribución normal.</p>
+<div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb89-1"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb89-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb89-2"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb89-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb89-3"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb89-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Variable 1</span></span>
+<span id="cb89-4"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb89-4" aria-hidden="true" tabindex="-1"></a>var_1 <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">50</span>, <span class="dv">50</span>, <span class="at">sd =</span> <span class="dv">3</span>)</span>
+<span id="cb89-5"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb89-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb89-6"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb89-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Variable 2</span></span>
+<span id="cb89-7"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb89-7" aria-hidden="true" tabindex="-1"></a>var_2 <span class="ot">&lt;-</span> .<span class="dv">5</span><span class="sc">*</span>var_1 <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="dv">50</span>, <span class="at">sd =</span> <span class="fu">sqrt</span>(<span class="dv">3</span>))</span>
+<span id="cb89-8"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb89-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb89-9"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb89-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Ambas variables en un &quot;data.frame&quot;</span></span>
+<span id="cb89-10"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb89-10" aria-hidden="true" tabindex="-1"></a>datos_1 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(var_1, var_2)</span>
+<span id="cb89-11"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb89-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb89-12"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb89-12" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(datos_1)</span></code></pre></div>
+<pre><code>##      var_1    var_2
+## 1 48.12064 24.74986
+## 2 50.55093 24.21540
+## 3 47.49311 24.33739
+## 4 54.78584 25.43681
+## 5 50.98852 27.97633
+## 6 47.53859 27.19945</code></pre>
+<p>Un gráfico de dispersión puede mostrar la dispersión y la posible relación entre ambas variables:</p>
+<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb91-1"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb91-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb91-2"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb91-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb91-3"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb91-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(datos_1, <span class="fu">aes</span>(<span class="at">x =</span> var_1, <span class="at">y =</span> var_2)) <span class="sc">+</span></span>
+<span id="cb91-4"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb91-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">&quot;blue&quot;</span>, <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb91-5"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb91-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Variable 1&quot;</span>) <span class="sc">+</span></span>
+<span id="cb91-6"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb91-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Variable 2&quot;</span>) <span class="sc">+</span></span>
+<span id="cb91-7"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb91-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>()</span></code></pre></div>
+<p><img src="02-PCA-2-dimensiones_files/figure-html/grafica%20var_1%20y%20var_2-1.png" width="672" /></p>
+</div>
+<div id="centrar-los-datos" class="section level2 hasAnchor" number="3.2">
+<h2><span class="header-section-number">3.2</span> Centrar los datos<a href="análisis-de-componentes-principales-en-dos-dimensiones.html#centrar-los-datos" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>El primer paso del <em>PCA</em> es centrar las dos variables respecto a su media.</p>
+<div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb92-1"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb92-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb92-2"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb92-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb92-3"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb92-3" aria-hidden="true" tabindex="-1"></a>datos_1 <span class="ot">&lt;-</span> datos_1 <span class="sc">%&gt;%</span> </span>
+<span id="cb92-4"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb92-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">varc_1 =</span> var_1 <span class="sc">-</span> <span class="fu">mean</span>(var_1), <span class="at">varc_2 =</span> var_2 <span class="sc">-</span> <span class="fu">mean</span>(var_2))</span>
+<span id="cb92-5"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb92-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb92-6"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb92-6" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(datos_1)</span></code></pre></div>
+<pre><code>##      var_1    var_2     varc_1      varc_2
+## 1 48.12064 24.74986 -2.1807063 -0.60402890
+## 2 50.55093 24.21540  0.2495851 -1.13848362
+## 3 47.49311 24.33739 -2.8082307 -1.01649408
+## 4 54.78584 25.43681  4.4844976  0.08291914
+## 5 50.98852 27.97633  0.6871785  2.62244372
+## 6 47.53859 27.19945 -2.7627500  1.84556287</code></pre>
+<p>Lo anterior no modifica la posición relativa entre cada punto, por lo que los datos centrados tienen el mismo aspecto.</p>
+<div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb94-1"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb94-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(datos_1, <span class="fu">aes</span>(<span class="at">x =</span> varc_1, <span class="at">y =</span> varc_2)) <span class="sc">+</span></span>
+<span id="cb94-2"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb94-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">&quot;blue&quot;</span>, <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb94-3"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb94-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">0</span>, <span class="at">size =</span> .<span class="dv">5</span>) <span class="sc">+</span></span>
+<span id="cb94-4"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb94-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>, <span class="at">size =</span> .<span class="dv">5</span>) <span class="sc">+</span></span>
+<span id="cb94-5"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb94-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Variable 1 (valores centrados)&quot;</span>) <span class="sc">+</span></span>
+<span id="cb94-6"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb94-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Variable 2 (valores centrados)&quot;</span>) <span class="sc">+</span></span>
+<span id="cb94-7"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb94-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>()</span></code></pre></div>
+<p><img src="02-PCA-2-dimensiones_files/figure-html/dispersion%20variables%20centradas-1.png" width="672" /></p>
+</div>
+<div id="calcular-la-matriz-de-covarianza" class="section level2 hasAnchor" number="3.3">
+<h2><span class="header-section-number">3.3</span> Calcular la matriz de covarianza<a href="análisis-de-componentes-principales-en-dos-dimensiones.html#calcular-la-matriz-de-covarianza" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Se puede calcular la <em>matriz de covarianza</em> para un conjunto dado de variables simplemente realizando una multiplicación de matrices en los datos centrados.</p>
+<div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb95-1"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb95-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Seleccionar las variables centradas</span></span>
+<span id="cb95-2"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb95-2" aria-hidden="true" tabindex="-1"></a>datos_2 <span class="ot">&lt;-</span> datos_1 <span class="sc">%&gt;%</span> </span>
+<span id="cb95-3"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb95-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(varc_1, varc_2) <span class="sc">%&gt;%</span> </span>
+<span id="cb95-4"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb95-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.matrix</span>()</span>
+<span id="cb95-5"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb95-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb95-6"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb95-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Calcular la matriz de covarianza</span></span>
+<span id="cb95-7"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb95-7" aria-hidden="true" tabindex="-1"></a>cov_m <span class="ot">&lt;-</span> (<span class="fu">t</span>(datos_2) <span class="sc">%*%</span> datos_2) <span class="sc">/</span> (<span class="fu">nrow</span>(datos_2) <span class="sc">-</span> <span class="dv">1</span>) </span>
+<span id="cb95-8"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb95-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb95-9"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb95-9" aria-hidden="true" tabindex="-1"></a>cov_m</span></code></pre></div>
+<pre><code>##          varc_1   varc_2
+## varc_1 6.220943 2.946877
+## varc_2 2.946877 4.207523</code></pre>
+<p>En esta matriz, la diagonal contiene las varianzas de cada variable, mientras que los valores fuera de la diagonal son las covarianzas entre ellas (véase la siguiente figura).</p>
+<p><img src="imagenes/matriz_cov.png" style="display: block; margin: auto;" /></p>
+<p>El mismo resultado se puede obtener con la función <code>cov()</code>.</p>
+<div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb97-1"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb97-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cov</span>(datos_2)</span></code></pre></div>
+<pre><code>##          varc_1   varc_2
+## varc_1 6.220943 2.946877
+## varc_2 2.946877 4.207523</code></pre>
+<p>O también con la función <code>crossprod()</code> de la siguiente forma.</p>
+<div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb99-1"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb99-1" aria-hidden="true" tabindex="-1"></a><span class="fu">crossprod</span>(datos_2) <span class="sc">/</span> (<span class="fu">nrow</span>(datos_2) <span class="sc">-</span> <span class="dv">1</span>)</span></code></pre></div>
+<pre><code>##          varc_1   varc_2
+## varc_1 6.220943 2.946877
+## varc_2 2.946877 4.207523</code></pre>
+</div>
+<div id="obtener-los-valores-y-vectores-propios-de-la-matriz-de-covarianza" class="section level2 hasAnchor" number="3.4">
+<h2><span class="header-section-number">3.4</span> Obtener los valores y vectores propios de la matriz de covarianza<a href="análisis-de-componentes-principales-en-dos-dimensiones.html#obtener-los-valores-y-vectores-propios-de-la-matriz-de-covarianza" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Los <em>componentes principales</em> son “líneas” o direcciones que capturan la mayor parte de la información en los datos. Estas direcciones pueden obtenerse calculando los valores y vectores propios de la matriz de covarianza.</p>
+<div class="sourceCode" id="cb101"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb101-1"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb101-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Función eigen() para obtener los vectores y valores propios</span></span>
+<span id="cb101-2"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb101-2" aria-hidden="true" tabindex="-1"></a>cov_e <span class="ot">&lt;-</span> <span class="fu">eigen</span>(cov_m)</span>
+<span id="cb101-3"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb101-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb101-4"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb101-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Vectores propios</span></span>
+<span id="cb101-5"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb101-5" aria-hidden="true" tabindex="-1"></a>e_vec <span class="ot">&lt;-</span> cov_e<span class="sc">$</span>vectors</span>
+<span id="cb101-6"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb101-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb101-7"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb101-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Valores propios</span></span>
+<span id="cb101-8"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb101-8" aria-hidden="true" tabindex="-1"></a>e_val <span class="ot">&lt;-</span> cov_e<span class="sc">$</span>values</span></code></pre></div>
+<p>La extensión de cada vector propio (<em>span</em> en inglés) puede considerarse la “línea” que capta la mayor parte de la variación.</p>
+<div class="sourceCode" id="cb102"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb102-1"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb102-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Primer vector propio </span></span>
+<span id="cb102-2"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb102-2" aria-hidden="true" tabindex="-1"></a>ev_1 <span class="ot">&lt;-</span> e_vec[,<span class="dv">1</span>]</span>
+<span id="cb102-3"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb102-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-4"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb102-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Pendiente del primer vector propio</span></span>
+<span id="cb102-5"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb102-5" aria-hidden="true" tabindex="-1"></a>ev1_m <span class="ot">&lt;-</span> ev_1[<span class="dv">2</span>] <span class="sc">/</span> ev_1[<span class="dv">1</span>]</span>
+<span id="cb102-6"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb102-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-7"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb102-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Segundo vector propio </span></span>
+<span id="cb102-8"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb102-8" aria-hidden="true" tabindex="-1"></a>ev_2 <span class="ot">&lt;-</span> e_vec[,<span class="dv">2</span>]</span>
+<span id="cb102-9"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb102-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-10"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb102-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Pendiente del segundo vector propio</span></span>
+<span id="cb102-11"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb102-11" aria-hidden="true" tabindex="-1"></a>ev2_m <span class="ot">&lt;-</span> ev_2[<span class="dv">2</span>] <span class="sc">/</span> ev_2[<span class="dv">1</span>]</span>
+<span id="cb102-12"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb102-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb102-13"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb102-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Gráfica de dispersión de los datos centrados mostrando la extensión de</span></span>
+<span id="cb102-14"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb102-14" aria-hidden="true" tabindex="-1"></a><span class="co"># cada vector propio</span></span>
+<span id="cb102-15"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb102-15" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">data.frame</span>(datos_2), <span class="fu">aes</span>(<span class="at">x =</span> varc_1, <span class="at">y =</span> varc_2)) <span class="sc">+</span></span>
+<span id="cb102-16"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb102-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">&quot;blue&quot;</span>, <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb102-17"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb102-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">0</span>, <span class="at">size =</span> .<span class="dv">5</span>) <span class="sc">+</span></span>
+<span id="cb102-18"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb102-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>, <span class="at">size =</span> .<span class="dv">5</span>) <span class="sc">+</span></span>
+<span id="cb102-19"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb102-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="at">slope =</span> ev1_m, <span class="at">color =</span> <span class="st">&quot;blue&quot;</span>, <span class="at">size =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb102-20"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb102-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="at">slope =</span> ev2_m, <span class="at">color =</span> <span class="st">&quot;red&quot;</span>, <span class="at">size =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb102-21"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb102-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Variable 1 (valores centrados)&quot;</span>) <span class="sc">+</span></span>
+<span id="cb102-22"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb102-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Variable 2 (valores centrados)&quot;</span>) <span class="sc">+</span></span>
+<span id="cb102-23"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb102-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>()</span></code></pre></div>
+<p><img src="02-PCA-2-dimensiones_files/figure-html/representaci%C3%B3n%20de%20los%20vectores%20propios-1.png" width="672" /></p>
+</div>
+<div id="gráfica-de-barras-para-la-varianza-de-cada-componente-principal" class="section level2 hasAnchor" number="3.5">
+<h2><span class="header-section-number">3.5</span> Gráfica de barras para la varianza de cada componente principal<a href="análisis-de-componentes-principales-en-dos-dimensiones.html#gráfica-de-barras-para-la-varianza-de-cada-componente-principal" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Al dividir cada valor propio por <em>n - 1</em>, donde <em>n</em> es el número de renglones en los datos originales, obtendremos una estimación de la varianza de cada componente principal. La suma de todas las varianzas (la varianza total) puede utilizarse para calcular el porcentaje de variación de cada componente y, finalmente, podemos visualizar los porcentajes con una gráfica de barras (en inglés a esta gráfica se le conoce como <em>Scree plot</em>).</p>
+<div class="sourceCode" id="cb103"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb103-1"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb103-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calcular la varianza estimada para cada valor propio</span></span>
+<span id="cb103-2"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb103-2" aria-hidden="true" tabindex="-1"></a>e_var <span class="ot">&lt;-</span> e_val <span class="sc">/</span> (<span class="fu">nrow</span>(datos_2) <span class="sc">-</span> <span class="dv">1</span>)</span>
+<span id="cb103-3"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb103-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb103-4"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb103-4" aria-hidden="true" tabindex="-1"></a><span class="co"># &quot;Data frame&quot; con los porcentajes de variación</span></span>
+<span id="cb103-5"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb103-5" aria-hidden="true" tabindex="-1"></a>var_per <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb103-6"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb103-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">PC  =</span> <span class="fu">c</span>(<span class="st">&quot;PC1&quot;</span>, <span class="st">&quot;PC2&quot;</span>),</span>
+<span id="cb103-7"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb103-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">PER =</span> <span class="fu">c</span>(e_var) <span class="sc">*</span> <span class="dv">100</span> <span class="sc">/</span> <span class="fu">sum</span>(e_var) <span class="co"># Calcular los porcentajes</span></span>
+<span id="cb103-8"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb103-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb103-9"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb103-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb103-10"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb103-10" aria-hidden="true" tabindex="-1"></a><span class="co"># &quot;Scree plot&quot; </span></span>
+<span id="cb103-11"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb103-11" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(var_per, <span class="fu">aes</span>(<span class="at">x =</span> PC, <span class="at">y =</span> PER)) <span class="sc">+</span></span>
+<span id="cb103-12"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb103-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">width =</span> <span class="fl">0.5</span>, <span class="at">color =</span> <span class="st">&quot;black&quot;</span>) <span class="sc">+</span></span>
+<span id="cb103-13"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb103-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Componente principal&quot;</span>) <span class="sc">+</span></span>
+<span id="cb103-14"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb103-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Porcentaje de variación (%)&quot;</span>) <span class="sc">+</span></span>
+<span id="cb103-15"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb103-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>()</span></code></pre></div>
+<p><img src="02-PCA-2-dimensiones_files/figure-html/scree%20plot-1.png" width="672" /></p>
+</div>
+<div id="pesos-loading-scores" class="section level2 hasAnchor" number="3.6">
+<h2><span class="header-section-number">3.6</span> Pesos (<em>Loading scores</em>)<a href="análisis-de-componentes-principales-en-dos-dimensiones.html#pesos-loading-scores" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Los vectores propios obtenidos mediante la función <code>eigen()</code> están normalizados. Esto quiere decir que su longitud es igual a 1.</p>
+<div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb104-1"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb104-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Norma del primer vector propio</span></span>
+<span id="cb104-2"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb104-2" aria-hidden="true" tabindex="-1"></a><span class="fu">norm</span>(<span class="fu">as.matrix</span>(ev_1), <span class="st">&quot;F&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] 1</code></pre>
+<div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb106-1"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb106-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Norma del segundo vector propio</span></span>
+<span id="cb106-2"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb106-2" aria-hidden="true" tabindex="-1"></a><span class="fu">norm</span>(<span class="fu">as.matrix</span>(ev_2), <span class="st">&quot;F&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] 1</code></pre>
+<p>Los elementos de cada vector propio también se denominan <em>pesos</em> (<em>loadings</em> en inglés) y pueden interpretarse como la contribución de cada variable en los datos originales a un componente principal en específico, o, más estrictamente, se pueden interpretar como los coeficientes de la combinación lineal de las variables originales a partir de las cuales se construyen los componentes principales.</p>
+<p>Puedes realizar una tabla con estos valores y observar las contribuciones de cada variable a cada componente principal.</p>
+<div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb108-1"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb108-1" aria-hidden="true" tabindex="-1"></a><span class="co"># &quot;Data frame&quot; con ambos valores propios</span></span>
+<span id="cb108-2"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb108-2" aria-hidden="true" tabindex="-1"></a>loads <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb108-3"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb108-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">VAR   =</span> <span class="fu">c</span>(<span class="st">&quot;var_1&quot;</span>, <span class="st">&quot;var_2&quot;</span>),</span>
+<span id="cb108-4"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb108-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">PC1 =</span> ev_1, <span class="co"># Primer vector propio</span></span>
+<span id="cb108-5"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb108-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">PC2 =</span> ev_2  <span class="co"># Segundo vector propio</span></span>
+<span id="cb108-6"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb108-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb108-7"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb108-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb108-8"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb108-8" aria-hidden="true" tabindex="-1"></a>loads</span></code></pre></div>
+<pre><code>##     VAR        PC1        PC2
+## 1 var_1 -0.8134113  0.5816890
+## 2 var_2 -0.5816890 -0.8134113</code></pre>
+<p>Lo anterior puede ser útil en datos con muchas dimensiones para establecer qué variables son las causantes de las agrupaciones o diferencias en las gráficas de dispersión del <em>PCA</em>.</p>
+</div>
+<div id="representar-los-datos-en-menos-dimensiones" class="section level2 hasAnchor" number="3.7">
+<h2><span class="header-section-number">3.7</span> Representar los datos en menos dimensiones<a href="análisis-de-componentes-principales-en-dos-dimensiones.html#representar-los-datos-en-menos-dimensiones" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Cambiar la base de los datos originales por la indicada por los vectores propios, producirá una “rotación” de los datos.</p>
+<div class="sourceCode" id="cb110"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb110-1"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb110-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Inversa de la matriz con los vectores propios</span></span>
+<span id="cb110-2"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb110-2" aria-hidden="true" tabindex="-1"></a>inv_evec <span class="ot">&lt;-</span> <span class="fu">solve</span>(e_vec) </span>
+<span id="cb110-3"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb110-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb110-4"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb110-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Cambio de base de los datos originales</span></span>
+<span id="cb110-5"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb110-5" aria-hidden="true" tabindex="-1"></a>datos_3 <span class="ot">&lt;-</span> datos_2 <span class="sc">%*%</span> inv_evec</span>
+<span id="cb110-6"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb110-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb110-7"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb110-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Gráfica de dispersión donce se muestra la dispersión</span></span>
+<span id="cb110-8"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb110-8" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">data.frame</span>(datos_3), <span class="fu">aes</span>(X1, X2)) <span class="sc">+</span></span>
+<span id="cb110-9"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb110-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">&quot;blue&quot;</span>, <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb110-10"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb110-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">0</span>, <span class="at">size =</span> .<span class="dv">5</span>) <span class="sc">+</span></span>
+<span id="cb110-11"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb110-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>, <span class="at">size =</span> .<span class="dv">5</span>) <span class="sc">+</span></span>
+<span id="cb110-12"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb110-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;PC1 (78.8%)&quot;</span>) <span class="sc">+</span></span>
+<span id="cb110-13"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb110-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;PC2 (21.2%)&quot;</span>) <span class="sc">+</span></span>
+<span id="cb110-14"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb110-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>()</span></code></pre></div>
+<p><img src="02-PCA-2-dimensiones_files/figure-html/rotacion%20de%20los%20datos%20originales-1.png" width="672" /></p>
+<p>Podemos comparar la gráfica anterior con la de los datos originales para tener una idea más clara de como se rotaron los datos una vez que cambiamos su base.</p>
+<div class="sourceCode" id="cb111"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb111-1"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb111-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggpubr)</span>
+<span id="cb111-2"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb111-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb111-3"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb111-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Gráfica de dispersión con los datos centrados </span></span>
+<span id="cb111-4"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb111-4" aria-hidden="true" tabindex="-1"></a>dg <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="fu">data.frame</span>(datos_2), <span class="fu">aes</span>(varc_1, varc_2)) <span class="sc">+</span></span>
+<span id="cb111-5"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb111-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">&quot;blue&quot;</span>, <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb111-6"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb111-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">0</span>, <span class="at">size =</span> .<span class="dv">5</span>) <span class="sc">+</span></span>
+<span id="cb111-7"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb111-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>, <span class="at">size =</span> .<span class="dv">5</span>) <span class="sc">+</span></span>
+<span id="cb111-8"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb111-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylim</span>(<span class="fu">c</span>(<span class="sc">-</span><span class="dv">8</span>, <span class="fl">8.5</span>)) <span class="sc">+</span></span>
+<span id="cb111-9"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb111-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&quot;Datos originales (Centrados)&quot;</span>) <span class="sc">+</span></span>
+<span id="cb111-10"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb111-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>()</span>
+<span id="cb111-11"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb111-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb111-12"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb111-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Gráfica de dispersión con los datos rotados</span></span>
+<span id="cb111-13"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb111-13" aria-hidden="true" tabindex="-1"></a>dr <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="fu">data.frame</span>(datos_3), <span class="fu">aes</span>(X1, X2)) <span class="sc">+</span></span>
+<span id="cb111-14"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb111-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">&quot;blue&quot;</span>, <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb111-15"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb111-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">0</span>, <span class="at">size =</span> .<span class="dv">5</span>) <span class="sc">+</span></span>
+<span id="cb111-16"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb111-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>, <span class="at">size =</span> .<span class="dv">5</span>) <span class="sc">+</span></span>
+<span id="cb111-17"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb111-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;PC1 (78.8%)&quot;</span>) <span class="sc">+</span></span>
+<span id="cb111-18"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb111-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;PC2 (21.2%)&quot;</span>) <span class="sc">+</span></span>
+<span id="cb111-19"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb111-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylim</span>(<span class="fu">c</span>(<span class="sc">-</span><span class="dv">8</span>, <span class="fl">8.5</span>)) <span class="sc">+</span></span>
+<span id="cb111-20"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb111-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&quot;Cambio de base&quot;</span>) <span class="sc">+</span></span>
+<span id="cb111-21"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb111-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>()</span>
+<span id="cb111-22"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb111-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb111-23"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb111-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Ambas gráficas lado a lado</span></span>
+<span id="cb111-24"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb111-24" aria-hidden="true" tabindex="-1"></a><span class="fu">ggarrange</span>(dg, dr)</span></code></pre></div>
+<p><img src="02-PCA-2-dimensiones_files/figure-html/comparar%20rotacion-1.png" width="672" /></p>
+<p>Ya que el componente principal 1 (<em>PC1</em>) explica la mayor parte de la variación en los datos, podemos omitir el componente principal 2 (<em>PC2</em>) y representar cada punto en una sola dimensión. A continuación represento los datos en una sola dimensión con puntos rojos.</p>
+<div class="sourceCode" id="cb112"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb112-1"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb112-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Datos del componente principal 1</span></span>
+<span id="cb112-2"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb112-2" aria-hidden="true" tabindex="-1"></a>datos_pc1 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">v1 =</span> datos_3[,<span class="dv">1</span>], <span class="at">v2 =</span> <span class="fu">rep</span>(<span class="dv">0</span>, <span class="fu">nrow</span>(datos_3)))</span>
+<span id="cb112-3"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb112-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb112-4"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb112-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Gráfica de dispersión mostrando los datos de PC1</span></span>
+<span id="cb112-5"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb112-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">data.frame</span>(datos_3), <span class="fu">aes</span>(X1, X2)) <span class="sc">+</span></span>
+<span id="cb112-6"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb112-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">&quot;blue&quot;</span>, <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb112-7"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb112-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> datos_pc1, <span class="fu">aes</span>(v1, v2), <span class="at">color =</span> <span class="st">&quot;red&quot;</span>, <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb112-8"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb112-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">0</span>, <span class="at">size =</span> .<span class="dv">5</span>) <span class="sc">+</span></span>
+<span id="cb112-9"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb112-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>, <span class="at">size =</span> .<span class="dv">5</span>) <span class="sc">+</span></span>
+<span id="cb112-10"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb112-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;PC1 (78.8%)&quot;</span>) <span class="sc">+</span></span>
+<span id="cb112-11"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb112-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;PC2 (21.2%)&quot;</span>) <span class="sc">+</span></span>
+<span id="cb112-12"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb112-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylim</span>(<span class="fu">c</span>(<span class="sc">-</span><span class="dv">8</span>, <span class="fl">8.5</span>)) <span class="sc">+</span></span>
+<span id="cb112-13"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#cb112-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>()</span></code></pre></div>
+<p><img src="02-PCA-2-dimensiones_files/figure-html/datos%20en%20una%20sola%20dimensi%C3%B3n-1.png" width="672" /></p>
+<p>Las ideas anteriores pueden utilizarse en datos con muchas variables para reducir las dimensiones y representar los datos con gráficos de dispersión en dos dimensiones.</p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="algunas-operaciones-básicas-de-álgebra-lineal.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="genaralización-del-pca-a-más-de-tres-dimensiones.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/USERNAME/REPO/edit/BRANCH/02-PCA-2-dimensiones.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

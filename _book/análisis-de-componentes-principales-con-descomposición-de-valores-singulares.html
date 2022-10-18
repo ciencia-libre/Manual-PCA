@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title> 5 Análisis de componentes principales con descomposición de valores singulares | Análisis de Componentes Principales paso a paso con R</title>
+  <meta name="description" content=" 5 Análisis de componentes principales con descomposición de valores singulares | Análisis de Componentes Principales paso a paso con R" />
+  <meta name="generator" content="bookdown 0.29 and GitBook 2.6.7" />
+
+  <meta property="og:title" content=" 5 Análisis de componentes principales con descomposición de valores singulares | Análisis de Componentes Principales paso a paso con R" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content=" 5 Análisis de componentes principales con descomposición de valores singulares | Análisis de Componentes Principales paso a paso con R" />
+  
+  
+  
+
+<meta name="author" content="Juan Pablo Carreón Hidalgo" />
+
+
+<meta name="date" content="2022-10-18" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="genaralización-del-pca-a-más-de-tres-dimensiones.html"/>
+<link rel="next" href="análisis-de-componentes-principales-aplicado-a-metabolómica.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<script src="libs/plotly-binding-4.10.0/plotly.js"></script>
+<script src="libs/typedarray-0.1/typedarray.min.js"></script>
+<link href="libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
+<link href="libs/plotly-htmlwidgets-css-2.5.1/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="libs/plotly-main-2.5.1/plotly-latest.min.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">PCA paso a paso con R</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Sobre este manual</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#un-poco-acerca-del-autor"><i class="fa fa-check"></i><b>1.1</b> Un poco acerca del autor</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#paquetes-utilizados-para-la-escritura-de-este-manual"><i class="fa fa-check"></i><b>1.2</b> Paquetes utilizados para la escritura de este manual</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="algunas-operaciones-básicas-de-álgebra-lineal.html"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html"><i class="fa fa-check"></i><b>2</b> Algunas operaciones básicas de álgebra lineal</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="algunas-operaciones-básicas-de-álgebra-lineal.html"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#operaciones-con-vectores"><i class="fa fa-check"></i><b>2.1</b> Operaciones con vectores</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="algunas-operaciones-básicas-de-álgebra-lineal.html"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#crear-vectores"><i class="fa fa-check"></i><b>2.1.1</b> Crear vectores</a></li>
+<li class="chapter" data-level="2.1.2" data-path="algunas-operaciones-básicas-de-álgebra-lineal.html"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#suma-de-vectores"><i class="fa fa-check"></i><b>2.1.2</b> Suma de vectores</a></li>
+<li class="chapter" data-level="2.1.3" data-path="algunas-operaciones-básicas-de-álgebra-lineal.html"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#multiplicación-de-un-vector-por-un-escalar"><i class="fa fa-check"></i><b>2.1.3</b> Multiplicación de un vector por un escalar</a></li>
+<li class="chapter" data-level="2.1.4" data-path="algunas-operaciones-básicas-de-álgebra-lineal.html"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#producto-punto-o-producto-interno"><i class="fa fa-check"></i><b>2.1.4</b> Producto punto o producto interno</a></li>
+<li class="chapter" data-level="2.1.5" data-path="algunas-operaciones-básicas-de-álgebra-lineal.html"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#norma-o-magnitud-de-un-vector"><i class="fa fa-check"></i><b>2.1.5</b> Norma o magnitud de un vector</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="algunas-operaciones-básicas-de-álgebra-lineal.html"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#operaciones-con-matrices"><i class="fa fa-check"></i><b>2.2</b> Operaciones con matrices</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="algunas-operaciones-básicas-de-álgebra-lineal.html"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#definir-matrices"><i class="fa fa-check"></i><b>2.2.1</b> Definir matrices</a></li>
+<li class="chapter" data-level="2.2.2" data-path="algunas-operaciones-básicas-de-álgebra-lineal.html"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#multiplicar-una-matriz-por-un-vector"><i class="fa fa-check"></i><b>2.2.2</b> Multiplicar una matriz por un vector</a></li>
+<li class="chapter" data-level="2.2.3" data-path="algunas-operaciones-básicas-de-álgebra-lineal.html"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#multiplicación-de-matrices"><i class="fa fa-check"></i><b>2.2.3</b> Multiplicación de matrices</a></li>
+<li class="chapter" data-level="2.2.4" data-path="algunas-operaciones-básicas-de-álgebra-lineal.html"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#multiplicación-de-un-escalar-por-una-matriz"><i class="fa fa-check"></i><b>2.2.4</b> Multiplicación de un escalar por una matriz</a></li>
+<li class="chapter" data-level="2.2.5" data-path="algunas-operaciones-básicas-de-álgebra-lineal.html"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#transpuesta-de-una-matriz"><i class="fa fa-check"></i><b>2.2.5</b> Transpuesta de una matriz</a></li>
+<li class="chapter" data-level="2.2.6" data-path="algunas-operaciones-básicas-de-álgebra-lineal.html"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#matriz-identidad"><i class="fa fa-check"></i><b>2.2.6</b> Matriz identidad</a></li>
+<li class="chapter" data-level="2.2.7" data-path="algunas-operaciones-básicas-de-álgebra-lineal.html"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#valores-y-vectores-propios-de-una-matriz"><i class="fa fa-check"></i><b>2.2.7</b> Valores y vectores propios de una matriz</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="algunas-operaciones-básicas-de-álgebra-lineal.html"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#algunos-extra"><i class="fa fa-check"></i><b>2.3</b> Algunos extra</a>
+<ul>
+<li class="chapter" data-level="2.3.1" data-path="algunas-operaciones-básicas-de-álgebra-lineal.html"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#resolver-sistemas-de-ecuaciones-lineales"><i class="fa fa-check"></i><b>2.3.1</b> Resolver sistemas de ecuaciones lineales</a></li>
+<li class="chapter" data-level="2.3.2" data-path="algunas-operaciones-básicas-de-álgebra-lineal.html"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#promedio-y-varianza-con-operaciones-de-álgebra-lineal"><i class="fa fa-check"></i><b>2.3.2</b> Promedio y varianza con operaciones de álgebra lineal</a></li>
+<li class="chapter" data-level="2.3.3" data-path="algunas-operaciones-básicas-de-álgebra-lineal.html"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#varianza"><i class="fa fa-check"></i><b>2.3.3</b> Varianza</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="análisis-de-componentes-principales-en-dos-dimensiones.html"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html"><i class="fa fa-check"></i><b>3</b> Análisis de componentes principales en dos dimensiones</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="análisis-de-componentes-principales-en-dos-dimensiones.html"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#datos"><i class="fa fa-check"></i><b>3.1</b> Datos</a></li>
+<li class="chapter" data-level="3.2" data-path="análisis-de-componentes-principales-en-dos-dimensiones.html"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#centrar-los-datos"><i class="fa fa-check"></i><b>3.2</b> Centrar los datos</a></li>
+<li class="chapter" data-level="3.3" data-path="análisis-de-componentes-principales-en-dos-dimensiones.html"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#calcular-la-matriz-de-covarianza"><i class="fa fa-check"></i><b>3.3</b> Calcular la matriz de covarianza</a></li>
+<li class="chapter" data-level="3.4" data-path="análisis-de-componentes-principales-en-dos-dimensiones.html"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#obtener-los-valores-y-vectores-propios-de-la-matriz-de-covarianza"><i class="fa fa-check"></i><b>3.4</b> Obtener los valores y vectores propios de la matriz de covarianza</a></li>
+<li class="chapter" data-level="3.5" data-path="análisis-de-componentes-principales-en-dos-dimensiones.html"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#gráfica-de-barras-para-la-varianza-de-cada-componente-principal"><i class="fa fa-check"></i><b>3.5</b> Gráfica de barras para la varianza de cada componente principal</a></li>
+<li class="chapter" data-level="3.6" data-path="análisis-de-componentes-principales-en-dos-dimensiones.html"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#pesos-loading-scores"><i class="fa fa-check"></i><b>3.6</b> Pesos (<em>Loading scores</em>)</a></li>
+<li class="chapter" data-level="3.7" data-path="análisis-de-componentes-principales-en-dos-dimensiones.html"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#representar-los-datos-en-menos-dimensiones"><i class="fa fa-check"></i><b>3.7</b> Representar los datos en menos dimensiones</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="genaralización-del-pca-a-más-de-tres-dimensiones.html"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html"><i class="fa fa-check"></i><b>4</b> Genaralización del PCA a más de tres dimensiones</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="genaralización-del-pca-a-más-de-tres-dimensiones.html"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#datos-1"><i class="fa fa-check"></i><b>4.1</b> Datos</a></li>
+<li class="chapter" data-level="4.2" data-path="genaralización-del-pca-a-más-de-tres-dimensiones.html"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#centrar-cada-variable-y-dividir-por-su-desviación-estándar"><i class="fa fa-check"></i><b>4.2</b> Centrar cada variable y dividir por su desviación estándar</a></li>
+<li class="chapter" data-level="4.3" data-path="genaralización-del-pca-a-más-de-tres-dimensiones.html"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#calcular-la-matriz-de-covarianzas"><i class="fa fa-check"></i><b>4.3</b> Calcular la matriz de covarianzas</a></li>
+<li class="chapter" data-level="4.4" data-path="genaralización-del-pca-a-más-de-tres-dimensiones.html"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#obtener-los-valores-y-vectores-propios-de-la-matriz-de-covarianzas"><i class="fa fa-check"></i><b>4.4</b> Obtener los valores y vectores propios de la matriz de covarianzas</a></li>
+<li class="chapter" data-level="4.5" data-path="genaralización-del-pca-a-más-de-tres-dimensiones.html"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#gráfica-de-barras-para-el-porcentaje-de-variación-de-cada-componente-principal"><i class="fa fa-check"></i><b>4.5</b> Gráfica de barras para el porcentaje de variación de cada componente principal</a></li>
+<li class="chapter" data-level="4.6" data-path="genaralización-del-pca-a-más-de-tres-dimensiones.html"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#representar-los-datos-en-dos-dimensiones"><i class="fa fa-check"></i><b>4.6</b> Representar los datos en dos dimensiones</a></li>
+<li class="chapter" data-level="4.7" data-path="genaralización-del-pca-a-más-de-tres-dimensiones.html"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#pesos-loading-scores-1"><i class="fa fa-check"></i><b>4.7</b> Pesos (Loading scores)</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html"><i class="fa fa-check"></i><b>5</b> Análisis de componentes principales con descomposición de valores singulares</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#descomposición-de-valores-singulares"><i class="fa fa-check"></i><b>5.1</b> Descomposición de valores singulares</a></li>
+<li class="chapter" data-level="5.2" data-path="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#svd-para-llevar-a-cabo-pca"><i class="fa fa-check"></i><b>5.2</b> SVD para llevar a cabo PCA</a></li>
+<li class="chapter" data-level="5.3" data-path="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#datos-2"><i class="fa fa-check"></i><b>5.3</b> Datos</a></li>
+<li class="chapter" data-level="5.4" data-path="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#análisis-de-componentes-principales-con-la-función-svd"><i class="fa fa-check"></i><b>5.4</b> Análisis de componentes principales con la función svd()</a>
+<ul>
+<li class="chapter" data-level="5.4.1" data-path="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#gráfica-de-barras-para-la-varianza-de-cada-componente-principal-1"><i class="fa fa-check"></i><b>5.4.1</b> Gráfica de barras para la varianza de cada componente principal</a></li>
+<li class="chapter" data-level="5.4.2" data-path="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#representación-de-los-datos-en-dos-dimensiones"><i class="fa fa-check"></i><b>5.4.2</b> Representación de los datos en dos dimensiones</a></li>
+<li class="chapter" data-level="5.4.3" data-path="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#vectors-propios-y-pesos"><i class="fa fa-check"></i><b>5.4.3</b> Vectors propios y pesos</a></li>
+</ul></li>
+<li class="chapter" data-level="5.5" data-path="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#análisis-de-componente-principales-con-la-función-prcomp"><i class="fa fa-check"></i><b>5.5</b> Análisis de componente principales con la función prcomp()</a>
+<ul>
+<li class="chapter" data-level="5.5.1" data-path="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#gráfica-de-barras-para-la-varianza-de-cada-componente-principal-2"><i class="fa fa-check"></i><b>5.5.1</b> Gráfica de barras para la varianza de cada componente principal</a></li>
+<li class="chapter" data-level="5.5.2" data-path="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#representación-de-los-datos-en-dos-dimensiones-1"><i class="fa fa-check"></i><b>5.5.2</b> Representación de los datos en dos dimensiones</a></li>
+<li class="chapter" data-level="5.5.3" data-path="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#vectores-propios-y-pesos"><i class="fa fa-check"></i><b>5.5.3</b> Vectores propios y pesos</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="análisis-de-componentes-principales-aplicado-a-metabolómica.html"><a href="análisis-de-componentes-principales-aplicado-a-metabolómica.html"><i class="fa fa-check"></i><b>6</b> Análisis de componentes principales aplicado a metabolómica</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="análisis-de-componentes-principales-aplicado-a-metabolómica.html"><a href="análisis-de-componentes-principales-aplicado-a-metabolómica.html#datos-3"><i class="fa fa-check"></i><b>6.1</b> Datos</a></li>
+<li class="chapter" data-level="6.2" data-path="análisis-de-componentes-principales-aplicado-a-metabolómica.html"><a href="análisis-de-componentes-principales-aplicado-a-metabolómica.html#reordenamiento-de-los-datos"><i class="fa fa-check"></i><b>6.2</b> Reordenamiento de los datos</a></li>
+<li class="chapter" data-level="6.3" data-path="análisis-de-componentes-principales-aplicado-a-metabolómica.html"><a href="análisis-de-componentes-principales-aplicado-a-metabolómica.html#análisis-de-componentes-principales-con-prcomp"><i class="fa fa-check"></i><b>6.3</b> Análisis de componentes principales con prcomp()</a>
+<ul>
+<li class="chapter" data-level="6.3.1" data-path="análisis-de-componentes-principales-aplicado-a-metabolómica.html"><a href="análisis-de-componentes-principales-aplicado-a-metabolómica.html#gráfica-de-barras-con-la-varianza-de-cada-componente-principal"><i class="fa fa-check"></i><b>6.3.1</b> Gráfica de barras con la varianza de cada componente principal</a></li>
+<li class="chapter" data-level="6.3.2" data-path="análisis-de-componentes-principales-aplicado-a-metabolómica.html"><a href="análisis-de-componentes-principales-aplicado-a-metabolómica.html#gráfica-de-dispesión-con-los-primeros-dos-componentes"><i class="fa fa-check"></i><b>6.3.2</b> Gráfica de dispesión con los primeros dos componentes</a></li>
+<li class="chapter" data-level="6.3.3" data-path="análisis-de-componentes-principales-aplicado-a-metabolómica.html"><a href="análisis-de-componentes-principales-aplicado-a-metabolómica.html#peso-o-loadings-de-pc1-y-pc2"><i class="fa fa-check"></i><b>6.3.3</b> Peso o <em>loadings</em> de PC1 y PC2</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="una-shiny-app-para-automatizar-el-análisis-de-componentes-principales.html"><a href="una-shiny-app-para-automatizar-el-análisis-de-componentes-principales.html"><i class="fa fa-check"></i><b>7</b> Una Shiny App para automatizar el análisis de componentes principales</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="una-shiny-app-para-automatizar-el-análisis-de-componentes-principales.html"><a href="una-shiny-app-para-automatizar-el-análisis-de-componentes-principales.html#qué-es-pca-maker"><i class="fa fa-check"></i><b>7.1</b> ¿Qué es <em>PCA Maker</em>?</a></li>
+<li class="chapter" data-level="7.2" data-path="una-shiny-app-para-automatizar-el-análisis-de-componentes-principales.html"><a href="una-shiny-app-para-automatizar-el-análisis-de-componentes-principales.html#instalar-y-usar"><i class="fa fa-check"></i><b>7.2</b> Instalar y usar</a>
+<ul>
+<li class="chapter" data-level="7.2.1" data-path="una-shiny-app-para-automatizar-el-análisis-de-componentes-principales.html"><a href="una-shiny-app-para-automatizar-el-análisis-de-componentes-principales.html#descargar-de-github"><i class="fa fa-check"></i><b>7.2.1</b> Descargar de GitHub</a></li>
+<li class="chapter" data-level="7.2.2" data-path="una-shiny-app-para-automatizar-el-análisis-de-componentes-principales.html"><a href="una-shiny-app-para-automatizar-el-análisis-de-componentes-principales.html#como-un-paquete"><i class="fa fa-check"></i><b>7.2.2</b> Como un paquete</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="una-shiny-app-para-automatizar-el-análisis-de-componentes-principales.html"><a href="una-shiny-app-para-automatizar-el-análisis-de-componentes-principales.html#ejemplo"><i class="fa fa-check"></i><b>7.3</b> Ejemplo</a>
+<ul>
+<li class="chapter" data-level="7.3.1" data-path="una-shiny-app-para-automatizar-el-análisis-de-componentes-principales.html"><a href="una-shiny-app-para-automatizar-el-análisis-de-componentes-principales.html#datos-4"><i class="fa fa-check"></i><b>7.3.1</b> Datos</a></li>
+<li class="chapter" data-level="7.3.2" data-path="una-shiny-app-para-automatizar-el-análisis-de-componentes-principales.html"><a href="una-shiny-app-para-automatizar-el-análisis-de-componentes-principales.html#subir-o-cargar-los-datos"><i class="fa fa-check"></i><b>7.3.2</b> Subir o cargar los datos</a></li>
+<li class="chapter" data-level="7.3.3" data-path="una-shiny-app-para-automatizar-el-análisis-de-componentes-principales.html"><a href="una-shiny-app-para-automatizar-el-análisis-de-componentes-principales.html#personalizar-el-análisis"><i class="fa fa-check"></i><b>7.3.3</b> Personalizar el análisis</a></li>
+<li class="chapter" data-level="7.3.4" data-path="una-shiny-app-para-automatizar-el-análisis-de-componentes-principales.html"><a href="una-shiny-app-para-automatizar-el-análisis-de-componentes-principales.html#porcentajes-de-variación"><i class="fa fa-check"></i><b>7.3.4</b> Porcentajes de variación</a></li>
+<li class="chapter" data-level="7.3.5" data-path="una-shiny-app-para-automatizar-el-análisis-de-componentes-principales.html"><a href="una-shiny-app-para-automatizar-el-análisis-de-componentes-principales.html#proyecciones"><i class="fa fa-check"></i><b>7.3.5</b> Proyecciones</a></li>
+<li class="chapter" data-level="7.3.6" data-path="una-shiny-app-para-automatizar-el-análisis-de-componentes-principales.html"><a href="una-shiny-app-para-automatizar-el-análisis-de-componentes-principales.html#pesos"><i class="fa fa-check"></i><b>7.3.6</b> Pesos</a></li>
+<li class="chapter" data-level="7.3.7" data-path="una-shiny-app-para-automatizar-el-análisis-de-componentes-principales.html"><a href="una-shiny-app-para-automatizar-el-análisis-de-componentes-principales.html#bi-plot"><i class="fa fa-check"></i><b>7.3.7</b> <em>Bi-plot</em></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i><b>8</b> Referencias</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Análisis de Componentes Principales paso a paso con R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="análisis-de-componentes-principales-con-descomposición-de-valores-singulares" class="section level1 hasAnchor" number="5">
+<h1><span class="header-section-number"> 5</span> Análisis de componentes principales con descomposición de valores singulares<a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#análisis-de-componentes-principales-con-descomposición-de-valores-singulares" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>En este capítulo mostraré como llevar a cabo <em>PCA</em> con funciones específicas para esta tarea en <em>R</em>. Esto nos ayudará a simplificar los pasos cada vez que necesitemos llevar a cabo este análisis.</p>
+<div id="descomposición-de-valores-singulares" class="section level2 hasAnchor" number="5.1">
+<h2><span class="header-section-number">5.1</span> Descomposición de valores singulares<a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#descomposición-de-valores-singulares" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>La descomposición de valores singulares (<em>SVD</em> por sus siglas en inglés) es una factorización que generaliza la obtención de valores y vectores propios en matrices cuadradas (mismo número de renglones y columnas) a matrices con cualquier número de renglones y columnas:</p>
+<p><img src="imagenes/eq_1.png" style="display: block; margin: auto;" /></p>
+<p>Donde <em>M</em> es una matriz de <em>m</em> renglones y <em>n</em> columnas (<em>m x n</em>), <em>S</em> es una matriz <em>m x n</em> y <em>V</em> es una matriz <em>n x n</em>.</p>
+<p>Algunos puntos importantes sobre el <em>SVD</em>:</p>
+<ul>
+<li>Los elementos en la diagonal de <em>S</em> se denominan <em>valores singulares</em> de la matriz <em>M</em>.<br />
+</li>
+<li>El número de valores singulares distintos de cero es igual al <em>rango</em> de la matriz <em>M</em>.</li>
+<li>Las columnas de <em>U</em> y las columnas de <em>V</em> se denominan <em>vectores singulares</em> de <em>M</em>.</li>
+</ul>
+</div>
+<div id="svd-para-llevar-a-cabo-pca" class="section level2 hasAnchor" number="5.2">
+<h2><span class="header-section-number">5.2</span> SVD para llevar a cabo PCA<a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#svd-para-llevar-a-cabo-pca" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>La <em>SVD</em> puede ser usada para realizar <em>PCA</em> en un conjunto de datos ya que existe una relación estrecha entre ambos procedimientos.</p>
+<p>Digamos que tenemos una matriz <em>M</em> de tamaño <em>m x n</em>. En los renglones <em>m</em> especificamos las categorías, estados, muestras, tratamientos, etc., y en las columnas <em>n</em> señalamos las distintas variables medidas. Supongamos también que hemos centrado los datos, mediante la resta del promedio de cada variable, y dividido entre las desviaciones estándar. Entonces podemos calcular la matriz de covarianzas de la siguiente forma:</p>
+<p><img src="imagenes/eq_2.png" style="display: block; margin: auto;" /></p>
+<p>Esta matriz simétrica o cuadrada (mismo número de renglones y columnas) puede ser diagonalizada de la siguiente forma:</p>
+<p><img src="imagenes/eq_3.png" style="display: block; margin: auto;" /></p>
+<p>En la ecuación anterior, <em>V</em> es la matriz de vectores propios (cada columna es un vector propio) y <em>L</em> es una matriz donde los elementos en la diagonal son los valores propios.</p>
+<p>Ahora bien, si llevamos a cabo <em>SVD</em> en <em>M</em> como en la primera ecuación:</p>
+<p><img src="imagenes/eq_1.png" style="display: block; margin: auto;" /></p>
+<p>Podemos establecer que:</p>
+<p><img src="imagenes/eq_4.png" style="display: block; margin: auto;" /></p>
+<p>Y finalmente la matriz de covarianza <em>C</em> se puede expresar como:</p>
+<p><img src="imagenes/eq_5.png" style="display: block; margin: auto;" /></p>
+<p>Esto quiere decir que los vectores singulares en <em>V</em> son los vectores propios de la matriz y los valores singulares en <em>S</em> están relacionados con los valores propios mediante <span class="math inline">\(ValorPropio=ValorSingular^2/(n-1)\)</span>. Los componentes principales están dados mediante la relación entre matrices <span class="math inline">\(XV = US\)</span> y los vectores propios son las columnas de la matriz <span class="math inline">\(V\)</span>.</p>
+<p>Ahora apliquemos directamente lo que acabamos de ver para llevar a cabo un <em>PCA</em> en datos reales.</p>
+</div>
+<div id="datos-2" class="section level2 hasAnchor" number="5.3">
+<h2><span class="header-section-number">5.3</span> Datos<a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#datos-2" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>El conjunto de datos que usaremos en este capítulo provienen del repositorio <a href="https://github.com/genomicsclass/tissuesGeneExpression" target="_blank">tissuesGeneExpression</a>. Estos son datos de expresión genómica cuantificados en distintos tejidos humanos.</p>
+<p>Primero descargamos dichos datos mediante el siguiente código.</p>
+<div class="sourceCode" id="cb132"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb132-1"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb132-1" aria-hidden="true" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;genomicsclass/tissuesGeneExpression&quot;</span>)</span>
+<span id="cb132-2"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb132-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb132-3"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb132-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tissuesGeneExpression)</span>
+<span id="cb132-4"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb132-4" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(tissuesGeneExpression)</span>
+<span id="cb132-5"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb132-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb132-6"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb132-6" aria-hidden="true" tabindex="-1"></a>datos_genes <span class="ot">&lt;-</span> <span class="fu">t</span>(e)</span>
+<span id="cb132-7"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb132-7" aria-hidden="true" tabindex="-1"></a>datos_genes <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(datos_genes)</span></code></pre></div>
+<p>En este caso usamos la función <code>t()</code> para obtener la transpuesta de los datos originales. De este forma los renglones corresponden a las muestras de tejido y las columnas a los distintos genes.</p>
+<div class="sourceCode" id="cb133"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb133-1"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb133-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(datos_genes)</span></code></pre></div>
+<pre><code>## [1]   189 22215</code></pre>
+<p>En este conjunto de datos se tienen 189 muestras de diferentes tejidos y un total de 22 215 genes.</p>
+</div>
+<div id="análisis-de-componentes-principales-con-la-función-svd" class="section level2 hasAnchor" number="5.4">
+<h2><span class="header-section-number">5.4</span> Análisis de componentes principales con la función svd()<a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#análisis-de-componentes-principales-con-la-función-svd" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Para utilizar la función <code>svd()</code> para llevar a cabo <em>PCA</em>, primero centramos los datos restando la media de cada gen y dividimos entre las desviaciones estándar.</p>
+<div class="sourceCode" id="cb135"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb135-1"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb135-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(purrr)</span>
+<span id="cb135-2"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb135-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb135-3"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb135-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Promedio de cada gen</span></span>
+<span id="cb135-4"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb135-4" aria-hidden="true" tabindex="-1"></a>prom_gen <span class="ot">&lt;-</span> <span class="fu">map_dbl</span>(datos_genes, mean)</span>
+<span id="cb135-5"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb135-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb135-6"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb135-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Desviaciones estándar de cada gen</span></span>
+<span id="cb135-7"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb135-7" aria-hidden="true" tabindex="-1"></a>de_gen <span class="ot">&lt;-</span> <span class="fu">map_dbl</span>(datos_genes, sd)</span>
+<span id="cb135-8"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb135-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb135-9"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb135-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Centrar los datos y dividir entre la desviación estándar</span></span>
+<span id="cb135-10"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb135-10" aria-hidden="true" tabindex="-1"></a>datos_genes_c <span class="ot">&lt;-</span> <span class="fu">map2</span>(datos_genes, prom_gen, <span class="at">.f =</span> <span class="cf">function</span>(x, mean) x <span class="sc">-</span> mean)</span>
+<span id="cb135-11"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb135-11" aria-hidden="true" tabindex="-1"></a>datos_genes_c <span class="ot">&lt;-</span> <span class="fu">map2</span>(datos_genes_c, de_gen, <span class="at">.f =</span> <span class="cf">function</span>(x, sd) x<span class="sc">/</span>sd)</span>
+<span id="cb135-12"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb135-12" aria-hidden="true" tabindex="-1"></a>datos_genes_c <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(datos_genes_c)</span></code></pre></div>
+<p>Ahora podemos realizar <em>SVD</em> sobre los datos transformados.</p>
+<div class="sourceCode" id="cb136"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb136-1"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb136-1" aria-hidden="true" tabindex="-1"></a>dg_svd <span class="ot">&lt;-</span> <span class="fu">svd</span>(datos_genes_c)</span></code></pre></div>
+<p>El objeto <code>dg_svd</code> es una lista que contiene a la matriz <em>U</em>, la matriz <em>V</em> y un vector numérico con los valores singulares.</p>
+<div class="sourceCode" id="cb137"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb137-1"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb137-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Matriz U</span></span>
+<span id="cb137-2"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb137-2" aria-hidden="true" tabindex="-1"></a>dg_u <span class="ot">&lt;-</span> dg_svd<span class="sc">$</span>u</span>
+<span id="cb137-3"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb137-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb137-4"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb137-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Matriz V</span></span>
+<span id="cb137-5"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb137-5" aria-hidden="true" tabindex="-1"></a>dg_v <span class="ot">&lt;-</span> dg_svd<span class="sc">$</span>v</span>
+<span id="cb137-6"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb137-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb137-7"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb137-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Matriz con valores singulares</span></span>
+<span id="cb137-8"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb137-8" aria-hidden="true" tabindex="-1"></a>dg_d <span class="ot">&lt;-</span> <span class="fu">diag</span>(dg_svd<span class="sc">$</span>d)</span></code></pre></div>
+<div id="gráfica-de-barras-para-la-varianza-de-cada-componente-principal-1" class="section level3 hasAnchor" number="5.4.1">
+<h3><span class="header-section-number">5.4.1</span> Gráfica de barras para la varianza de cada componente principal<a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#gráfica-de-barras-para-la-varianza-de-cada-componente-principal-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Ahora calculamos cada valor propio y el porcentaje de variación de cada componente principal.</p>
+<div class="sourceCode" id="cb138"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb138-1"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb138-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code></pre></div>
+<pre><code>## 
+## Attaching package: &#39;dplyr&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:stats&#39;:
+## 
+##     filter, lag</code></pre>
+<pre><code>## The following objects are masked from &#39;package:base&#39;:
+## 
+##     intersect, setdiff, setequal, union</code></pre>
+<div class="sourceCode" id="cb142"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb142-1"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb142-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb142-2"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb142-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb142-3"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb142-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Valores propios</span></span>
+<span id="cb142-4"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb142-4" aria-hidden="true" tabindex="-1"></a>vp <span class="ot">&lt;-</span> dg_svd<span class="sc">$</span>d<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> (<span class="fu">nrow</span>(datos_genes) <span class="sc">-</span> <span class="dv">1</span>)</span>
+<span id="cb142-5"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb142-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb142-6"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb142-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Porcentajes de variación de cada PC</span></span>
+<span id="cb142-7"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb142-7" aria-hidden="true" tabindex="-1"></a>per_pc <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(vp) <span class="sc">%&gt;%</span> </span>
+<span id="cb142-8"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb142-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb142-9"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb142-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">per_var =</span> vp <span class="sc">*</span> <span class="dv">100</span> <span class="sc">/</span> <span class="fu">sum</span>(vp),</span>
+<span id="cb142-10"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb142-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">pc =</span> <span class="fu">map_chr</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(dg_u), <span class="at">.f =</span> <span class="cf">function</span>(x) <span class="fu">paste0</span>(<span class="st">&quot;PC&quot;</span>, <span class="fu">as.character</span>(x))</span>
+<span id="cb142-11"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb142-11" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb142-12"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb142-12" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb142-13"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb142-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb142-14"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb142-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Gráfica de barras con la varianza de cada PC </span></span>
+<span id="cb142-15"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb142-15" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(per_pc[<span class="dv">1</span><span class="sc">:</span><span class="dv">15</span>,], <span class="fu">aes</span>(<span class="fu">reorder</span>(pc, <span class="sc">-</span>per_var), per_var)) <span class="sc">+</span></span>
+<span id="cb142-16"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb142-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>() <span class="sc">+</span></span>
+<span id="cb142-17"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb142-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Componente Principal&quot;</span>) <span class="sc">+</span></span>
+<span id="cb142-18"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb142-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Porcentaje de variación (%)&quot;</span>) <span class="sc">+</span></span>
+<span id="cb142-19"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb142-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>()</span></code></pre></div>
+<p><img src="04-PCA-svd_files/figure-html/scree%20plot%20svd-1.png" width="672" /></p>
+<p>Ya que hay 189 componentes principales y generalmente la variación está acumulada en unos cuantos de los primeros, en la gráfica anterior solo se tomaron los primeros 15 componentes.</p>
+</div>
+<div id="representación-de-los-datos-en-dos-dimensiones" class="section level3 hasAnchor" number="5.4.2">
+<h3><span class="header-section-number">5.4.2</span> Representación de los datos en dos dimensiones<a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#representación-de-los-datos-en-dos-dimensiones" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Primero calculamos las proyecciones de los datos originales.</p>
+<div class="sourceCode" id="cb143"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb143-1"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb143-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Proyecciones  </span></span>
+<span id="cb143-2"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb143-2" aria-hidden="true" tabindex="-1"></a>dg_p <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(dg_u <span class="sc">%*%</span> dg_d)</span>
+<span id="cb143-3"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb143-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb143-4"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb143-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Cambiar los nombres de las columnas por los de los componente principales </span></span>
+<span id="cb143-5"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb143-5" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(dg_p) <span class="ot">&lt;-</span> <span class="fu">map_chr</span>(</span>
+<span id="cb143-6"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb143-6" aria-hidden="true" tabindex="-1"></a>  <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(dg_p), <span class="at">.f =</span> <span class="cf">function</span>(x) <span class="fu">paste0</span>(<span class="st">&quot;PC&quot;</span>, <span class="fu">as.character</span>(x))</span>
+<span id="cb143-7"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb143-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb143-8"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb143-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb143-9"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb143-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Añadir una columna nueva con el nombre de los tejidos</span></span>
+<span id="cb143-10"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb143-10" aria-hidden="true" tabindex="-1"></a>dg_p <span class="ot">&lt;-</span> dg_p <span class="sc">%&gt;%</span> </span>
+<span id="cb143-11"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb143-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Tissue =</span> tissue) <span class="sc">%&gt;%</span> </span>
+<span id="cb143-12"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb143-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">relocate</span>(Tissue)</span></code></pre></div>
+<p>La nueva columna indica el nombre de los tejidos a los que corresponde cada muestra. El vector de caracteres <code>tissue</code> está incluido en los datos que descargamos al comienzo de este capítulo.</p>
+<div class="sourceCode" id="cb144"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb144-1"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb144-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(tissue)</span></code></pre></div>
+<pre><code>## tissue
+##  cerebellum       colon endometrium hippocampus      kidney       liver 
+##          38          34          15          31          39          26 
+##    placenta 
+##           6</code></pre>
+<p>Finalmente podemos realizar una gráfica de dispersión. En este caso solo utilizaré los valores de los componentes principales 1 y 2.</p>
+<div class="sourceCode" id="cb146"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb146-1"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb146-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(dg_p, <span class="fu">aes</span>(PC1, PC2, <span class="at">color =</span> Tissue)) <span class="sc">+</span></span>
+<span id="cb146-2"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb146-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb146-3"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb146-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;PC1 (19.5%)&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb146-4"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb146-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;PC2 (12.3%)&quot;</span>) <span class="sc">+</span></span>
+<span id="cb146-5"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb146-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&quot;PCA en datos de expresión utilizando svd()&quot;</span>) <span class="sc">+</span></span>
+<span id="cb146-6"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb146-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>()</span></code></pre></div>
+<p><img src="04-PCA-svd_files/figure-html/gr%C3%A1fica%20de%20dispersi%C3%B3n%20con%20svd-1.png" width="672" /></p>
+<p>A pesar de que ambos componentes solo suman el 32% de la variación total en los datos, es posible observar un par de agrupaciones.</p>
+</div>
+<div id="vectors-propios-y-pesos" class="section level3 hasAnchor" number="5.4.3">
+<h3><span class="header-section-number">5.4.3</span> Vectors propios y pesos<a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#vectors-propios-y-pesos" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Los vectores propios y pesos se pueden tomar directamente de la matriz <em>V</em> obtenida mediante <em>SVD</em>.</p>
+<div class="sourceCode" id="cb147"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb147-1"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb147-1" aria-hidden="true" tabindex="-1"></a>dg_v[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>]</span></code></pre></div>
+<pre><code>##              [,1]         [,2]         [,3]         [,4]          [,5]
+## [1,]  0.005355861 -0.001897947 -0.011063323  0.014768565 -0.0019776715
+## [2,] -0.005875013 -0.008384209 -0.005091850 -0.007090049 -0.0063618747
+## [3,] -0.006460185  0.005781902  0.003631691  0.001776129  0.0008765484
+## [4,] -0.001326232  0.002608896 -0.003894066  0.004410702  0.0210359224
+## [5,]  0.003255499  0.002272892  0.006577115  0.008688153 -0.0042652424</code></pre>
+<p>En este caso cada columna corresponde a un componente principal. Ya que tenemos un gran número de variables, realizar una gráfica de dispersión con los pesos de los primeros dos componentes no dejaría mucho en claro. Lo que sí podemos hacer es ordenar los valores absolutos de los pesos de mayor a menor para tener una idea de los genes con mayor contribución en ambos componentes.</p>
+<div class="sourceCode" id="cb149"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb149-1"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb149-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Seleccionar los vectores propios correspondiente a PC 1 y 2</span></span>
+<span id="cb149-2"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb149-2" aria-hidden="true" tabindex="-1"></a>pesos_pc12 <span class="ot">&lt;-</span> dg_v[, <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>] <span class="sc">%&gt;%</span> </span>
+<span id="cb149-3"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb149-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.data.frame</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb149-4"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb149-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">PC1 =</span> <span class="st">&quot;V1&quot;</span>, <span class="at">PC2 =</span> <span class="st">&quot;V2&quot;</span>)</span>
+<span id="cb149-5"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb149-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb149-6"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb149-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Asignar los nombres de cada renglón a su respectivo gen</span></span>
+<span id="cb149-7"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb149-7" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(pesos_pc12) <span class="ot">&lt;-</span> <span class="fu">colnames</span>(datos_genes)</span>
+<span id="cb149-8"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb149-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb149-9"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb149-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Valores absolutos y ordenamiento de mayor a menor para PC1</span></span>
+<span id="cb149-10"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb149-10" aria-hidden="true" tabindex="-1"></a>pesos_pc1 <span class="ot">&lt;-</span> pesos_pc12 <span class="sc">%&gt;%</span> </span>
+<span id="cb149-11"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb149-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(PC1) <span class="sc">%&gt;%</span> </span>
+<span id="cb149-12"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb149-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">PC1 =</span> <span class="fu">abs</span>(PC1)) <span class="sc">%&gt;%</span> </span>
+<span id="cb149-13"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb149-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(PC1))</span></code></pre></div>
+<p>De esta forma, se pueden observar los primeros diez genes con mayor peso en <em>PC1</em>.</p>
+<div class="sourceCode" id="cb150"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb150-1"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb150-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(pesos_pc1, <span class="at">n =</span> <span class="dv">10</span>)</span></code></pre></div>
+<pre><code>##                    PC1
+## 212215_at   0.01455813
+## 208861_s_at 0.01452472
+## 203855_at   0.01440628
+## 212928_at   0.01435030
+## 213049_at   0.01433674
+## 203607_at   0.01431453
+## 219137_s_at 0.01430930
+## 212982_at   0.01430322
+## 213505_s_at 0.01430079
+## 212765_at   0.01427708</code></pre>
+<p>Un procedimiento similar se puede seguir para <em>PC2</em>.</p>
+<div class="sourceCode" id="cb152"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb152-1"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb152-1" aria-hidden="true" tabindex="-1"></a>pesos_pc2 <span class="ot">&lt;-</span> pesos_pc12 <span class="sc">%&gt;%</span> </span>
+<span id="cb152-2"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb152-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(PC2) <span class="sc">%&gt;%</span> </span>
+<span id="cb152-3"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb152-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">PC2 =</span> <span class="fu">abs</span>(PC2)) <span class="sc">%&gt;%</span> </span>
+<span id="cb152-4"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb152-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(PC2))</span>
+<span id="cb152-5"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb152-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb152-6"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb152-6" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(pesos_pc2, <span class="at">n =</span> <span class="dv">10</span>)</span></code></pre></div>
+<pre><code>##                    PC2
+## 201180_s_at 0.01730462
+## 202232_s_at 0.01696674
+## 203138_at   0.01688099
+## 202591_s_at 0.01658997
+## 217768_at   0.01649049
+## 205986_at   0.01648961
+## 200833_s_at 0.01647016
+## 201351_s_at 0.01644723
+## 201359_at   0.01643935
+## 200902_at   0.01641770</code></pre>
+</div>
+</div>
+<div id="análisis-de-componente-principales-con-la-función-prcomp" class="section level2 hasAnchor" number="5.5">
+<h2><span class="header-section-number">5.5</span> Análisis de componente principales con la función prcomp()<a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#análisis-de-componente-principales-con-la-función-prcomp" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Una manera mucho más directa de realizar <em>PCA</em> es con la función <code>prcomp()</code>. Esta función utiliza <em>SVD</em> y no requerimos de instalar ningún paquete adicional ya que se incluye en las funciones base de <em>R</em>. Al utilizar esta función tampoco necesitamos hacer operaciones o trasformaciones directas sobre los datos originales.</p>
+<div class="sourceCode" id="cb154"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb154-1"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb154-1" aria-hidden="true" tabindex="-1"></a>dg_prcomp <span class="ot">&lt;-</span> <span class="fu">prcomp</span>(datos_genes, <span class="at">scale. =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<p>El argumento <code>scale. = TRUE</code> especifica que los datos se dividan entre las desviaciones estándar, lo cual siempre es recomendable.</p>
+<div id="gráfica-de-barras-para-la-varianza-de-cada-componente-principal-2" class="section level3 hasAnchor" number="5.5.1">
+<h3><span class="header-section-number">5.5.1</span> Gráfica de barras para la varianza de cada componente principal<a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#gráfica-de-barras-para-la-varianza-de-cada-componente-principal-2" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Para hacer una gráfica con los porcentajes de variación de cada componente principal, utilizamos los valores en <code>sdev</code> contenidos en <code>dg_prcomp</code>.</p>
+<div class="sourceCode" id="cb155"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb155-1"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb155-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Valores propios</span></span>
+<span id="cb155-2"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb155-2" aria-hidden="true" tabindex="-1"></a>vp_prcomp <span class="ot">&lt;-</span> dg_prcomp<span class="sc">$</span>sdev<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> (<span class="fu">nrow</span>(datos_genes) <span class="sc">-</span> <span class="dv">1</span>)</span>
+<span id="cb155-3"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb155-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb155-4"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb155-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Porcentaje de variación para cada componente principal</span></span>
+<span id="cb155-5"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb155-5" aria-hidden="true" tabindex="-1"></a>per_pc <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(vp_prcomp) <span class="sc">%&gt;%</span> </span>
+<span id="cb155-6"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb155-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb155-7"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb155-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">per_var =</span> vp_prcomp <span class="sc">*</span> <span class="dv">100</span> <span class="sc">/</span> <span class="fu">sum</span>(vp_prcomp),</span>
+<span id="cb155-8"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb155-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">pc =</span> <span class="fu">map_chr</span>(</span>
+<span id="cb155-9"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb155-9" aria-hidden="true" tabindex="-1"></a>      <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(dg_prcomp<span class="sc">$</span>x), <span class="at">.f =</span> <span class="cf">function</span>(x) <span class="fu">paste0</span>(<span class="st">&quot;PC&quot;</span>, <span class="fu">as.character</span>(x))</span>
+<span id="cb155-10"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb155-10" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb155-11"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb155-11" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb155-12"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb155-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb155-13"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb155-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Gráfica con los porcentajes de variación de los primeros 15 componentes</span></span>
+<span id="cb155-14"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb155-14" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(per_pc[<span class="dv">1</span><span class="sc">:</span><span class="dv">15</span>,], <span class="fu">aes</span>(<span class="fu">reorder</span>(pc, <span class="sc">-</span>per_var), per_var)) <span class="sc">+</span></span>
+<span id="cb155-15"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb155-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>() <span class="sc">+</span></span>
+<span id="cb155-16"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb155-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Componente principal&quot;</span>) <span class="sc">+</span></span>
+<span id="cb155-17"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb155-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Porcentaje de variación (%)&quot;</span>) <span class="sc">+</span></span>
+<span id="cb155-18"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb155-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>()</span></code></pre></div>
+<p><img src="04-PCA-svd_files/figure-html/porcentajes%20con%20prcomp-1.png" width="672" /></p>
+<p>Esta gráfica es la misma que la obtenida al realizar <em>PCA</em> con <code>svd()</code>.</p>
+</div>
+<div id="representación-de-los-datos-en-dos-dimensiones-1" class="section level3 hasAnchor" number="5.5.2">
+<h3><span class="header-section-number">5.5.2</span> Representación de los datos en dos dimensiones<a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#representación-de-los-datos-en-dos-dimensiones-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Las proyecciones de nuestros datos están en el objeto <code>x</code> dentro de <code>dg_prcomp</code>.</p>
+<div class="sourceCode" id="cb156"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb156-1"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb156-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Proyecciones</span></span>
+<span id="cb156-2"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb156-2" aria-hidden="true" tabindex="-1"></a>dg_p <span class="ot">&lt;-</span> dg_prcomp<span class="sc">$</span>x <span class="sc">%&gt;%</span> </span>
+<span id="cb156-3"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb156-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.data.frame</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb156-4"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb156-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Tissue =</span> tissue) <span class="sc">%&gt;%</span> </span>
+<span id="cb156-5"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb156-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">relocate</span>(Tissue)</span>
+<span id="cb156-6"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb156-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb156-7"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb156-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Gráfica de dispersión de los primeros dos componente</span></span>
+<span id="cb156-8"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb156-8" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(dg_p, <span class="fu">aes</span>(PC1, PC2, <span class="at">color =</span> Tissue)) <span class="sc">+</span></span>
+<span id="cb156-9"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb156-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb156-10"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb156-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;PC1 (33%)&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb156-11"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb156-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;PC2 (14%)&quot;</span>) <span class="sc">+</span></span>
+<span id="cb156-12"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb156-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&quot;PCA en datos de expresión utilizando prcomp()&quot;</span>) <span class="sc">+</span></span>
+<span id="cb156-13"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb156-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>()</span></code></pre></div>
+<p><img src="04-PCA-svd_files/figure-html/proyecciones%20con%20prcomp-1.png" width="672" /></p>
+<p>Está gráfica también es la misma que al realizar el <em>PCA</em> mediante <em>svd()</em>.</p>
+</div>
+<div id="vectores-propios-y-pesos" class="section level3 hasAnchor" number="5.5.3">
+<h3><span class="header-section-number">5.5.3</span> Vectores propios y pesos<a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#vectores-propios-y-pesos" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Los vectores propios y pesos se pueden tomar directamente de <code>rotation</code> dentro de <code>dg_prcomp</code>.</p>
+<div class="sourceCode" id="cb157"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb157-1"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb157-1" aria-hidden="true" tabindex="-1"></a>dg_prcomp<span class="sc">$</span>rotation[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>]</span></code></pre></div>
+<pre><code>##                    PC1          PC2          PC3          PC4           PC5
+## 1007_s_at  0.005355861 -0.001897947 -0.011063323  0.014768565 -0.0019776715
+## 1053_at   -0.005875013 -0.008384209 -0.005091850 -0.007090049 -0.0063618747
+## 117_at    -0.006460185  0.005781902  0.003631691  0.001776129  0.0008765484
+## 121_at    -0.001326232  0.002608896 -0.003894066  0.004410702  0.0210359224
+## 1255_g_at  0.003255499  0.002272892  0.006577115  0.008688153 -0.0042652424</code></pre>
+<p>En este caso no es necesario cambiar nombres o asignarlos.</p>
+<div class="sourceCode" id="cb159"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb159-1"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb159-1" aria-hidden="true" tabindex="-1"></a>pesos_pc1 <span class="ot">&lt;-</span> dg_prcomp<span class="sc">$</span>rotation <span class="sc">%&gt;%</span> </span>
+<span id="cb159-2"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb159-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.data.frame</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb159-3"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb159-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(PC1) <span class="sc">%&gt;%</span> </span>
+<span id="cb159-4"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb159-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">PC1 =</span> <span class="fu">abs</span>(PC1)) <span class="sc">%&gt;%</span> </span>
+<span id="cb159-5"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb159-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(PC1))</span>
+<span id="cb159-6"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb159-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb159-7"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#cb159-7" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(pesos_pc1, <span class="at">n =</span> <span class="dv">10</span>)  </span></code></pre></div>
+<pre><code>##                    PC1
+## 212215_at   0.01455813
+## 208861_s_at 0.01452472
+## 203855_at   0.01440628
+## 212928_at   0.01435030
+## 213049_at   0.01433674
+## 203607_at   0.01431453
+## 219137_s_at 0.01430930
+## 212982_at   0.01430322
+## 213505_s_at 0.01430079
+## 212765_at   0.01427708</code></pre>
+<p>Esta tabla también es la misma a la que obtuvimos con <code>svd()</code>. La obtención de la tabla para <em>PC2</em> se deja como ejercicio para el lector.</p>
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="genaralización-del-pca-a-más-de-tres-dimensiones.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="análisis-de-componentes-principales-aplicado-a-metabolómica.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/USERNAME/REPO/edit/BRANCH/04-PCA-svd.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

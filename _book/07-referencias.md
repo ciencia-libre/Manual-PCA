@@ -1,0 +1,12 @@
+# Referencias 
+
+A continuación se listan referencias útiles para profundizar en los temas abordados en este manual. También se incluyen textos que pueden servir como punto de partida para el aprendizaje de *R* y algunas de sus herramientas.  
+
+* Ana María Kozak (2007) Nociones de geometría analítica y álgebra lineal. McGraw-Hill Interamericana.
+* Bro, R. and Smilde, A.K. (2014) ‘Principal component analysis’, Anal. Methods, 6(9), pp. 2812–2831. Disponible en: https://doi.org/10.1039/C3AY41907J.
+* Garrett Grolemund and Hadley Wickham (2016) R para ciencia de datos. O’Reilly Media, Inc. Disponible ent: https://es.r4ds.hadley.nz/.
+* Hadley Wickham (2021) Mastering Shiny. O’Reilly Media, Inc. Disponible ent: https://mastering-shiny.org/.
+* Kim, J.K. et al. (2007) ‘Time-course metabolic profiling in Arabidopsis thaliana cell cultures after salt stress treatment.’, Journal of experimental botany, 58(3), pp. 415–424. Disponible en: https://doi.org/10.1093/jxb/erl216.
+* Sheldon Axler (2010) Linear Algebra Done Right. Springer US.
+* Wickham, H. et al. (2019) ‘Welcome to the Tidyverse’, Journal of Open Source Software, 4(43), p. 1686. Disponible en: https://doi.org/10.21105/joss.01686.
+* Yihui Xie (2017) bookdown Authoring Books and Technical Documents with R Markdown. Chapman and Hall/CRC. Disponible en: https://bookdown.org/yihui/bookdown/.

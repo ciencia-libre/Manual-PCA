@@ -1,0 +1,9 @@
+delete_merged_file: true
+new_session: yes
+language:
+  label:
+    fig: "Figura "
+    tab: "Cuadro "
+    def: "Definición "
+  ui:
+    chapter_name: " "

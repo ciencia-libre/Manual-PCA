@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title> 4 Genaralización del PCA a más de tres dimensiones | Análisis de Componentes Principales paso a paso con R</title>
+  <meta name="description" content=" 4 Genaralización del PCA a más de tres dimensiones | Análisis de Componentes Principales paso a paso con R" />
+  <meta name="generator" content="bookdown 0.29 and GitBook 2.6.7" />
+
+  <meta property="og:title" content=" 4 Genaralización del PCA a más de tres dimensiones | Análisis de Componentes Principales paso a paso con R" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content=" 4 Genaralización del PCA a más de tres dimensiones | Análisis de Componentes Principales paso a paso con R" />
+  
+  
+  
+
+<meta name="author" content="Juan Pablo Carreón Hidalgo" />
+
+
+<meta name="date" content="2022-10-18" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="análisis-de-componentes-principales-en-dos-dimensiones.html"/>
+<link rel="next" href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<script src="libs/plotly-binding-4.10.0/plotly.js"></script>
+<script src="libs/typedarray-0.1/typedarray.min.js"></script>
+<link href="libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
+<link href="libs/plotly-htmlwidgets-css-2.5.1/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="libs/plotly-main-2.5.1/plotly-latest.min.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">PCA paso a paso con R</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Sobre este manual</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#un-poco-acerca-del-autor"><i class="fa fa-check"></i><b>1.1</b> Un poco acerca del autor</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#paquetes-utilizados-para-la-escritura-de-este-manual"><i class="fa fa-check"></i><b>1.2</b> Paquetes utilizados para la escritura de este manual</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="algunas-operaciones-básicas-de-álgebra-lineal.html"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html"><i class="fa fa-check"></i><b>2</b> Algunas operaciones básicas de álgebra lineal</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="algunas-operaciones-básicas-de-álgebra-lineal.html"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#operaciones-con-vectores"><i class="fa fa-check"></i><b>2.1</b> Operaciones con vectores</a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="algunas-operaciones-básicas-de-álgebra-lineal.html"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#crear-vectores"><i class="fa fa-check"></i><b>2.1.1</b> Crear vectores</a></li>
+<li class="chapter" data-level="2.1.2" data-path="algunas-operaciones-básicas-de-álgebra-lineal.html"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#suma-de-vectores"><i class="fa fa-check"></i><b>2.1.2</b> Suma de vectores</a></li>
+<li class="chapter" data-level="2.1.3" data-path="algunas-operaciones-básicas-de-álgebra-lineal.html"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#multiplicación-de-un-vector-por-un-escalar"><i class="fa fa-check"></i><b>2.1.3</b> Multiplicación de un vector por un escalar</a></li>
+<li class="chapter" data-level="2.1.4" data-path="algunas-operaciones-básicas-de-álgebra-lineal.html"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#producto-punto-o-producto-interno"><i class="fa fa-check"></i><b>2.1.4</b> Producto punto o producto interno</a></li>
+<li class="chapter" data-level="2.1.5" data-path="algunas-operaciones-básicas-de-álgebra-lineal.html"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#norma-o-magnitud-de-un-vector"><i class="fa fa-check"></i><b>2.1.5</b> Norma o magnitud de un vector</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="algunas-operaciones-básicas-de-álgebra-lineal.html"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#operaciones-con-matrices"><i class="fa fa-check"></i><b>2.2</b> Operaciones con matrices</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="algunas-operaciones-básicas-de-álgebra-lineal.html"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#definir-matrices"><i class="fa fa-check"></i><b>2.2.1</b> Definir matrices</a></li>
+<li class="chapter" data-level="2.2.2" data-path="algunas-operaciones-básicas-de-álgebra-lineal.html"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#multiplicar-una-matriz-por-un-vector"><i class="fa fa-check"></i><b>2.2.2</b> Multiplicar una matriz por un vector</a></li>
+<li class="chapter" data-level="2.2.3" data-path="algunas-operaciones-básicas-de-álgebra-lineal.html"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#multiplicación-de-matrices"><i class="fa fa-check"></i><b>2.2.3</b> Multiplicación de matrices</a></li>
+<li class="chapter" data-level="2.2.4" data-path="algunas-operaciones-básicas-de-álgebra-lineal.html"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#multiplicación-de-un-escalar-por-una-matriz"><i class="fa fa-check"></i><b>2.2.4</b> Multiplicación de un escalar por una matriz</a></li>
+<li class="chapter" data-level="2.2.5" data-path="algunas-operaciones-básicas-de-álgebra-lineal.html"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#transpuesta-de-una-matriz"><i class="fa fa-check"></i><b>2.2.5</b> Transpuesta de una matriz</a></li>
+<li class="chapter" data-level="2.2.6" data-path="algunas-operaciones-básicas-de-álgebra-lineal.html"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#matriz-identidad"><i class="fa fa-check"></i><b>2.2.6</b> Matriz identidad</a></li>
+<li class="chapter" data-level="2.2.7" data-path="algunas-operaciones-básicas-de-álgebra-lineal.html"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#valores-y-vectores-propios-de-una-matriz"><i class="fa fa-check"></i><b>2.2.7</b> Valores y vectores propios de una matriz</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="algunas-operaciones-básicas-de-álgebra-lineal.html"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#algunos-extra"><i class="fa fa-check"></i><b>2.3</b> Algunos extra</a>
+<ul>
+<li class="chapter" data-level="2.3.1" data-path="algunas-operaciones-básicas-de-álgebra-lineal.html"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#resolver-sistemas-de-ecuaciones-lineales"><i class="fa fa-check"></i><b>2.3.1</b> Resolver sistemas de ecuaciones lineales</a></li>
+<li class="chapter" data-level="2.3.2" data-path="algunas-operaciones-básicas-de-álgebra-lineal.html"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#promedio-y-varianza-con-operaciones-de-álgebra-lineal"><i class="fa fa-check"></i><b>2.3.2</b> Promedio y varianza con operaciones de álgebra lineal</a></li>
+<li class="chapter" data-level="2.3.3" data-path="algunas-operaciones-básicas-de-álgebra-lineal.html"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#varianza"><i class="fa fa-check"></i><b>2.3.3</b> Varianza</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="análisis-de-componentes-principales-en-dos-dimensiones.html"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html"><i class="fa fa-check"></i><b>3</b> Análisis de componentes principales en dos dimensiones</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="análisis-de-componentes-principales-en-dos-dimensiones.html"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#datos"><i class="fa fa-check"></i><b>3.1</b> Datos</a></li>
+<li class="chapter" data-level="3.2" data-path="análisis-de-componentes-principales-en-dos-dimensiones.html"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#centrar-los-datos"><i class="fa fa-check"></i><b>3.2</b> Centrar los datos</a></li>
+<li class="chapter" data-level="3.3" data-path="análisis-de-componentes-principales-en-dos-dimensiones.html"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#calcular-la-matriz-de-covarianza"><i class="fa fa-check"></i><b>3.3</b> Calcular la matriz de covarianza</a></li>
+<li class="chapter" data-level="3.4" data-path="análisis-de-componentes-principales-en-dos-dimensiones.html"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#obtener-los-valores-y-vectores-propios-de-la-matriz-de-covarianza"><i class="fa fa-check"></i><b>3.4</b> Obtener los valores y vectores propios de la matriz de covarianza</a></li>
+<li class="chapter" data-level="3.5" data-path="análisis-de-componentes-principales-en-dos-dimensiones.html"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#gráfica-de-barras-para-la-varianza-de-cada-componente-principal"><i class="fa fa-check"></i><b>3.5</b> Gráfica de barras para la varianza de cada componente principal</a></li>
+<li class="chapter" data-level="3.6" data-path="análisis-de-componentes-principales-en-dos-dimensiones.html"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#pesos-loading-scores"><i class="fa fa-check"></i><b>3.6</b> Pesos (<em>Loading scores</em>)</a></li>
+<li class="chapter" data-level="3.7" data-path="análisis-de-componentes-principales-en-dos-dimensiones.html"><a href="análisis-de-componentes-principales-en-dos-dimensiones.html#representar-los-datos-en-menos-dimensiones"><i class="fa fa-check"></i><b>3.7</b> Representar los datos en menos dimensiones</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="genaralización-del-pca-a-más-de-tres-dimensiones.html"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html"><i class="fa fa-check"></i><b>4</b> Genaralización del PCA a más de tres dimensiones</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="genaralización-del-pca-a-más-de-tres-dimensiones.html"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#datos-1"><i class="fa fa-check"></i><b>4.1</b> Datos</a></li>
+<li class="chapter" data-level="4.2" data-path="genaralización-del-pca-a-más-de-tres-dimensiones.html"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#centrar-cada-variable-y-dividir-por-su-desviación-estándar"><i class="fa fa-check"></i><b>4.2</b> Centrar cada variable y dividir por su desviación estándar</a></li>
+<li class="chapter" data-level="4.3" data-path="genaralización-del-pca-a-más-de-tres-dimensiones.html"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#calcular-la-matriz-de-covarianzas"><i class="fa fa-check"></i><b>4.3</b> Calcular la matriz de covarianzas</a></li>
+<li class="chapter" data-level="4.4" data-path="genaralización-del-pca-a-más-de-tres-dimensiones.html"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#obtener-los-valores-y-vectores-propios-de-la-matriz-de-covarianzas"><i class="fa fa-check"></i><b>4.4</b> Obtener los valores y vectores propios de la matriz de covarianzas</a></li>
+<li class="chapter" data-level="4.5" data-path="genaralización-del-pca-a-más-de-tres-dimensiones.html"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#gráfica-de-barras-para-el-porcentaje-de-variación-de-cada-componente-principal"><i class="fa fa-check"></i><b>4.5</b> Gráfica de barras para el porcentaje de variación de cada componente principal</a></li>
+<li class="chapter" data-level="4.6" data-path="genaralización-del-pca-a-más-de-tres-dimensiones.html"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#representar-los-datos-en-dos-dimensiones"><i class="fa fa-check"></i><b>4.6</b> Representar los datos en dos dimensiones</a></li>
+<li class="chapter" data-level="4.7" data-path="genaralización-del-pca-a-más-de-tres-dimensiones.html"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#pesos-loading-scores-1"><i class="fa fa-check"></i><b>4.7</b> Pesos (Loading scores)</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html"><i class="fa fa-check"></i><b>5</b> Análisis de componentes principales con descomposición de valores singulares</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#descomposición-de-valores-singulares"><i class="fa fa-check"></i><b>5.1</b> Descomposición de valores singulares</a></li>
+<li class="chapter" data-level="5.2" data-path="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#svd-para-llevar-a-cabo-pca"><i class="fa fa-check"></i><b>5.2</b> SVD para llevar a cabo PCA</a></li>
+<li class="chapter" data-level="5.3" data-path="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#datos-2"><i class="fa fa-check"></i><b>5.3</b> Datos</a></li>
+<li class="chapter" data-level="5.4" data-path="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#análisis-de-componentes-principales-con-la-función-svd"><i class="fa fa-check"></i><b>5.4</b> Análisis de componentes principales con la función svd()</a>
+<ul>
+<li class="chapter" data-level="5.4.1" data-path="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#gráfica-de-barras-para-la-varianza-de-cada-componente-principal-1"><i class="fa fa-check"></i><b>5.4.1</b> Gráfica de barras para la varianza de cada componente principal</a></li>
+<li class="chapter" data-level="5.4.2" data-path="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#representación-de-los-datos-en-dos-dimensiones"><i class="fa fa-check"></i><b>5.4.2</b> Representación de los datos en dos dimensiones</a></li>
+<li class="chapter" data-level="5.4.3" data-path="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#vectors-propios-y-pesos"><i class="fa fa-check"></i><b>5.4.3</b> Vectors propios y pesos</a></li>
+</ul></li>
+<li class="chapter" data-level="5.5" data-path="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#análisis-de-componente-principales-con-la-función-prcomp"><i class="fa fa-check"></i><b>5.5</b> Análisis de componente principales con la función prcomp()</a>
+<ul>
+<li class="chapter" data-level="5.5.1" data-path="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#gráfica-de-barras-para-la-varianza-de-cada-componente-principal-2"><i class="fa fa-check"></i><b>5.5.1</b> Gráfica de barras para la varianza de cada componente principal</a></li>
+<li class="chapter" data-level="5.5.2" data-path="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#representación-de-los-datos-en-dos-dimensiones-1"><i class="fa fa-check"></i><b>5.5.2</b> Representación de los datos en dos dimensiones</a></li>
+<li class="chapter" data-level="5.5.3" data-path="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html"><a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html#vectores-propios-y-pesos"><i class="fa fa-check"></i><b>5.5.3</b> Vectores propios y pesos</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="análisis-de-componentes-principales-aplicado-a-metabolómica.html"><a href="análisis-de-componentes-principales-aplicado-a-metabolómica.html"><i class="fa fa-check"></i><b>6</b> Análisis de componentes principales aplicado a metabolómica</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="análisis-de-componentes-principales-aplicado-a-metabolómica.html"><a href="análisis-de-componentes-principales-aplicado-a-metabolómica.html#datos-3"><i class="fa fa-check"></i><b>6.1</b> Datos</a></li>
+<li class="chapter" data-level="6.2" data-path="análisis-de-componentes-principales-aplicado-a-metabolómica.html"><a href="análisis-de-componentes-principales-aplicado-a-metabolómica.html#reordenamiento-de-los-datos"><i class="fa fa-check"></i><b>6.2</b> Reordenamiento de los datos</a></li>
+<li class="chapter" data-level="6.3" data-path="análisis-de-componentes-principales-aplicado-a-metabolómica.html"><a href="análisis-de-componentes-principales-aplicado-a-metabolómica.html#análisis-de-componentes-principales-con-prcomp"><i class="fa fa-check"></i><b>6.3</b> Análisis de componentes principales con prcomp()</a>
+<ul>
+<li class="chapter" data-level="6.3.1" data-path="análisis-de-componentes-principales-aplicado-a-metabolómica.html"><a href="análisis-de-componentes-principales-aplicado-a-metabolómica.html#gráfica-de-barras-con-la-varianza-de-cada-componente-principal"><i class="fa fa-check"></i><b>6.3.1</b> Gráfica de barras con la varianza de cada componente principal</a></li>
+<li class="chapter" data-level="6.3.2" data-path="análisis-de-componentes-principales-aplicado-a-metabolómica.html"><a href="análisis-de-componentes-principales-aplicado-a-metabolómica.html#gráfica-de-dispesión-con-los-primeros-dos-componentes"><i class="fa fa-check"></i><b>6.3.2</b> Gráfica de dispesión con los primeros dos componentes</a></li>
+<li class="chapter" data-level="6.3.3" data-path="análisis-de-componentes-principales-aplicado-a-metabolómica.html"><a href="análisis-de-componentes-principales-aplicado-a-metabolómica.html#peso-o-loadings-de-pc1-y-pc2"><i class="fa fa-check"></i><b>6.3.3</b> Peso o <em>loadings</em> de PC1 y PC2</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="una-shiny-app-para-automatizar-el-análisis-de-componentes-principales.html"><a href="una-shiny-app-para-automatizar-el-análisis-de-componentes-principales.html"><i class="fa fa-check"></i><b>7</b> Una Shiny App para automatizar el análisis de componentes principales</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="una-shiny-app-para-automatizar-el-análisis-de-componentes-principales.html"><a href="una-shiny-app-para-automatizar-el-análisis-de-componentes-principales.html#qué-es-pca-maker"><i class="fa fa-check"></i><b>7.1</b> ¿Qué es <em>PCA Maker</em>?</a></li>
+<li class="chapter" data-level="7.2" data-path="una-shiny-app-para-automatizar-el-análisis-de-componentes-principales.html"><a href="una-shiny-app-para-automatizar-el-análisis-de-componentes-principales.html#instalar-y-usar"><i class="fa fa-check"></i><b>7.2</b> Instalar y usar</a>
+<ul>
+<li class="chapter" data-level="7.2.1" data-path="una-shiny-app-para-automatizar-el-análisis-de-componentes-principales.html"><a href="una-shiny-app-para-automatizar-el-análisis-de-componentes-principales.html#descargar-de-github"><i class="fa fa-check"></i><b>7.2.1</b> Descargar de GitHub</a></li>
+<li class="chapter" data-level="7.2.2" data-path="una-shiny-app-para-automatizar-el-análisis-de-componentes-principales.html"><a href="una-shiny-app-para-automatizar-el-análisis-de-componentes-principales.html#como-un-paquete"><i class="fa fa-check"></i><b>7.2.2</b> Como un paquete</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="una-shiny-app-para-automatizar-el-análisis-de-componentes-principales.html"><a href="una-shiny-app-para-automatizar-el-análisis-de-componentes-principales.html#ejemplo"><i class="fa fa-check"></i><b>7.3</b> Ejemplo</a>
+<ul>
+<li class="chapter" data-level="7.3.1" data-path="una-shiny-app-para-automatizar-el-análisis-de-componentes-principales.html"><a href="una-shiny-app-para-automatizar-el-análisis-de-componentes-principales.html#datos-4"><i class="fa fa-check"></i><b>7.3.1</b> Datos</a></li>
+<li class="chapter" data-level="7.3.2" data-path="una-shiny-app-para-automatizar-el-análisis-de-componentes-principales.html"><a href="una-shiny-app-para-automatizar-el-análisis-de-componentes-principales.html#subir-o-cargar-los-datos"><i class="fa fa-check"></i><b>7.3.2</b> Subir o cargar los datos</a></li>
+<li class="chapter" data-level="7.3.3" data-path="una-shiny-app-para-automatizar-el-análisis-de-componentes-principales.html"><a href="una-shiny-app-para-automatizar-el-análisis-de-componentes-principales.html#personalizar-el-análisis"><i class="fa fa-check"></i><b>7.3.3</b> Personalizar el análisis</a></li>
+<li class="chapter" data-level="7.3.4" data-path="una-shiny-app-para-automatizar-el-análisis-de-componentes-principales.html"><a href="una-shiny-app-para-automatizar-el-análisis-de-componentes-principales.html#porcentajes-de-variación"><i class="fa fa-check"></i><b>7.3.4</b> Porcentajes de variación</a></li>
+<li class="chapter" data-level="7.3.5" data-path="una-shiny-app-para-automatizar-el-análisis-de-componentes-principales.html"><a href="una-shiny-app-para-automatizar-el-análisis-de-componentes-principales.html#proyecciones"><i class="fa fa-check"></i><b>7.3.5</b> Proyecciones</a></li>
+<li class="chapter" data-level="7.3.6" data-path="una-shiny-app-para-automatizar-el-análisis-de-componentes-principales.html"><a href="una-shiny-app-para-automatizar-el-análisis-de-componentes-principales.html#pesos"><i class="fa fa-check"></i><b>7.3.6</b> Pesos</a></li>
+<li class="chapter" data-level="7.3.7" data-path="una-shiny-app-para-automatizar-el-análisis-de-componentes-principales.html"><a href="una-shiny-app-para-automatizar-el-análisis-de-componentes-principales.html#bi-plot"><i class="fa fa-check"></i><b>7.3.7</b> <em>Bi-plot</em></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="referencias.html"><a href="referencias.html"><i class="fa fa-check"></i><b>8</b> Referencias</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Análisis de Componentes Principales paso a paso con R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="genaralización-del-pca-a-más-de-tres-dimensiones" class="section level1 hasAnchor" number="4">
+<h1><span class="header-section-number"> 4</span> Genaralización del PCA a más de tres dimensiones<a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#genaralización-del-pca-a-más-de-tres-dimensiones" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>En este capítulo usaremos datos reales en muestras de vino provenientes de distintos países. Todos los datos pueden encontrarse en el repositorio de este libro en la carpeta “datos”.</p>
+<div id="datos-1" class="section level2 hasAnchor" number="4.1">
+<h2><span class="header-section-number">4.1</span> Datos<a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#datos-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>En las muestras de vino se midieron las siguientes variables o parámetros de calidad.</p>
+<p><img src="imagenes/variables_vino.png" style="display: block; margin: auto;" /></p>
+<p>Las muestras de vino procedieron de Argentina, Chile, Australia y Sudáfrica.</p>
+<p><img src="imagenes/origen_vino.png" style="display: block; margin: auto;" /></p>
+<p>Las seis primeras filas renglores del conjunto de datos tienen este aspecto.</p>
+<div class="sourceCode" id="cb113"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb113-1"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb113-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Nombres de las variables o parámetro de calidad</span></span>
+<span id="cb113-2"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb113-2" aria-hidden="true" tabindex="-1"></a>nombres_var <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;datos/Label_Pred_values_IR.csv&quot;</span>)</span>
+<span id="cb113-3"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb113-3" aria-hidden="true" tabindex="-1"></a>nombres_var <span class="ot">&lt;-</span> <span class="fu">names</span>(nombres_var)</span>
+<span id="cb113-4"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb113-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb113-5"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb113-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Etiquetas o códigos en las muestras de vino</span></span>
+<span id="cb113-6"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb113-6" aria-hidden="true" tabindex="-1"></a>cod_vino <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;datos/Label_Wine_samples.csv&quot;</span>, <span class="at">header =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb113-7"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb113-7" aria-hidden="true" tabindex="-1"></a>cod_vino <span class="ot">&lt;-</span> <span class="fu">unname</span>(<span class="fu">unlist</span>(cod_vino))</span>
+<span id="cb113-8"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb113-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb113-9"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb113-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Conjunto de datos completo para las muestras de vino</span></span>
+<span id="cb113-10"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb113-10" aria-hidden="true" tabindex="-1"></a>datos_vino <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(</span>
+<span id="cb113-11"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb113-11" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;datos/Pred_values.csv&quot;</span>, <span class="at">header =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb113-12"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb113-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">row.names =</span> cod_vino, <span class="at">col.names =</span> nombres_var</span>
+<span id="cb113-13"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb113-13" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb113-14"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb113-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb113-15"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb113-15" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(datos_vino)</span></code></pre></div>
+<pre><code>##          Etanol Acidez AcVolatiles AcMalico   pH AcLactico AzucarReductor
+## ARG-BNS1  13.62   3.54        0.29     0.89 3.71      0.78           1.46
+## ARG-DDA1  14.06   3.74        0.59     0.24 3.73      1.25           2.42
+## ARG-FFL1  13.74   3.27        0.47    -0.07 3.87      1.13           1.52
+## ARG-FLM1  13.95   3.66        0.47     0.09 3.79      1.00           4.17
+## ARG-ICR1  14.47   3.66        0.38     0.61 3.70      0.81           1.25
+## ARG-SAL1  14.61   3.45        0.52     0.16 3.92      1.76           1.40
+##          AcCitrico    CO2 Densidad Polifenoles Glicerol Metanol AcTartarico
+## ARG-BNS1      0.31  85.61     0.99       60.92     9.72    0.16        1.74
+## ARG-DDA1      0.18 175.20     1.00       70.64    10.05    0.20        1.58
+## ARG-FFL1      0.39 513.74     0.99       63.59    10.92    0.18        1.24
+## ARG-FLM1      0.41 379.40     1.00       73.30     9.69    0.23        2.26
+## ARG-ICR1      0.14 154.88     0.99       71.69    10.81    0.20        1.22
+## ARG-SAL1      0.10 156.30     0.99       71.79    10.19    0.19        0.90</code></pre>
+<p>En este conjunto de datos las muestras de vino están marcadas como los nombres de las filas o renglones, y cada muestra tiene asociados los valores de cada parámetro de calidad (las columnas). Es importante prestar atención a la información señalada en columnas y renglones al calcular las matrices de covarianza o utilizar funciones para realizar el <em>PCA</em>, ¿queremos reducir las dimensiones con respecto a las filas o con respecto a las columnas? En este ejemplo nos interesa reducir el número de dimensiones con respecto a los parámetros de calidad y tratar de detectar si hay algunas similitudes o diferencias entre las muestras de vino.</p>
+</div>
+<div id="centrar-cada-variable-y-dividir-por-su-desviación-estándar" class="section level2 hasAnchor" number="4.2">
+<h2><span class="header-section-number">4.2</span> Centrar cada variable y dividir por su desviación estándar<a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#centrar-cada-variable-y-dividir-por-su-desviación-estándar" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Primero restamos el promedio de cada variable (columnas) y dividimos el resultado entre la desviación estándar.</p>
+<div class="sourceCode" id="cb115"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb115-1"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb115-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(purrr)</span>
+<span id="cb115-2"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb115-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb115-3"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb115-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Promedios de cada variable</span></span>
+<span id="cb115-4"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb115-4" aria-hidden="true" tabindex="-1"></a>prom_vars <span class="ot">&lt;-</span> <span class="fu">unlist</span>(<span class="fu">map</span>(datos_vino, mean))</span>
+<span id="cb115-5"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb115-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb115-6"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb115-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Desviación estándar de cada variable</span></span>
+<span id="cb115-7"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb115-7" aria-hidden="true" tabindex="-1"></a>de_vars <span class="ot">&lt;-</span> <span class="fu">unlist</span>(<span class="fu">map</span>(datos_vino, sd))</span>
+<span id="cb115-8"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb115-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb115-9"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb115-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Centrar cada variable</span></span>
+<span id="cb115-10"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb115-10" aria-hidden="true" tabindex="-1"></a>datos_vino_2 <span class="ot">&lt;-</span> <span class="fu">map2</span>(</span>
+<span id="cb115-11"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb115-11" aria-hidden="true" tabindex="-1"></a>  datos_vino, prom_vars, <span class="at">.f =</span> <span class="cf">function</span>(x, mean) x <span class="sc">-</span> mean</span>
+<span id="cb115-12"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb115-12" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb115-13"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb115-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb115-14"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb115-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Dividir por la desviación estándar de cada variable</span></span>
+<span id="cb115-15"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb115-15" aria-hidden="true" tabindex="-1"></a>datos_vino_2 <span class="ot">&lt;-</span> <span class="fu">map2</span>(</span>
+<span id="cb115-16"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb115-16" aria-hidden="true" tabindex="-1"></a>  datos_vino_2, de_vars, <span class="at">.f =</span> <span class="cf">function</span>(x, sd) x <span class="sc">/</span> sd</span>
+<span id="cb115-17"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb115-17" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb115-18"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb115-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb115-19"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb115-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Generar una matriz a partir de la lista anterior</span></span>
+<span id="cb115-20"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb115-20" aria-hidden="true" tabindex="-1"></a>datos_vino_2 <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(<span class="fu">data.frame</span>(datos_vino_2))</span></code></pre></div>
+<p>Cada renglón de los datos transformados corresponde a la misma muestra de vino que en los datos originales.</p>
+<p>Los primeros seis renglones de los datos transformados tienen el siguiente aspecto.</p>
+<div class="sourceCode" id="cb116"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb116-1"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb116-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(datos_vino_2)</span></code></pre></div>
+<pre><code>##           Etanol      Acidez AcVolatiles   AcMalico         pH   AcLactico
+## [1,] -0.63678490 -0.40870999  -0.7811641  2.2627949 0.18823560 -0.88226788
+## [2,]  0.29224039  0.01096889   1.3231961 -0.5694123 0.40060358  0.38388752
+## [3,] -0.38341492 -0.97527630   0.4814521 -1.9201573 1.88717937  0.06061381
+## [4,]  0.05998306 -0.15690246   0.4814521 -1.2229986 1.03770749 -0.28959935
+## [5,]  1.15792166 -0.15690246  -0.1498560  1.0427673 0.08205162 -0.80144937
+## [6,]  1.45351897 -0.59756526   0.8321787 -0.9179917 2.41810183  1.75780072
+##      AzucarReductor  AcCitrico        CO2   Densidad Polifenoles     Glicerol
+## [1,]     -0.5311188  1.1594920 -1.6049333 -0.7844233  -0.1371321 -0.525885112
+## [2,]      0.1996454  0.1084153 -0.9482843  1.2458487   1.2376582 -0.160707984
+## [3,]     -0.4854461  1.8063082  1.5330409 -0.7844233   0.2405111  0.802031811
+## [4,]      1.5317676  1.9680124  0.5483973  1.2458487   1.6138874 -0.559083800
+## [5,]     -0.6909735 -0.2149929 -1.0972195 -0.7844233   1.3861700  0.680306454
+## [6,]     -0.5767916 -0.5384011 -1.0868116 -0.7844233   1.4003137 -0.005784994
+##         Metanol AcTartarico
+## [1,] -1.1081037  0.43877622
+## [2,] -0.0870238 -0.03865555
+## [3,] -0.5975635 -1.05319837
+## [4,]  0.6787860  1.99042974
+## [5,] -0.0870238 -1.11287729
+## [6,] -0.3422939 -2.06774119</code></pre>
+<p>Dividir por las desviaciones estándar es una forma de dar a cada variable la misma importancia a pesar de su rango, magnitud y/o escala de medición. Además de dividir por la desviación estándar, son posibles otras transformaciones que pueden aplicarse en función de los datos. Consulte los referencias al final de este manual si está interesado.</p>
+</div>
+<div id="calcular-la-matriz-de-covarianzas" class="section level2 hasAnchor" number="4.3">
+<h2><span class="header-section-number">4.3</span> Calcular la matriz de covarianzas<a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#calcular-la-matriz-de-covarianzas" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Para obtener la matriz de covarianzas multiplicamos los datos (como una matriz) por su traspuesta y dividimos por el número de renglones menos uno (los grados de libertad).</p>
+<div class="sourceCode" id="cb118"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb118-1"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb118-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calcular la matriz de covarianzas</span></span>
+<span id="cb118-2"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb118-2" aria-hidden="true" tabindex="-1"></a>vino_cov <span class="ot">&lt;-</span> (<span class="fu">t</span>(datos_vino_2) <span class="sc">%*%</span> datos_vino_2) <span class="sc">/</span> </span>
+<span id="cb118-3"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb118-3" aria-hidden="true" tabindex="-1"></a>  (<span class="fu">nrow</span>(datos_vino_2) <span class="sc">-</span> <span class="dv">1</span>)</span>
+<span id="cb118-4"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb118-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb118-5"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb118-5" aria-hidden="true" tabindex="-1"></a>vino_cov[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>]</span></code></pre></div>
+<pre><code>##                 Etanol     Acidez AcVolatiles    AcMalico         pH
+## Etanol      1.00000000  0.3262321   0.2028382  0.04166778  0.1697347
+## Acidez      0.32623209  1.0000000   0.4660575 -0.26067574 -0.3518303
+## AcVolatiles 0.20283816  0.4660575   1.0000000 -0.74628880  0.3011611
+## AcMalico    0.04166778 -0.2606757  -0.7462888  1.00000000 -0.2929542
+## pH          0.16973470 -0.3518303   0.3011611 -0.29295421  1.0000000</code></pre>
+<p>Solo se muestran los primeros cinco renglones y columnas de la matriz de covarianza. Si estás utilizando <em>R Studio</em>, puedes usar la función <code>View()</code> con <code>vino_cov</code>como argumento para desplegar una ventana completa que mostrará los datos como en una hoja de Excel.</p>
+<p>En la matriz anterior, los valores en la diagonal son las varianzas de cada variable y los valores fuera de la diagonal son las <em>covarianzas</em> entre las variables. Como puede observarse, todas las varianzas son iguales a 1. Esto es precisamente el efecto de centrar y dividir por la desviación estándar de cada variable.</p>
+</div>
+<div id="obtener-los-valores-y-vectores-propios-de-la-matriz-de-covarianzas" class="section level2 hasAnchor" number="4.4">
+<h2><span class="header-section-number">4.4</span> Obtener los valores y vectores propios de la matriz de covarianzas<a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#obtener-los-valores-y-vectores-propios-de-la-matriz-de-covarianzas" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Para obtener los valores y vectores propios usamos la función <code>eigen()</code>.</p>
+<div class="sourceCode" id="cb120"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb120-1"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb120-1" aria-hidden="true" tabindex="-1"></a>vino_eg <span class="ot">&lt;-</span> <span class="fu">eigen</span>(vino_cov)</span>
+<span id="cb120-2"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb120-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb120-3"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb120-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Valores propios</span></span>
+<span id="cb120-4"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb120-4" aria-hidden="true" tabindex="-1"></a>val_eg <span class="ot">&lt;-</span> vino_eg<span class="sc">$</span>values</span>
+<span id="cb120-5"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb120-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb120-6"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb120-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Vectores propios</span></span>
+<span id="cb120-7"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb120-7" aria-hidden="true" tabindex="-1"></a>vec_eg <span class="ot">&lt;-</span> vino_eg<span class="sc">$</span>vectors</span></code></pre></div>
+<p>El número de vectores y valores propios es el mismo que el número de variables en el conjunto de datos originales.</p>
+<div class="sourceCode" id="cb121"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb121-1"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb121-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Número de valores propios</span></span>
+<span id="cb121-2"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb121-2" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(val_eg)</span></code></pre></div>
+<pre><code>## [1] 14</code></pre>
+<div class="sourceCode" id="cb123"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb123-1"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb123-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Número de vectores propios</span></span>
+<span id="cb123-2"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb123-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ncol</span>(vec_eg)</span></code></pre></div>
+<pre><code>## [1] 14</code></pre>
+</div>
+<div id="gráfica-de-barras-para-el-porcentaje-de-variación-de-cada-componente-principal" class="section level2 hasAnchor" number="4.5">
+<h2><span class="header-section-number">4.5</span> Gráfica de barras para el porcentaje de variación de cada componente principal<a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#gráfica-de-barras-para-el-porcentaje-de-variación-de-cada-componente-principal" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Ahora calculamos el porcentaje de variación de cada componente y realizamos una gráfica de barras.</p>
+<div class="sourceCode" id="cb125"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb125-1"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb125-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calcular la varianza de cada valor propio</span></span>
+<span id="cb125-2"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb125-2" aria-hidden="true" tabindex="-1"></a>vars_val_eg <span class="ot">&lt;-</span> val_eg <span class="sc">/</span> (<span class="fu">nrow</span>(datos_vino_2) <span class="sc">-</span> <span class="dv">1</span>)</span>
+<span id="cb125-3"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb125-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb125-4"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb125-4" aria-hidden="true" tabindex="-1"></a><span class="co"># &quot;Data frame&quot; con los porcentajes de variación</span></span>
+<span id="cb125-5"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb125-5" aria-hidden="true" tabindex="-1"></a>vars_perc <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb125-6"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb125-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">PC  =</span> <span class="fu">unlist</span>(<span class="fu">map</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">14</span>, <span class="cf">function</span>(x) <span class="fu">paste0</span>(<span class="st">&quot;PC&quot;</span>, x))),</span>
+<span id="cb125-7"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb125-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">PER =</span> <span class="fu">round</span>((vars_val_eg <span class="sc">*</span> <span class="dv">100</span>) <span class="sc">/</span> <span class="fu">sum</span>(vars_val_eg), <span class="dv">4</span>)</span>
+<span id="cb125-8"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb125-8" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb125-9"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb125-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb125-10"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb125-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Gráfica de barras</span></span>
+<span id="cb125-11"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb125-11" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb125-12"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb125-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb125-13"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb125-13" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(</span>
+<span id="cb125-14"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb125-14" aria-hidden="true" tabindex="-1"></a>  vars_perc, </span>
+<span id="cb125-15"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb125-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(PC, <span class="fu">order</span>(PER, <span class="at">decreasing =</span> <span class="cn">TRUE</span>)), <span class="at">y =</span> PER)</span>
+<span id="cb125-16"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb125-16" aria-hidden="true" tabindex="-1"></a>       ) <span class="sc">+</span></span>
+<span id="cb125-17"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb125-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">width =</span> <span class="fl">0.5</span>, <span class="at">color =</span> <span class="st">&quot;black&quot;</span>) <span class="sc">+</span></span>
+<span id="cb125-18"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb125-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Componente Principal&quot;</span>) <span class="sc">+</span></span>
+<span id="cb125-19"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb125-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Porcentaje de variación (%)&quot;</span>) <span class="sc">+</span></span>
+<span id="cb125-20"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb125-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>()</span></code></pre></div>
+<p><img src="03-PCA-generalizacion_files/figure-html/scree%20plot-1.png" width="672" /></p>
+</div>
+<div id="representar-los-datos-en-dos-dimensiones" class="section level2 hasAnchor" number="4.6">
+<h2><span class="header-section-number">4.6</span> Representar los datos en dos dimensiones<a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#representar-los-datos-en-dos-dimensiones" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Idealmente, si los primeros dos componentes reunieran la mayor parte de la variación, digamos más del 90%, sería posible hacer una buena representación de los datos en una gráfica de dispersión en dos dimensiones. Ya que la mayor parte del tiempo los datos reales rara vez son ideales, en este ejemplo utilizaremos PC1, PC2, PC3 y PC4, que en conjunto representan el 73% de la variación. En estos casos podemos tratar de detectar grupos haciendo dos gráficas de dispersión, el primero con PC1 y PC2, y el segundo con PC3 y PC4.</p>
+<p>En primer lugar, cambiamos la base de los datos transformados por la indicada por los vectores propios.</p>
+<div class="sourceCode" id="cb126"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb126-1"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb126-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb126-2"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb126-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb126-3"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb126-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Cambiar la base de los datos centrados </span></span>
+<span id="cb126-4"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb126-4" aria-hidden="true" tabindex="-1"></a>datos_vino_cb <span class="ot">&lt;-</span> datos_vino_2 <span class="sc">%*%</span> <span class="fu">solve</span>(vec_eg)</span>
+<span id="cb126-5"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb126-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb126-6"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb126-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Transformar a un &quot;data frame&quot;</span></span>
+<span id="cb126-7"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb126-7" aria-hidden="true" tabindex="-1"></a>datos_vino_cb <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(datos_vino_cb)</span>
+<span id="cb126-8"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb126-8" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(datos_vino_cb) <span class="ot">&lt;-</span> vars_perc<span class="sc">$</span>PC</span>
+<span id="cb126-9"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb126-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb126-10"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb126-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Añadir una columna con los datos de origen de cada muestra de vino</span></span>
+<span id="cb126-11"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb126-11" aria-hidden="true" tabindex="-1"></a>datos_vino_cb <span class="ot">&lt;-</span> datos_vino_cb <span class="sc">%&gt;%</span> </span>
+<span id="cb126-12"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb126-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb126-13"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb126-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">MuestraVino =</span> <span class="fu">unlist</span>(<span class="fu">map</span>(cod_vino, <span class="cf">function</span>(x) <span class="fu">substr</span>(x, <span class="dv">1</span>, <span class="dv">3</span>)))</span>
+<span id="cb126-14"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb126-14" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">%&gt;%</span> </span>
+<span id="cb126-15"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb126-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">relocate</span>(MuestraVino)</span>
+<span id="cb126-16"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb126-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb126-17"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb126-17" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(datos_vino_cb)</span></code></pre></div>
+<pre><code>##   MuestraVino        PC1        PC2        PC3        PC4         PC5
+## 1         ARG -0.8340408  0.8560257  1.2477283 -0.2946354 -2.64962606
+## 2         ARG  0.9182495 -0.7520145  0.8955902 -0.3967229  0.06460487
+## 3         ARG  2.0109822  0.2126599 -0.4739304 -1.3446676  0.96328060
+## 4         ARG  2.8454813 -1.9323804  0.5129401 -0.2805325 -0.56882676
+## 5         ARG -0.4027013  0.7424389  0.3544802 -1.3925516 -0.86093254
+## 6         ARG  0.4921766  0.6976268  0.9133225 -1.3858705  0.58195738
+##           PC6        PC7         PC8         PC9        PC10        PC11
+## 1 -0.09972511  0.6839127 -0.64470453  1.30296999  0.08192591  0.90864847
+## 2 -1.15201976 -0.6156587  0.09652472 -0.66508130  0.22293709 -0.44745146
+## 3 -0.97714541  0.7454403  1.13873701 -0.36070456 -1.80323468  1.57277920
+## 4  0.04685162  0.9391345  1.05427365  0.06617118 -0.72767986 -1.40159736
+## 5 -0.43249796 -1.2152728  0.19062688  1.02200106  0.80693595 -0.03070849
+## 6 -1.12762870 -0.7447312  2.12377275 -1.45181400  0.27437060  1.29332051
+##          PC12       PC13       PC14
+## 1  0.09448821  0.2045349  0.2889872
+## 2  0.60237715 -1.1576675 -0.2344966
+## 3 -0.74179131  0.9287338 -0.2968222
+## 4  0.97819193 -0.1854973  0.5890199
+## 5 -0.89310589 -0.3806547 -1.1129547
+## 6 -1.49226046 -1.9552497 -1.2846205</code></pre>
+<p>Ahora hagamos ambas gráficas de dispersión tomando los valores de PC1, PC2, PC3 y PC4.</p>
+<div class="sourceCode" id="cb128"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb128-1"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb128-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggpubr)</span>
+<span id="cb128-2"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb128-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb128-3"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb128-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Gráfica de dispersión para PC1 y PC2</span></span>
+<span id="cb128-4"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb128-4" aria-hidden="true" tabindex="-1"></a>pc12 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(</span>
+<span id="cb128-5"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb128-5" aria-hidden="true" tabindex="-1"></a>  datos_vino_cb, </span>
+<span id="cb128-6"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb128-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(PC1, PC2, <span class="at">color =</span> MuestraVino, <span class="at">shape =</span> MuestraVino)</span>
+<span id="cb128-7"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb128-7" aria-hidden="true" tabindex="-1"></a>) <span class="sc">+</span></span>
+<span id="cb128-8"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb128-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb128-9"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb128-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&quot;PC1 y PC2&quot;</span>) <span class="sc">+</span></span>
+<span id="cb128-10"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb128-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;PC1 (24.4%)&quot;</span>) <span class="sc">+</span></span>
+<span id="cb128-11"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb128-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;PC2 (21.3%)&quot;</span>) <span class="sc">+</span></span>
+<span id="cb128-12"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb128-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb128-13"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb128-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>) </span>
+<span id="cb128-14"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb128-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb128-15"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb128-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Gráfica de dispersión para PC3 y PC4</span></span>
+<span id="cb128-16"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb128-16" aria-hidden="true" tabindex="-1"></a>pc34 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(</span>
+<span id="cb128-17"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb128-17" aria-hidden="true" tabindex="-1"></a>  datos_vino_cb, </span>
+<span id="cb128-18"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb128-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(PC3, PC4, <span class="at">color =</span> MuestraVino, <span class="at">shape =</span> MuestraVino)</span>
+<span id="cb128-19"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb128-19" aria-hidden="true" tabindex="-1"></a>) <span class="sc">+</span></span>
+<span id="cb128-20"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb128-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb128-21"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb128-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_discrete</span>(</span>
+<span id="cb128-22"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb128-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">name =</span> <span class="st">&quot;País de origen&quot;</span>, </span>
+<span id="cb128-23"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb128-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;Argentina&quot;</span>, <span class="st">&quot;Australia&quot;</span>, <span class="st">&quot;Chile&quot;</span>, <span class="st">&quot;Sudáfrica&quot;</span>)</span>
+<span id="cb128-24"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb128-24" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb128-25"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb128-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_shape_discrete</span>(</span>
+<span id="cb128-26"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb128-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">name =</span> <span class="st">&quot;País de origen&quot;</span>, </span>
+<span id="cb128-27"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb128-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;Argentina&quot;</span>, <span class="st">&quot;Australia&quot;</span>, <span class="st">&quot;Chile&quot;</span>, <span class="st">&quot;Sudáfrica&quot;</span>)</span>
+<span id="cb128-28"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb128-28" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb128-29"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb128-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&quot;PC3 y PC4&quot;</span>) <span class="sc">+</span></span>
+<span id="cb128-30"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb128-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;PC3 (17.5%)&quot;</span>) <span class="sc">+</span></span>
+<span id="cb128-31"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb128-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;PC4 (10.0%)&quot;</span>) <span class="sc">+</span></span>
+<span id="cb128-32"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb128-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>()</span>
+<span id="cb128-33"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb128-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb128-34"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb128-34" aria-hidden="true" tabindex="-1"></a><span class="co"># Ambas gráficas lado a lado</span></span>
+<span id="cb128-35"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb128-35" aria-hidden="true" tabindex="-1"></a><span class="fu">ggarrange</span>(pc12, pc34, <span class="at">widths =</span> <span class="fu">c</span>(<span class="fl">1.5</span>, <span class="dv">2</span>))</span></code></pre></div>
+<p><img src="03-PCA-generalizacion_files/figure-html/graficas%20con%20PC1,%20PC2,%20PC2%20y%20PC4-1.png" width="672" /></p>
+</div>
+<div id="pesos-loading-scores-1" class="section level2 hasAnchor" number="4.7">
+<h2><span class="header-section-number">4.7</span> Pesos (Loading scores)<a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#pesos-loading-scores-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Los elementos de cada vector propio representan el peso de cada variable en el componente principal correspondiente.</p>
+<div class="sourceCode" id="cb129"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb129-1"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb129-1" aria-hidden="true" tabindex="-1"></a><span class="co"># &quot;Data frame&quot; con los pesos</span></span>
+<span id="cb129-2"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb129-2" aria-hidden="true" tabindex="-1"></a>pesos_vino <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(vec_eg)</span>
+<span id="cb129-3"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb129-3" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(pesos_vino) <span class="ot">&lt;-</span> vars_perc<span class="sc">$</span>PC</span>
+<span id="cb129-4"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb129-4" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(pesos_vino) <span class="ot">&lt;-</span> nombres_var</span>
+<span id="cb129-5"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb129-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb129-6"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb129-6" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(pesos_vino)</span></code></pre></div>
+<pre><code>##                    PC1        PC2         PC3         PC4          PC5
+## Etanol      -0.2050720 -0.3452884  0.28833198 -0.33833697  0.001102612
+## Acidez      -0.1457210 -0.4545803 -0.06374909  0.42139270  0.041508880
+## AcVolatiles  0.2959952 -0.4418538  0.03338975  0.08430388 -0.010891943
+## AcMalico    -0.3401714  0.3173079  0.17907611 -0.04002812 -0.252870228
+## pH           0.2413635 -0.1030772 -0.04459655 -0.66472873 -0.170592676
+## AcLactico    0.3462627 -0.3745378 -0.16738658  0.11850141 -0.108643313
+##                     PC6          PC7         PC8        PC9       PC10
+## Etanol      -0.02992588  0.106645513  0.40565761  0.2220668 -0.0736428
+## Acidez      -0.10721872  0.109080109 -0.15801516  0.1647662 -0.1264076
+## AcVolatiles  0.12676353 -0.117134956 -0.01066998 -0.2323371  0.1969852
+## AcMalico     0.09495473  0.247290148 -0.35870967  0.1792700 -0.2720317
+## pH           0.01717167 -0.191605072 -0.30040129  0.3352702  0.2882746
+## AcLactico    0.05496474  0.008009813 -0.10169448  0.1377493 -0.2860564
+##                    PC11        PC12        PC13        PC14
+## Etanol       0.52247393 -0.22486081  0.29025391  0.04195694
+## Acidez      -0.09209975 -0.25488777 -0.01537897 -0.65083548
+## AcVolatiles  0.19114512 -0.33800897 -0.59864003  0.27743084
+## AcMalico    -0.07338526 -0.53559762 -0.18854505  0.23066288
+## pH          -0.21200578 -0.09998927 -0.02838824 -0.28223548
+## AcLactico   -0.32247769 -0.11583440  0.49548494  0.45696212</code></pre>
+<p>Hacer una gráfica de dispersión con estos valores puede ayudar a ver patrones de variación y/o explicar las agrupaciones o diferencias en las gráficas de dispersión de los componentes principales.</p>
+<div class="sourceCode" id="cb131"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb131-1"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb131-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Dispersión con pesos de PC1 y PC2</span></span>
+<span id="cb131-2"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb131-2" aria-hidden="true" tabindex="-1"></a>ld_pc12 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(pesos_vino, <span class="fu">aes</span>(PC1, PC2)) <span class="sc">+</span></span>
+<span id="cb131-3"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb131-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">&quot;blue&quot;</span>, <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb131-4"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb131-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
+<span id="cb131-5"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb131-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
+<span id="cb131-6"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb131-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> <span class="fu">rownames</span>(pesos_vino)), <span class="at">hjust =</span> <span class="sc">-</span>.<span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb131-7"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb131-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&quot;Pesos para PC1 y PC2&quot;</span>) <span class="sc">+</span></span>
+<span id="cb131-8"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb131-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlim</span>(<span class="fu">c</span>(<span class="sc">-</span>.<span class="dv">7</span>, .<span class="dv">7</span>)) <span class="sc">+</span></span>
+<span id="cb131-9"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb131-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylim</span>(<span class="fu">c</span>(<span class="sc">-</span>.<span class="dv">7</span>, .<span class="dv">7</span>)) <span class="sc">+</span></span>
+<span id="cb131-10"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb131-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;PC1 (24.4%)&quot;</span>) <span class="sc">+</span></span>
+<span id="cb131-11"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb131-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;PC2 (21.3%)&quot;</span>) <span class="sc">+</span></span>
+<span id="cb131-12"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb131-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>()</span>
+<span id="cb131-13"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb131-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb131-14"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb131-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Dispersión con pesos de PC3 y PC4</span></span>
+<span id="cb131-15"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb131-15" aria-hidden="true" tabindex="-1"></a>ld_pc34 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(pesos_vino, <span class="fu">aes</span>(PC3, PC4)) <span class="sc">+</span></span>
+<span id="cb131-16"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb131-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">&quot;blue&quot;</span>, <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb131-17"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb131-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
+<span id="cb131-18"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb131-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
+<span id="cb131-19"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb131-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> <span class="fu">rownames</span>(pesos_vino)), <span class="at">hjust =</span> <span class="sc">-</span>.<span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb131-20"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb131-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&quot;Pesos para PC3 y PC4&quot;</span>) <span class="sc">+</span></span>
+<span id="cb131-21"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb131-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlim</span>(<span class="fu">c</span>(<span class="sc">-</span>.<span class="dv">7</span>, .<span class="dv">7</span>)) <span class="sc">+</span></span>
+<span id="cb131-22"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb131-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylim</span>(<span class="fu">c</span>(<span class="sc">-</span>.<span class="dv">7</span>, .<span class="dv">7</span>)) <span class="sc">+</span></span>
+<span id="cb131-23"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb131-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;PC3 (17.5%)&quot;</span>) <span class="sc">+</span></span>
+<span id="cb131-24"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb131-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;PC4 (10.0%)&quot;</span>) <span class="sc">+</span></span>
+<span id="cb131-25"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb131-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>()</span>
+<span id="cb131-26"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb131-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb131-27"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb131-27" aria-hidden="true" tabindex="-1"></a><span class="co"># Ambas gráficas lado a lado</span></span>
+<span id="cb131-28"><a href="genaralización-del-pca-a-más-de-tres-dimensiones.html#cb131-28" aria-hidden="true" tabindex="-1"></a><span class="fu">ggarrange</span>(ld_pc12, ld_pc34)  </span></code></pre></div>
+<p><img src="03-PCA-generalizacion_files/figure-html/grafica%20de%20pesos-1.png" width="672" /></p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="análisis-de-componentes-principales-en-dos-dimensiones.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="análisis-de-componentes-principales-con-descomposición-de-valores-singulares.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/USERNAME/REPO/edit/BRANCH/03-PCA-generalizacion.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
