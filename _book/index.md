@@ -1,31 +1,33 @@
---- 
+---
 title: "Análisis de Componentes Principales paso a paso con R"
 author: "Juan Pablo Carreón Hidalgo"
 date: "2022-10-18"
 site: bookdown::bookdown_site
 documentclass: book
-# url: https://bookdown.org/yihui/bookdown
+url: https://pca-paso-a-paso.netlify.app/
 ---
 
-![](imagenes/cover.jpg#center)
+![](imagenes/cover.jpg)
 
 # Sobre este manual
 
-Este documento es una guía de cómo realizar análisis de componentes principales (*PCA*, por sus siglas en inglés) con R. Incluye una pequeña introducción al álgebra lineal, se expone el caso más simple de *PCA* en dos dimensiones y posteriormente se generaliza a más de tres dimensiones. También se expone un ejemplo aplicado al área de metabolómica y como un pequeño extra se aborda cómo utilizar una *Shiny App* que nos permita realizar *PCA* de manera automática.  
+Este documento es una guía de cómo realizar análisis de componentes principales (*PCA*, por sus siglas en inglés) con R. Incluye una pequeña introducción al álgebra lineal, se expone el caso más simple de *PCA* en dos dimensiones y posteriormente se generaliza a más de tres dimensiones. También se expone un ejemplo aplicado al área de metabolómica y como un pequeño extra se aborda cómo utilizar una *Shiny App* que nos permita realizar *PCA* de manera automática.
 
-Para seguir este manual sin problemas se necesita ser un usuario de *R* con cierta experiencia. Al menos recomiendo saber lo básico de este lenguaje de programación, lo que sin duda incluye saber definir objetos y funciones, instalar y utilizar paquetes, así como la utilización de los paquetes incluidos en `tidyverse`. De forma opcional, también recomiendo utilizar *R Studio*, lo que facilita el trabajo con *R* de muchas formas. El primer capítulo de este manual aborda operaciones de álgebra lineal, por lo que recomiendo tener nociones de esta materia en un nivel básico. Al final se incluye un listado de referencias que pueden ser de utilidad si el lector o lectora no tiene mucha experiencia con lo que acabo de mencionar. En particular *R para ciencia de datos* es un excelente punto de partida para aprender a utilizar *R* y `tidyverse`.  
+Para seguir este manual sin problemas se necesita ser un usuario de *R* con cierta experiencia. Al menos recomiendo saber lo básico de este lenguaje de programación, lo que sin duda incluye saber definir objetos y funciones, instalar y utilizar paquetes, así como la utilización de los paquetes incluidos en `tidyverse`. De forma opcional, también recomiendo utilizar *R Studio*, lo que facilita el trabajo con *R* de muchas formas. El primer capítulo de este manual aborda operaciones de álgebra lineal, por lo que recomiendo tener nociones de esta materia en un nivel básico. Al final se incluye un listado de referencias que pueden ser de utilidad si el lector o lectora no tiene mucha experiencia con lo que acabo de mencionar. En particular *R para ciencia de datos* es un excelente punto de partida para aprender a utilizar *R* y `tidyverse`.
 
-Cabe destacar que este manual hace énfasis en la utilización del *PCA* como una metodología para explorar datos, con ejemplos concretos en análisis de vinos, genómica y metabalómica de plantas. El *PCA* también puede utilizarse en *Machine learning* con el objetivo de reducir las dimensiones y peso de los datos y de esta forma acelerar el proceso en conjunto. Nada de esto último se aborda en este manual.  
+Cabe destacar que este manual hace énfasis en la utilización del *PCA* como una metodología para explorar datos, con ejemplos concretos en análisis de vinos, genómica y metabalómica de plantas. El *PCA* también puede utilizarse en *Machine learning* con el objetivo de reducir las dimensiones y peso de los datos y de esta forma acelerar el proceso en conjunto. Nada de esto último se aborda en este manual.
 
-Los capítulos en este manual son básicamente traducciones y adaptaciones de las publicaciones originales en mi blog <a href="https://r-inthelab.net/" target="_blank">*R in the lab*</a>. Al igual que en mi blog, todo el contenido de este manual está bajo licencia [Creative Commons Attribution 4.0 International License][cc-by]. Lo anterior implica que las personas que accedan a este manual pueden copiar, modificar y usar el texto, el código y las figuras con cualquier fin, siempre y cuando se haga la adecuada mención a la publicación original.   
+Los capítulos en este manual son básicamente traducciones y adaptaciones de las publicaciones originales en mi blog <a href="https://r-inthelab.net/" target="_blank">*R in the lab*</a>. Al igual que en mi blog, todo el contenido de este manual está bajo licencia [Creative Commons Attribution 4.0 International License](http://creativecommons.org/licenses/by/4.0/). Lo anterior implica que las personas que accedan a este manual pueden descargar, copiar, modificar y usar el texto, el código y las figuras con cualquier fin, siempre y cuando se haga la adecuada mención a la publicación original.
+
+El repositorio del libro con todo el código, texto y figuras para su creación se encuentran en el repositorio: \<a href=""<https://github.com/ciencia-libre/Manual-PCA>" target="\_blank"\>Manual PCA</a>.
 
 ## Un poco acerca del autor
 
-Me gustaría resaltar que yo, el autor de este manual, no me especializo ni me dedico formalmente a la ciencia de datos, por lo que posiblemente el contenido de esta publicación no estará libre de omisiones o errores. Lo que sí puedo afirmar es que llevó unos seis años utilizando *R* y *R Studio* y también, a lo largo de todo este tiempo, he aprendido a utilizar diversas herramientas relacionadas con el análisis de datos y con la creación de *Shiny Apps* y blogs. Este es mi primer intento de realizar una publicación tipo manual con la ayuda del paquete *bookdown*. Me considero alguien autodidacta y sé bien que el conocimiento solo se puede asimilar realmente al compartir eso que acabas de aprender. Este manual y todas mis publicaciones son un intento por compartir y contribuir a mi comunidad. Donde quiera que estés y quienquiera que seas espero que todo lo abordado en cada capítulo te sea de utilidad y te contagié un poco de mi pasión por aprender. ¡Ojalá lea algo tuyo muy pronto, no dudes en compartirlo!   
+Me gustaría resaltar que yo, el autor de este manual, no me especializo ni me dedico formalmente a la ciencia de datos, por lo que posiblemente el contenido de esta publicación no estará libre de omisiones o errores. Lo que sí puedo afirmar es que llevó unos seis años utilizando *R* y *R Studio* y también, a lo largo de todo este tiempo, he aprendido a utilizar diversas herramientas relacionadas con el análisis de datos y con la creación de *Shiny Apps* y blogs. Este es mi primer intento de realizar una publicación tipo manual con la ayuda del paquete *bookdown*. Me considero alguien autodidacta y sé bien que el conocimiento solo se puede asimilar realmente al compartir eso que acabas de aprender. Este manual y todas mis publicaciones son un intento por compartir y contribuir a mi comunidad. Donde quiera que estés y quienquiera que seas espero que todo lo abordado en cada capítulo te sea de utilidad y te contagié un poco de mi pasión por aprender. ¡Ojalá lea algo tuyo muy pronto, no dudes en compartirlo!
 
-Por favor, si detectas cualquier tipo de error o tienes cualquier tipo de duda sobre el contenido de este manual contáctame a través de mi correo electrónico (jpch_26@outlook.com) o facebook (https://www.facebook.com/jpch26). También puedo echarte una mano con tu aprendizaje de R y R Studio a un nivel básico 😉. 
+Por favor, si detectas cualquier tipo de error o tienes cualquier tipo de duda sobre el contenido de este manual contáctame a través de mi correo electrónico ([jpch_26\@outlook.com](mailto:jpch_26@outlook.com){.email}) o facebook (<https://www.facebook.com/jpch26>). También puedo echarte una mano con tu aprendizaje de R y R Studio a un nivel básico 😉.
 
-Ya por último, si está dentro de tus posibilidades, considera invitarme un cafecito a través de mi página de ko-fi ☕: <a href="https://ko-fi.com/juanpach" target="_blank">Ko-fi de JPCH</a>. ¡Muchas gracias y hasta la próxima!  
+Ya por último, si está dentro de tus posibilidades, considera invitarme un cafecito a través de mi página de ko-fi ☕: <a href="https://ko-fi.com/juanpach" target="_blank">Ko-fi de JPCH</a>. ¡Muchas gracias y hasta la próxima!
 
 ## Paquetes utilizados para la escritura de este manual
 
@@ -204,5 +206,3 @@ Para la creación de este manual se utilizaron los paquetes listados a continuac
 ## 
 ## ──────────────────────────────────────────────────────────────────────────────
 ```
-
-[cc-by]: http://creativecommons.org/licenses/by/4.0/
