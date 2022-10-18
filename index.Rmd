@@ -19,7 +19,7 @@ Cabe destacar que este manual hace énfasis en la utilización del *PCA* como un
 
 Los capítulos en este manual son básicamente traducciones y adaptaciones de las publicaciones originales en mi blog <a href="https://r-inthelab.net/" target="_blank">*R in the lab*</a>. Al igual que en mi blog, todo el contenido de este manual está bajo licencia [Creative Commons Attribution 4.0 International License](http://creativecommons.org/licenses/by/4.0/). Lo anterior implica que las personas que accedan a este manual pueden descargar, copiar, modificar y usar el texto, el código y las figuras con cualquier fin, siempre y cuando se haga la adecuada mención a la publicación original.
 
-El repositorio del libro con todo el código, texto y figuras para su creación se encuentran en el repositorio: \<a href="<https://github.com/ciencia-libre/Manual-PCA>" target="\_blank"\>Manual PCA</a>.
+El repositorio del libro con todo el código, texto y figuras para su creación se encuentran en el repositorio: <a href="https://github.com/ciencia-libre/Manual-PCA" target="_blank">Manual PCA</a>.
 
 ## Un poco acerca del autor
 
