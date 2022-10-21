@@ -1,7 +1,7 @@
 ---
 title: "Análisis de Componentes Principales paso a paso con R"
 author: "Juan Pablo Carreón Hidalgo"
-date: "2022-10-18"
+date: "2022-10-21"
 site: bookdown::bookdown_site
 documentclass: book
 url: https://pca-paso-a-paso.netlify.app/
@@ -23,9 +23,11 @@ El repositorio del libro con todo el código, texto y figuras para su creación 
 
 ## Un poco acerca del autor
 
-Me gustaría resaltar que yo, el autor de este manual, no me especializo ni me dedico formalmente a la ciencia de datos, por lo que posiblemente el contenido de esta publicación no estará libre de omisiones o errores. Lo que sí puedo afirmar es que llevó unos seis años utilizando *R* y *R Studio* y también, a lo largo de todo este tiempo, he aprendido a utilizar diversas herramientas relacionadas con el análisis de datos y con la creación de *Shiny Apps* y blogs. Este es mi primer intento de realizar una publicación tipo manual con la ayuda del paquete *bookdown*. Me considero alguien autodidacta y sé bien que el conocimiento solo se puede asimilar realmente al compartir eso que acabas de aprender. Este manual y todas mis publicaciones son un intento por compartir y contribuir a mi comunidad. Donde quiera que estés y quienquiera que seas espero que todo lo abordado en cada capítulo te sea de utilidad y te contagié un poco de mi pasión por aprender. ¡Ojalá lea algo tuyo muy pronto, no dudes en compartirlo!
+Me gustaría resaltar que yo, el autor de este manual, no me especializo ni me dedico formalmente a la ciencia de datos o a la estadística, por lo que posiblemente el contenido de esta publicación no estará libre de omisiones o errores. Lo que sí puedo afirmar es que llevó unos seis años utilizando *R* y *R Studio* y a lo largo de todo este tiempo, he aprendido a utilizar diversas herramientas relacionadas con el análisis de datos, con la porgramación de *Shiny Apps* y la creación de blogs. También tengo un certificado profesional por *HarvardX* que puedes consultar en el siguiente enlace: <a href="https://credentials.edx.org/credentials/9a960e8e8f9b42a39bb4695935dd7031/" target="_blank">Data Analysis for Life Sciences</a>.
 
-Por favor, si detectas cualquier tipo de error o tienes cualquier tipo de duda sobre el contenido de este manual contáctame a través de mi correo electrónico ([jpch_26\@outlook.com](mailto:jpch_26@outlook.com){.email}) o facebook (<https://www.facebook.com/jpch26>). También puedo echarte una mano con tu aprendizaje de R y R Studio a un nivel básico 😉.
+Este es mi primer intento de realizar una publicación tipo manual con la ayuda del paquete *bookdown*. Me considero alguien autodidacta y sé bien que el conocimiento solo se puede asimilar realmente al compartir eso que acabas de aprender. Este manual y todas mis publicaciones son un intento por compartir y contribuir a mi comunidad. Donde quiera que estés y quienquiera que seas espero que todo lo abordado en cada capítulo te sea de utilidad y te contagié un poco de mi pasión por aprender. ¡Ojalá lea algo tuyo muy pronto, no dudes en compartirlo!
+
+Por favor, si detectas cualquier tipo de error o tienes cualquier tipo de duda sobre el contenido de este manual contáctame a través de mi correo electrónico ([jpch_26\@outlook.com](mailto:jpch_26@outlook.com){.email}) o facebook (<https://www.facebook.com/jpch26>). También puedo echarte una mano con tu aprendizaje de *R* y *R Studio* a un nivel básico 😉.
 
 Ya por último, si está dentro de tus posibilidades, considera invitarme un cafecito a través de mi página de ko-fi ☕: <a href="https://ko-fi.com/juanpach" target="_blank">Ko-fi de JPCH</a>. ¡Muchas gracias y hasta la próxima!
 
@@ -45,7 +47,7 @@ Para la creación de este manual se utilizaron los paquetes listados a continuac
 ##  collate  Spanish_Mexico.utf8
 ##  ctype    Spanish_Mexico.utf8
 ##  tz       America/Mexico_City
-##  date     2022-10-18
+##  date     2022-10-21
 ##  pandoc   2.18 @ C:/Program Files/RStudio/bin/quarto/bin/tools/ (via rmarkdown)
 ## 
 ## ─ Packages ───────────────────────────────────────────────────────────────────
