@@ -23,7 +23,7 @@
 <meta name="author" content="Juan Pablo Carreón Hidalgo" />
 
 
-<meta name="date" content="2022-10-21" />
+<meta name="date" content="2022-10-22" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -266,31 +266,31 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="algunas-operaciones-básicas-de-álgebra-lineal" class="section level1 hasAnchor" number="2">
 <h1><span class="header-section-number"> 2</span> Algunas operaciones básicas de álgebra lineal<a href="algunas-operaciones-básicas-de-álgebra-lineal.html#algunas-operaciones-básicas-de-álgebra-lineal" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p>En este capítulo veremos algunas operaciones de álgebra lineal. Esto será suficiente para posteriormente abordar el análisis de componentes principales desde sus bases. Si la momento de leer este capítulo no tienes mucha o ninguna experiencia con esta rama de las matemáticas, te recomiendo publicaciones como <em>Nociones de geometría analítica y álgebra lineal</em> o canales en <em>YouTube</em> como <em>3Blue1Brown</em> (solo en inglés, pero con subtítulos en español).</p>
+<p>En este capítulo veremos algunas operaciones de álgebra lineal. Esto será suficiente para posteriormente abordar el análisis de componentes principales desde sus bases. Si no tienes mucha o ninguna experiencia con esta rama de las matemáticas, te recomiendo publicaciones como <em>Nociones de geometría analítica y álgebra lineal</em> o canales en <em>YouTube</em> como <em>3Blue1Brown</em> (solo en inglés, pero con subtítulos en español).</p>
 <div id="operaciones-con-vectores" class="section level2 hasAnchor" number="2.1">
 <h2><span class="header-section-number">2.1</span> Operaciones con vectores<a href="algunas-operaciones-básicas-de-álgebra-lineal.html#operaciones-con-vectores" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <div id="crear-vectores" class="section level3 hasAnchor" number="2.1.1">
 <h3><span class="header-section-number">2.1.1</span> Crear vectores<a href="algunas-operaciones-básicas-de-álgebra-lineal.html#crear-vectores" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>En <em>R</em> podemos definir vectores numéricos de manera muy sencilla con la función <code>c()</code>.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb2-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">30</span>, <span class="dv">20</span>, <span class="dv">40</span>, <span class="dv">10</span>)</span>
-<span id="cb2-2"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb2-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">20</span>, <span class="dv">15</span>, <span class="dv">18</span>, <span class="dv">40</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb1-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">30</span>, <span class="dv">20</span>, <span class="dv">40</span>, <span class="dv">10</span>)</span>
+<span id="cb1-2"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb1-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">20</span>, <span class="dv">15</span>, <span class="dv">18</span>, <span class="dv">40</span>)</span></code></pre></div>
 </div>
 <div id="suma-de-vectores" class="section level3 hasAnchor" number="2.1.2">
 <h3><span class="header-section-number">2.1.2</span> Suma de vectores<a href="algunas-operaciones-básicas-de-álgebra-lineal.html#suma-de-vectores" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Para sumar un par de vectores utilizamos el operador <code>+</code> de la manera usual. Nota que cada elemento en el vector <code>x</code> se suma con el elemento en la misma posición que en el vector <code>y</code>.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb3-1" aria-hidden="true" tabindex="-1"></a>x <span class="sc">+</span> y</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb2-1" aria-hidden="true" tabindex="-1"></a>x <span class="sc">+</span> y</span></code></pre></div>
 <pre><code>## [1] 50 35 58 50</code></pre>
 <p>En <em>R</em>, si intentamos sumar vectores con una longitud distinta, los elementos del vector más pequeño se reciclan para corresponder con el número de elementos del vector de mayor longitud. Esto se ve más claramente al realizar la operación en la consola de <em>R</em>.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Vector con dos elementos</span></span>
-<span id="cb5-2"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb5-2" aria-hidden="true" tabindex="-1"></a>v2 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">40</span>)</span>
-<span id="cb5-3"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-4"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb5-4" aria-hidden="true" tabindex="-1"></a>x <span class="sc">+</span> v2</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Vector con dos elementos</span></span>
+<span id="cb4-2"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb4-2" aria-hidden="true" tabindex="-1"></a>v2 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">40</span>)</span>
+<span id="cb4-3"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb4-4" aria-hidden="true" tabindex="-1"></a>x <span class="sc">+</span> v2</span></code></pre></div>
 <pre><code>## [1] 40 60 50 50</code></pre>
 <p>El vector <code>v2</code> se utilizó dos veces de la forma <code>c(10, 40, 10, 40)</code> para corresponder con los elementos de <code>x</code>. Si el vector más largo tiene un número de elementos que no es un múltiplo del número de elementos del vector más pequeño, <em>R</em> desplegará un mensaje de advertencia.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Vector con tres elementos</span></span>
-<span id="cb7-2"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb7-2" aria-hidden="true" tabindex="-1"></a>v3 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">40</span>, <span class="dv">15</span>)</span>
-<span id="cb7-3"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-4"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb7-4" aria-hidden="true" tabindex="-1"></a>x <span class="sc">+</span> v3</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Vector con tres elementos</span></span>
+<span id="cb6-2"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb6-2" aria-hidden="true" tabindex="-1"></a>v3 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">40</span>, <span class="dv">15</span>)</span>
+<span id="cb6-3"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb6-4" aria-hidden="true" tabindex="-1"></a>x <span class="sc">+</span> v3</span></code></pre></div>
 <pre><code>## Warning in x + v3: longitud de objeto mayor no es múltiplo de la longitud de uno
 ## menor</code></pre>
 <pre><code>## [1] 40 60 55 20</code></pre>
@@ -299,45 +299,45 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="multiplicación-de-un-vector-por-un-escalar" class="section level3 hasAnchor" number="2.1.3">
 <h3><span class="header-section-number">2.1.3</span> Multiplicación de un vector por un escalar<a href="algunas-operaciones-básicas-de-álgebra-lineal.html#multiplicación-de-un-vector-por-un-escalar" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Para multiplicar un vector por un escalar utilizamos el operador <code>*</code>.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="dv">100</span> <span class="sc">*</span> x</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="dv">100</span> <span class="sc">*</span> x</span></code></pre></div>
 <pre><code>## [1] 3000 2000 4000 1000</code></pre>
 <p>Aquí cada elemento en <code>x</code> se multiplicó por nuestro escalar <code>100</code>.</p>
 </div>
 <div id="producto-punto-o-producto-interno" class="section level3 hasAnchor" number="2.1.4">
 <h3><span class="header-section-number">2.1.4</span> Producto punto o producto interno<a href="algunas-operaciones-básicas-de-álgebra-lineal.html#producto-punto-o-producto-interno" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Para obtener el producto interno o producto punto de dos vectores, utilizamos el operador <code>%*%</code>.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb12-1" aria-hidden="true" tabindex="-1"></a>z <span class="ot">&lt;-</span> x <span class="sc">%*%</span> y</span>
-<span id="cb12-2"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb12-2" aria-hidden="true" tabindex="-1"></a>z</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb11-1" aria-hidden="true" tabindex="-1"></a>z <span class="ot">&lt;-</span> x <span class="sc">%*%</span> y</span>
+<span id="cb11-2"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb11-2" aria-hidden="true" tabindex="-1"></a>z</span></code></pre></div>
 <pre><code>##      [,1]
 ## [1,] 2020</code></pre>
 <p>Esta operación devuelve un objeto de las clases matriz y arreglo, o <code>matrix</code> y <code>array</code> en inglés.</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(z)</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(z)</span></code></pre></div>
 <pre><code>## [1] &quot;matrix&quot; &quot;array&quot;</code></pre>
 <p>Para obtener solo el valor numérico, utilizamos la función <code>as.numeric()</code>.</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as.numeric</span>(z)</span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as.numeric</span>(z)</span></code></pre></div>
 <pre><code>## [1] 2020</code></pre>
 <p>De manera un poco extendida o desglosada, al realizar el producto punto entre dos vectores cada elemento en el vector <code>x</code> se multiplica por el elemento en la misma posición que en el vector <code>y</code> y posteriormente cada producto se suma para obtener el total. En la consola de <em>R</em> lo anterior podría definirse de la siguiente forma.</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Vectores &quot;x&quot; y &quot;y&quot;</span></span>
-<span id="cb18-2"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb18-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">30</span>, <span class="dv">20</span>, <span class="dv">40</span>, <span class="dv">10</span>)</span>
-<span id="cb18-3"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb18-3" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">20</span>, <span class="dv">15</span>, <span class="dv">18</span>, <span class="dv">40</span>)</span>
-<span id="cb18-4"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb18-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-5"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Producto punto desglosado</span></span>
-<span id="cb18-6"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="dv">30</span><span class="sc">*</span><span class="dv">20</span> <span class="sc">+</span> <span class="dv">20</span><span class="sc">*</span><span class="dv">15</span> <span class="sc">+</span> <span class="dv">40</span><span class="sc">*</span><span class="dv">18</span> <span class="sc">+</span> <span class="dv">10</span><span class="sc">*</span><span class="dv">40</span></span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Vectores &quot;x&quot; y &quot;y&quot;</span></span>
+<span id="cb17-2"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb17-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">30</span>, <span class="dv">20</span>, <span class="dv">40</span>, <span class="dv">10</span>)</span>
+<span id="cb17-3"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb17-3" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">20</span>, <span class="dv">15</span>, <span class="dv">18</span>, <span class="dv">40</span>)</span>
+<span id="cb17-4"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb17-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-5"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Producto punto desglosado</span></span>
+<span id="cb17-6"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="dv">30</span><span class="sc">*</span><span class="dv">20</span> <span class="sc">+</span> <span class="dv">20</span><span class="sc">*</span><span class="dv">15</span> <span class="sc">+</span> <span class="dv">40</span><span class="sc">*</span><span class="dv">18</span> <span class="sc">+</span> <span class="dv">10</span><span class="sc">*</span><span class="dv">40</span></span></code></pre></div>
 <pre><code>## [1] 2020</code></pre>
 <p>También debemos resaltar que los vectores deben tener el mismo número de elementos. De otra forma <em>R</em> nos mostrará un mensaje de error.</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb20-1" aria-hidden="true" tabindex="-1"></a>x <span class="sc">%*%</span> v2</span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb19-1" aria-hidden="true" tabindex="-1"></a>x <span class="sc">%*%</span> v2</span></code></pre></div>
 <pre><code>## Error in x %*% v2: argumentos no compatibles</code></pre>
 </div>
 <div id="norma-o-magnitud-de-un-vector" class="section level3 hasAnchor" number="2.1.5">
 <h3><span class="header-section-number">2.1.5</span> Norma o magnitud de un vector<a href="algunas-operaciones-básicas-de-álgebra-lineal.html#norma-o-magnitud-de-un-vector" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Para obtener la magnitud o <em>norma</em> de una vector podemos obtener la raíz cuadrada del producto punto del vector por sí mismo.</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sqrt</span>(x <span class="sc">%*%</span> x)</span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sqrt</span>(x <span class="sc">%*%</span> x)</span></code></pre></div>
 <pre><code>##          [,1]
 ## [1,] 54.77226</code></pre>
 <p>También podemos utilizar la función <code>norm()</code>, pero primero debemos asegurarnos que nuestro vector posea la clase matriz.</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb24-1" aria-hidden="true" tabindex="-1"></a>x_m <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(x)</span>
-<span id="cb24-2"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb24-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-3"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="fu">norm</span>(x_m, <span class="at">type =</span> <span class="st">&quot;F&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb23-1" aria-hidden="true" tabindex="-1"></a>x_m <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(x)</span>
+<span id="cb23-2"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-3"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="fu">norm</span>(x_m, <span class="at">type =</span> <span class="st">&quot;F&quot;</span>)</span></code></pre></div>
 <pre><code>## [1] 54.77226</code></pre>
 </div>
 </div>
@@ -346,22 +346,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="definir-matrices" class="section level3 hasAnchor" number="2.2.1">
 <h3><span class="header-section-number">2.2.1</span> Definir matrices<a href="algunas-operaciones-básicas-de-álgebra-lineal.html#definir-matrices" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Para definir una matriz en <em>R</em> usamos la función <code>matrix()</code> con un vector numérico como argumento.</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define un vector numérico</span></span>
-<span id="cb26-2"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb26-2" aria-hidden="true" tabindex="-1"></a>v_n <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">7</span>, <span class="sc">-</span><span class="dv">6</span>, <span class="dv">12</span>, <span class="dv">8</span>)</span>
-<span id="cb26-3"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb26-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-4"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Define la matriz</span></span>
-<span id="cb26-5"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb26-5" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">matrix</span>(</span>
-<span id="cb26-6"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb26-6" aria-hidden="true" tabindex="-1"></a>  v_n,</span>
-<span id="cb26-7"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb26-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">nrow =</span> <span class="dv">2</span>,     <span class="co"># Número de renglones en nuestra matriz</span></span>
-<span id="cb26-8"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb26-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">byrow =</span> <span class="cn">TRUE</span>, <span class="co"># Ordenar cada elemento por renglón</span></span>
-<span id="cb26-9"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb26-9" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb26-10"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb26-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-11"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb26-11" aria-hidden="true" tabindex="-1"></a>m</span></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define un vector numérico</span></span>
+<span id="cb25-2"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb25-2" aria-hidden="true" tabindex="-1"></a>v_n <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">7</span>, <span class="sc">-</span><span class="dv">6</span>, <span class="dv">12</span>, <span class="dv">8</span>)</span>
+<span id="cb25-3"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb25-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-4"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Define la matriz</span></span>
+<span id="cb25-5"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb25-5" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">matrix</span>(</span>
+<span id="cb25-6"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb25-6" aria-hidden="true" tabindex="-1"></a>  v_n,</span>
+<span id="cb25-7"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb25-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">nrow =</span> <span class="dv">2</span>,     <span class="co"># Número de renglones en nuestra matriz</span></span>
+<span id="cb25-8"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb25-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">byrow =</span> <span class="cn">TRUE</span>, <span class="co"># Ordenar cada elemento por renglón</span></span>
+<span id="cb25-9"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb25-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb25-10"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb25-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-11"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb25-11" aria-hidden="true" tabindex="-1"></a>m</span></code></pre></div>
 <pre><code>##      [,1] [,2]
 ## [1,]    7   -6
 ## [2,]   12    8</code></pre>
 <p>Si el argumento <code>byrow</code> se establece como falso (<code>FALSE</code>), los elementos se ordenarán por columna.</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">matrix</span>(v_n, <span class="at">nrow =</span> <span class="dv">2</span>, <span class="at">byrow =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">matrix</span>(v_n, <span class="at">nrow =</span> <span class="dv">2</span>, <span class="at">byrow =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
 <pre><code>##      [,1] [,2]
 ## [1,]    7   12
 ## [2,]   -6    8</code></pre>
@@ -369,82 +369,82 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="multiplicar-una-matriz-por-un-vector" class="section level3 hasAnchor" number="2.2.2">
 <h3><span class="header-section-number">2.2.2</span> Multiplicar una matriz por un vector<a href="algunas-operaciones-básicas-de-álgebra-lineal.html#multiplicar-una-matriz-por-un-vector" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Para multiplicar una matriz por un vector utilizamos el operador <code>%*%</code>. Debemos cuidar que el número de elementos del vector sea igual al número de columnas en nuestra matriz.</p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define una matriz</span></span>
-<span id="cb30-2"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb30-2" aria-hidden="true" tabindex="-1"></a>m2 <span class="ot">&lt;-</span> <span class="fu">matrix</span>(</span>
-<span id="cb30-3"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb30-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="dv">8</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">3</span>, <span class="dv">1</span>, <span class="dv">2</span>),</span>
-<span id="cb30-4"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb30-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">nrow =</span> <span class="dv">3</span>,</span>
-<span id="cb30-5"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb30-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">byrow =</span> <span class="cn">TRUE</span></span>
-<span id="cb30-6"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb30-6" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb30-7"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb30-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-8"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb30-8" aria-hidden="true" tabindex="-1"></a>m2</span></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define una matriz</span></span>
+<span id="cb29-2"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb29-2" aria-hidden="true" tabindex="-1"></a>m2 <span class="ot">&lt;-</span> <span class="fu">matrix</span>(</span>
+<span id="cb29-3"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb29-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="dv">8</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">3</span>, <span class="dv">1</span>, <span class="dv">2</span>),</span>
+<span id="cb29-4"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb29-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">nrow =</span> <span class="dv">3</span>,</span>
+<span id="cb29-5"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb29-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">byrow =</span> <span class="cn">TRUE</span></span>
+<span id="cb29-6"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb29-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb29-7"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb29-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-8"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb29-8" aria-hidden="true" tabindex="-1"></a>m2</span></code></pre></div>
 <pre><code>##      [,1] [,2]
 ## [1,]    8    4
 ## [2,]    5    3
 ## [3,]    1    2</code></pre>
-<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define un vector</span></span>
-<span id="cb32-2"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb32-2" aria-hidden="true" tabindex="-1"></a>z <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">4</span>)</span>
-<span id="cb32-3"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb32-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-4"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb32-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Multiplica usando %*%</span></span>
-<span id="cb32-5"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb32-5" aria-hidden="true" tabindex="-1"></a>m2 <span class="sc">%*%</span> z</span></code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define un vector</span></span>
+<span id="cb31-2"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb31-2" aria-hidden="true" tabindex="-1"></a>z <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">4</span>)</span>
+<span id="cb31-3"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb31-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-4"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb31-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Multiplica usando %*%</span></span>
+<span id="cb31-5"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb31-5" aria-hidden="true" tabindex="-1"></a>m2 <span class="sc">%*%</span> z</span></code></pre></div>
 <pre><code>##      [,1]
 ## [1,]   40
 ## [2,]   27
 ## [3,]   11</code></pre>
 <p>Como puede verse, el resultado es un <em>vector columna</em>, que no es otra cosa que un objeto de la clase matriz con una sola columna. Al realizar este tipo de multiplicación debemos recordar que el orden del producto sí importa, tanto para la multiplicación de un vector por una matriz como para el producto entre matrices. Esto lo veremos con un poco de detalle más adelante.</p>
 <p>Para calcular cada elemento en el vector que obtuvimos en el ejemplo anterior, tomamos cada renglón de la matriz y realizamos el producto punto con el vector <code>z</code>.</p>
-<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Primer renglón de la matriz</span></span>
-<span id="cb34-2"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb34-2" aria-hidden="true" tabindex="-1"></a>r1 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">8</span>, <span class="dv">4</span>)</span>
-<span id="cb34-3"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb34-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb34-4"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb34-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Segundo renglón</span></span>
-<span id="cb34-5"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb34-5" aria-hidden="true" tabindex="-1"></a>r2 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">3</span>)</span>
-<span id="cb34-6"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb34-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb34-7"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb34-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Tercer renglón</span></span>
-<span id="cb34-8"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb34-8" aria-hidden="true" tabindex="-1"></a>r3 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>)</span>
-<span id="cb34-9"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb34-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb34-10"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb34-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Elementos en el vector columna resultante</span></span>
-<span id="cb34-11"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb34-11" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Primer elemento:&quot;</span>, r1 <span class="sc">%*%</span> z, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Primer renglón de la matriz</span></span>
+<span id="cb33-2"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb33-2" aria-hidden="true" tabindex="-1"></a>r1 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">8</span>, <span class="dv">4</span>)</span>
+<span id="cb33-3"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb33-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-4"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb33-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Segundo renglón</span></span>
+<span id="cb33-5"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb33-5" aria-hidden="true" tabindex="-1"></a>r2 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">3</span>)</span>
+<span id="cb33-6"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb33-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-7"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb33-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Tercer renglón</span></span>
+<span id="cb33-8"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb33-8" aria-hidden="true" tabindex="-1"></a>r3 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>)</span>
+<span id="cb33-9"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb33-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-10"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb33-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Elementos en el vector columna resultante</span></span>
+<span id="cb33-11"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb33-11" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Primer elemento:&quot;</span>, r1 <span class="sc">%*%</span> z, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span></code></pre></div>
 <pre><code>## Primer elemento: 40</code></pre>
-<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Segundo elemento:&quot;</span>, r2 <span class="sc">%*%</span> z, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Segundo elemento:&quot;</span>, r2 <span class="sc">%*%</span> z, <span class="st">&quot;</span><span class="sc">\n</span><span class="st">&quot;</span>)</span></code></pre></div>
 <pre><code>## Segundo elemento: 27</code></pre>
-<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Tercer elemento:&quot;</span>, r3 <span class="sc">%*%</span> z)</span></code></pre></div>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Tercer elemento:&quot;</span>, r3 <span class="sc">%*%</span> z)</span></code></pre></div>
 <pre><code>## Tercer elemento: 11</code></pre>
 </div>
 <div id="multiplicación-de-matrices" class="section level3 hasAnchor" number="2.2.3">
 <h3><span class="header-section-number">2.2.3</span> Multiplicación de matrices<a href="algunas-operaciones-básicas-de-álgebra-lineal.html#multiplicación-de-matrices" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Para multiplicar dos matrices utilizamos el operador <code>%*%</code>. También debemos asegurarnos de que el número de columnas en la primera matriz sea igual número de renglones en la segunda.</p>
-<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Una matriz de dos renglones y tres columnas (2 X 3)</span></span>
-<span id="cb40-2"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb40-2" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">0</span>, <span class="dv">1</span>), <span class="at">nrow =</span> <span class="dv">2</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb40-3"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb40-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-4"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb40-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Una matriz de tres renglones y tres columnas (3 X 3)</span></span>
-<span id="cb40-5"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb40-5" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>), <span class="at">nrow =</span> <span class="dv">3</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb40-6"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb40-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-7"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb40-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Producto de ambas matrices</span></span>
-<span id="cb40-8"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb40-8" aria-hidden="true" tabindex="-1"></a>A <span class="sc">%*%</span> B</span></code></pre></div>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Una matriz de dos renglones y tres columnas (2 X 3)</span></span>
+<span id="cb39-2"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb39-2" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">0</span>, <span class="dv">1</span>), <span class="at">nrow =</span> <span class="dv">2</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb39-3"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb39-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-4"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb39-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Una matriz de tres renglones y tres columnas (3 X 3)</span></span>
+<span id="cb39-5"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb39-5" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>), <span class="at">nrow =</span> <span class="dv">3</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb39-6"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb39-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-7"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb39-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Producto de ambas matrices</span></span>
+<span id="cb39-8"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb39-8" aria-hidden="true" tabindex="-1"></a>A <span class="sc">%*%</span> B</span></code></pre></div>
 <pre><code>##      [,1] [,2] [,3]
 ## [1,]    4    3    5
 ## [2,]    5    4    1</code></pre>
 <p>De manera desglosada, cada elemento en la matriz resultante se calculó realizando el producto punto entre cada renglón de la matriz <code>A</code> por cada columna de la matriz <code>B</code>. Por ejemplo, calculemos el primer elemento, el número 4, en el resultado anterior.</p>
-<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Primer renglón de la matriz A</span></span>
-<span id="cb42-2"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb42-2" aria-hidden="true" tabindex="-1"></a>ar_1 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>)</span>
-<span id="cb42-3"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb42-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb42-4"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb42-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Primera columna de la matriz B</span></span>
-<span id="cb42-5"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb42-5" aria-hidden="true" tabindex="-1"></a>bc_1 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>)</span>
-<span id="cb42-6"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb42-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb42-7"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb42-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Producto punto entre ambos vectores</span></span>
-<span id="cb42-8"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb42-8" aria-hidden="true" tabindex="-1"></a>ar_1 <span class="sc">%*%</span> bc_1</span></code></pre></div>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Primer renglón de la matriz A</span></span>
+<span id="cb41-2"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb41-2" aria-hidden="true" tabindex="-1"></a>ar_1 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>)</span>
+<span id="cb41-3"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb41-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-4"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb41-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Primera columna de la matriz B</span></span>
+<span id="cb41-5"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb41-5" aria-hidden="true" tabindex="-1"></a>bc_1 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb41-6"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb41-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-7"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb41-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Producto punto entre ambos vectores</span></span>
+<span id="cb41-8"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb41-8" aria-hidden="true" tabindex="-1"></a>ar_1 <span class="sc">%*%</span> bc_1</span></code></pre></div>
 <pre><code>##      [,1]
 ## [1,]    4</code></pre>
 <p>Lo anterior se repite para obtener cada elemento de la matriz resultante. De manera general si la primera matriz tiene <em>a</em> renglones y <em>b</em> columnas (una matriz <em>a X b</em>) y la segunda matriz tiene <em>b</em> columnas y <em>c</em> renglones (una matriz <em>b X c</em>), la matriz que obtengamos de la multiplicación de ambas tendrá <em>a</em> renglones y <em>c</em> columnas (una matriz <em>a X c</em>).</p>
 <p>Pare terminar esta sección, retomemos lo que mencioné anteriormente, el orden de los factores en la multiplicación de matrices si altera el resultado. Esto se puede demostrar fácilmente definiendo un par de matrices de 2 X 2 (dos renglones y dos columnas).</p>
-<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb44-1" aria-hidden="true" tabindex="-1"></a>C <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">6</span>, <span class="dv">0</span>), <span class="at">nrow =</span> <span class="dv">2</span>)</span>
-<span id="cb44-2"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb44-2" aria-hidden="true" tabindex="-1"></a>D <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">0</span>, <span class="dv">9</span>), <span class="at">nrow =</span> <span class="dv">2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb43-1" aria-hidden="true" tabindex="-1"></a>C <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">6</span>, <span class="dv">0</span>), <span class="at">nrow =</span> <span class="dv">2</span>)</span>
+<span id="cb43-2"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb43-2" aria-hidden="true" tabindex="-1"></a>D <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">0</span>, <span class="dv">9</span>), <span class="at">nrow =</span> <span class="dv">2</span>)</span></code></pre></div>
 <p>La multiplicación <code>C %*% D</code>:</p>
-<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb45-1" aria-hidden="true" tabindex="-1"></a>C <span class="sc">%*%</span> D</span></code></pre></div>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb44-1" aria-hidden="true" tabindex="-1"></a>C <span class="sc">%*%</span> D</span></code></pre></div>
 <pre><code>##      [,1] [,2]
 ## [1,]   20   54
 ## [2,]    4    0</code></pre>
 <p>La multiplicación <code>D %*% C</code>:</p>
-<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb47-1" aria-hidden="true" tabindex="-1"></a>D <span class="sc">%*%</span> C</span></code></pre></div>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb46-1" aria-hidden="true" tabindex="-1"></a>D <span class="sc">%*%</span> C</span></code></pre></div>
 <pre><code>##      [,1] [,2]
 ## [1,]    2    6
 ## [2,]   42   18</code></pre>
@@ -452,7 +452,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="multiplicación-de-un-escalar-por-una-matriz" class="section level3 hasAnchor" number="2.2.4">
 <h3><span class="header-section-number">2.2.4</span> Multiplicación de un escalar por una matriz<a href="algunas-operaciones-básicas-de-álgebra-lineal.html#multiplicación-de-un-escalar-por-una-matriz" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>La multiplicación de un escalar por una matriz se hace de la misma forma que para vectores.</p>
-<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="dv">100</span> <span class="sc">*</span> A</span></code></pre></div>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="dv">100</span> <span class="sc">*</span> A</span></code></pre></div>
 <pre><code>##      [,1] [,2] [,3]
 ## [1,]  100  200  300
 ## [2,]  400    0  100</code></pre>
@@ -461,12 +461,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h3><span class="header-section-number">2.2.5</span> Transpuesta de una matriz<a href="algunas-operaciones-básicas-de-álgebra-lineal.html#transpuesta-de-una-matriz" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Para obtener la <em>transpuesta</em> de una matriz usamos la función <code>t()</code>. Esta operación solo “intercambia” los renglones y columnas en la matriz original. Cada renglón pasa a ser una columna o viceversa, cada columna pasa a ser un renglón.</p>
 <p>Matriz original:</p>
-<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb51-1" aria-hidden="true" tabindex="-1"></a>A</span></code></pre></div>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb50-1" aria-hidden="true" tabindex="-1"></a>A</span></code></pre></div>
 <pre><code>##      [,1] [,2] [,3]
 ## [1,]    1    2    3
 ## [2,]    4    0    1</code></pre>
 <p>Matriz transpuesta:</p>
-<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t</span>(A)</span></code></pre></div>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t</span>(A)</span></code></pre></div>
 <pre><code>##      [,1] [,2]
 ## [1,]    1    4
 ## [2,]    2    0
@@ -475,8 +475,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="matriz-identidad" class="section level3 hasAnchor" number="2.2.6">
 <h3><span class="header-section-number">2.2.6</span> Matriz identidad<a href="algunas-operaciones-básicas-de-álgebra-lineal.html#matriz-identidad" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>En ocasiones puede ser útil definir una matriz <em>identidad</em> o <em>diagonal</em>. Para esto utilizamos la función <code>diag()</code>.</p>
-<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb55-1" aria-hidden="true" tabindex="-1"></a>I <span class="ot">&lt;-</span> <span class="fu">diag</span>(<span class="at">nrow =</span> <span class="dv">5</span>)</span>
-<span id="cb55-2"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb55-2" aria-hidden="true" tabindex="-1"></a>I</span></code></pre></div>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb54-1" aria-hidden="true" tabindex="-1"></a>I <span class="ot">&lt;-</span> <span class="fu">diag</span>(<span class="at">nrow =</span> <span class="dv">5</span>)</span>
+<span id="cb54-2"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb54-2" aria-hidden="true" tabindex="-1"></a>I</span></code></pre></div>
 <pre><code>##      [,1] [,2] [,3] [,4] [,5]
 ## [1,]    1    0    0    0    0
 ## [2,]    0    1    0    0    0
@@ -489,34 +489,34 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h3><span class="header-section-number">2.2.7</span> Valores y vectores propios de una matriz<a href="algunas-operaciones-básicas-de-álgebra-lineal.html#valores-y-vectores-propios-de-una-matriz" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>La obtención de los valores y vectores propios de una matriz resulta una operación central al realizar análisis de componentes principales.</p>
 <p>De manera muy general, podemos pensar en una matriz como una función que puede modificar la dirección y magnitud de un vector o vectores dados. Por ejemplo, si definimos una matriz con dos columnas y dos renglones, esta podrá multiplicarse por vectores de dos elementos. Dichos vectores, a excepción del vector (0, 0), verán modificada su dirección y posiblemente su magnitud dependiendo de los elementos de la matriz.</p>
-<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb57-1" aria-hidden="true" tabindex="-1"></a>M  <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="sc">-</span><span class="dv">1</span>), <span class="at">nrow =</span> <span class="dv">2</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb57-2"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb57-2" aria-hidden="true" tabindex="-1"></a>v4 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">4</span>)</span>
-<span id="cb57-3"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb57-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb57-4"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb57-4" aria-hidden="true" tabindex="-1"></a>v4 <span class="sc">%*%</span> M</span></code></pre></div>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb56-1" aria-hidden="true" tabindex="-1"></a>M  <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="sc">-</span><span class="dv">1</span>), <span class="at">nrow =</span> <span class="dv">2</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb56-2"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb56-2" aria-hidden="true" tabindex="-1"></a>v4 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">4</span>)</span>
+<span id="cb56-3"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb56-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-4"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb56-4" aria-hidden="true" tabindex="-1"></a>v4 <span class="sc">%*%</span> M</span></code></pre></div>
 <pre><code>##      [,1] [,2]
 ## [1,]   16   -4</code></pre>
 <p>En el ejemplo anterior, el vector resultante tiene coordenadas o elementos distintos, y si obtenemos la norma o magnitud de ambos vectores en este caso también resultarán diferentes.</p>
 <p>Ahora bien, un <em>vector propio</em> no verá modificada su dirección al multiplicarse por una matriz y en cuanto a su magnitud, esta podrá aumentar o disminuir por una constante o constantes dadas. Dichas constantes son los <em>valores propios</em>. Para decirlo de otra manera, los vectores propios son una especie de ejes que permanecen inmóviles al multiplicarse por un matriz y estos solo se estiran o contraen dependiendo de los valores propios.</p>
 <p>En <em>R</em> para obtener los vectores y valores propios de una matriz, utilizamos la función <code>eigen()</code>. Para nuestro ejemplo, definamos una matriz pequeña de dos renglones y dos columnas.</p>
-<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb59-1" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">0</span>, <span class="dv">5</span>), <span class="at">nrow =</span> <span class="dv">2</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb59-2"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb59-2" aria-hidden="true" tabindex="-1"></a>A</span></code></pre></div>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb58-1" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">0</span>, <span class="dv">5</span>), <span class="at">nrow =</span> <span class="dv">2</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb58-2"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb58-2" aria-hidden="true" tabindex="-1"></a>A</span></code></pre></div>
 <pre><code>##      [,1] [,2]
 ## [1,]    3    4
 ## [2,]    0    5</code></pre>
 <p>Al utilizar la función <code>eigen()</code>, esta devolverá un listado con los vectores y valores propios.</p>
-<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb61-1" aria-hidden="true" tabindex="-1"></a>eA <span class="ot">&lt;-</span> <span class="fu">eigen</span>(A) </span></code></pre></div>
+<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb60-1" aria-hidden="true" tabindex="-1"></a>eA <span class="ot">&lt;-</span> <span class="fu">eigen</span>(A) </span></code></pre></div>
 <p>Para acceder a los elementos de este listados utilizamos el operador <code>$</code>. Primero guardemos los valores propios en otro objeto.</p>
-<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb62-1" aria-hidden="true" tabindex="-1"></a>eA_vls <span class="ot">&lt;-</span> eA<span class="sc">$</span>values</span>
-<span id="cb62-2"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb62-2" aria-hidden="true" tabindex="-1"></a>eA_vls</span></code></pre></div>
+<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb61-1" aria-hidden="true" tabindex="-1"></a>eA_vls <span class="ot">&lt;-</span> eA<span class="sc">$</span>values</span>
+<span id="cb61-2"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb61-2" aria-hidden="true" tabindex="-1"></a>eA_vls</span></code></pre></div>
 <pre><code>## [1] 5 3</code></pre>
 <p>Después hacemos lo mismo para los vectores.</p>
-<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb64-1" aria-hidden="true" tabindex="-1"></a>eA_vcs <span class="ot">&lt;-</span> eA<span class="sc">$</span>vectors</span>
-<span id="cb64-2"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb64-2" aria-hidden="true" tabindex="-1"></a>eA_vcs</span></code></pre></div>
+<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb63-1"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb63-1" aria-hidden="true" tabindex="-1"></a>eA_vcs <span class="ot">&lt;-</span> eA<span class="sc">$</span>vectors</span>
+<span id="cb63-2"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb63-2" aria-hidden="true" tabindex="-1"></a>eA_vcs</span></code></pre></div>
 <pre><code>##           [,1] [,2]
 ## [1,] 0.8944272    1
 ## [2,] 0.4472136    0</code></pre>
 <p>En esta matriz cada columna es un vector propio. Si tomamos el segundo vector propio y los multiplicamos por el segundo valor propio, veremos que el vector apunta al mismo lugar, pero tendrá una longitud mayor.</p>
-<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb66-1" aria-hidden="true" tabindex="-1"></a>eA_vls[<span class="dv">2</span>] <span class="sc">%*%</span> eA_vcs[, <span class="dv">2</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb65-1" aria-hidden="true" tabindex="-1"></a>eA_vls[<span class="dv">2</span>] <span class="sc">%*%</span> eA_vcs[, <span class="dv">2</span>]</span></code></pre></div>
 <pre><code>##      [,1] [,2]
 ## [1,]    3    0</code></pre>
 </div>
@@ -532,32 +532,32 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span class="math inline">\(2a + b + 2c = 23\)</span></p>
 <p>En primer lugar, definimos una matriz con los coeficientes del sistema y un vector con los resultados o constantes de cada ecuación.</p>
 <p>En el caso de los coeficientes, cada renglón corresponderá a una ecuación y cada elemento corresponderá a un término, ya sea <em>a</em>, <em>b</em> o <em>c</em>. El orden de los coeficientes en cada renglón debe ser el mismo, en este caso se sigue el orden por abecedario.</p>
-<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb68-1" aria-hidden="true" tabindex="-1"></a>MC <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">2</span>), <span class="at">nrow =</span> <span class="dv">3</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb68-2"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb68-2" aria-hidden="true" tabindex="-1"></a>MC</span></code></pre></div>
+<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb67-1"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb67-1" aria-hidden="true" tabindex="-1"></a>MC <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">2</span>), <span class="at">nrow =</span> <span class="dv">3</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb67-2"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb67-2" aria-hidden="true" tabindex="-1"></a>MC</span></code></pre></div>
 <pre><code>##      [,1] [,2] [,3]
 ## [1,]    1    1    1
 ## [2,]    3    2    1
 ## [3,]    2    1    2</code></pre>
 <p>Para el vector de constantes también seguimos el orden por ecuación.</p>
-<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb70-1" aria-hidden="true" tabindex="-1"></a>vc <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">15</span>, <span class="dv">28</span>, <span class="dv">23</span>)</span>
-<span id="cb70-2"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb70-2" aria-hidden="true" tabindex="-1"></a>vc</span></code></pre></div>
+<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb69-1"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb69-1" aria-hidden="true" tabindex="-1"></a>vc <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">15</span>, <span class="dv">28</span>, <span class="dv">23</span>)</span>
+<span id="cb69-2"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb69-2" aria-hidden="true" tabindex="-1"></a>vc</span></code></pre></div>
 <pre><code>## [1] 15 28 23</code></pre>
 <p>El siguiente paso es obtener la <em>inversa</em> de la matriz de coeficientes. Para esto usamos a la función <code>solve()</code>.</p>
-<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb72-1" aria-hidden="true" tabindex="-1"></a>MC_inv <span class="ot">&lt;-</span> <span class="fu">solve</span>(MC)</span>
-<span id="cb72-2"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb72-2" aria-hidden="true" tabindex="-1"></a>MC_inv</span></code></pre></div>
+<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb71-1"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb71-1" aria-hidden="true" tabindex="-1"></a>MC_inv <span class="ot">&lt;-</span> <span class="fu">solve</span>(MC)</span>
+<span id="cb71-2"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb71-2" aria-hidden="true" tabindex="-1"></a>MC_inv</span></code></pre></div>
 <pre><code>##      [,1] [,2] [,3]
 ## [1,] -1.5  0.5  0.5
 ## [2,]  2.0  0.0 -1.0
 ## [3,]  0.5 -0.5  0.5</code></pre>
 <p>Y finalmente, para obtener la solución, multiplicamos la inversa por el vector de coeficientes.</p>
-<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb74-1" aria-hidden="true" tabindex="-1"></a>sv <span class="ot">&lt;-</span> MC_inv <span class="sc">%*%</span> vc</span>
-<span id="cb74-2"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb74-2" aria-hidden="true" tabindex="-1"></a>sv</span></code></pre></div>
+<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb73-1" aria-hidden="true" tabindex="-1"></a>sv <span class="ot">&lt;-</span> MC_inv <span class="sc">%*%</span> vc</span>
+<span id="cb73-2"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb73-2" aria-hidden="true" tabindex="-1"></a>sv</span></code></pre></div>
 <pre><code>##      [,1]
 ## [1,]    3
 ## [2,]    7
 ## [3,]    5</code></pre>
 <p>Entonces <em>a = 3</em>, <em>b = 7</em> y <em>c = 5</em>. Para verificar nuestra solución, podemos multiplicar <em>sv</em> por la matriz de coeficientes original (<em>MC</em>), lo que dará como resultado al vector de constantes (<em>vc</em>).</p>
-<div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb76-1"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb76-1" aria-hidden="true" tabindex="-1"></a>MC <span class="sc">%*%</span> sv</span></code></pre></div>
+<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb75-1"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb75-1" aria-hidden="true" tabindex="-1"></a>MC <span class="sc">%*%</span> sv</span></code></pre></div>
 <pre><code>##      [,1]
 ## [1,]   15
 ## [2,]   28
@@ -569,35 +569,35 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="promedio" class="section level4 hasAnchor" number="2.3.2.1">
 <h4><span class="header-section-number">2.3.2.1</span> Promedio<a href="algunas-operaciones-básicas-de-álgebra-lineal.html#promedio" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>Para calcular el promedio, primero simulemos un conjunto de 100 datos. La función <code>set.seed()</code> se utiliza para asegurar que cada vez que ejecutemos el mismo ejemplo obtengamos el mismo conjunto de datos.</p>
-<div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb78-1"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">5</span>)</span>
-<span id="cb78-2"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb78-2" aria-hidden="true" tabindex="-1"></a>vd <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="dv">100</span>, <span class="at">min =</span> <span class="dv">10</span>, <span class="at">max =</span> <span class="dv">35</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb77"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb77-1"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">5</span>)</span>
+<span id="cb77-2"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb77-2" aria-hidden="true" tabindex="-1"></a>vd <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="dv">100</span>, <span class="at">min =</span> <span class="dv">10</span>, <span class="at">max =</span> <span class="dv">35</span>)</span></code></pre></div>
 <p>Para obtener el promedio, necesitamos obtener la longitud del vector anterior y definir un vector de la misma longitud que solo contenga números 1.</p>
-<div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb79-1"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb79-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Longitud (número de elementos) del vector vd</span></span>
-<span id="cb79-2"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb79-2" aria-hidden="true" tabindex="-1"></a>ld <span class="ot">&lt;-</span> <span class="fu">length</span>(vd) </span>
-<span id="cb79-3"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb79-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-4"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb79-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Vector con números 1 </span></span>
-<span id="cb79-5"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb79-5" aria-hidden="true" tabindex="-1"></a>v1 <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">1</span>, ld)</span></code></pre></div>
+<div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb78-1"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Longitud (número de elementos) del vector vd</span></span>
+<span id="cb78-2"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb78-2" aria-hidden="true" tabindex="-1"></a>ld <span class="ot">&lt;-</span> <span class="fu">length</span>(vd) </span>
+<span id="cb78-3"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb78-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb78-4"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb78-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Vector con números 1 </span></span>
+<span id="cb78-5"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb78-5" aria-hidden="true" tabindex="-1"></a>v1 <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">1</span>, ld)</span></code></pre></div>
 <p>Multiplicamos el vector con nuestros datos por el vector de números 1, lo que resultará en la suma de todos los datos, y dividimos por la longitud del vector.</p>
-<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb80-1"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb80-1" aria-hidden="true" tabindex="-1"></a>vd_promedio <span class="ot">&lt;-</span> v1 <span class="sc">%*%</span> vd <span class="sc">/</span> ld</span>
-<span id="cb80-2"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb80-2" aria-hidden="true" tabindex="-1"></a>vd_promedio</span></code></pre></div>
+<div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb79-1"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb79-1" aria-hidden="true" tabindex="-1"></a>vd_promedio <span class="ot">&lt;-</span> v1 <span class="sc">%*%</span> vd <span class="sc">/</span> ld</span>
+<span id="cb79-2"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb79-2" aria-hidden="true" tabindex="-1"></a>vd_promedio</span></code></pre></div>
 <pre><code>##          [,1]
 ## [1,] 22.96092</code></pre>
 <p>Si utilizamos la función <code>mean()</code> con el vector <em>vd</em> como argumento obtendremos el mismo resultado.</p>
-<div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb82-1"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb82-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(vd)</span></code></pre></div>
+<div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb81-1"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb81-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(vd)</span></code></pre></div>
 <pre><code>## [1] 22.96092</code></pre>
 </div>
 </div>
 <div id="varianza" class="section level3 hasAnchor" number="2.3.3">
 <h3><span class="header-section-number">2.3.3</span> Varianza<a href="algunas-operaciones-básicas-de-álgebra-lineal.html#varianza" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Para calcular la varianza del mismo conjunto de datos, primero obtenemos la diferencia entre cada dato y el promedio.</p>
-<div class="sourceCode" id="cb84"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb84-1"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb84-1" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> vd <span class="sc">-</span> <span class="fu">as.numeric</span>(vd_promedio)</span></code></pre></div>
+<div class="sourceCode" id="cb83"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb83-1"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb83-1" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> vd <span class="sc">-</span> <span class="fu">as.numeric</span>(vd_promedio)</span></code></pre></div>
 <p>Multiplicamos el vector de diferencias por sí mismo, lo que dará como resultado la suma de las diferencias al cuadrado, y dividimos entre el número de datos menos uno (los grados de libertad).</p>
-<div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb85-1"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb85-1" aria-hidden="true" tabindex="-1"></a>vd_varianza <span class="ot">&lt;-</span> d <span class="sc">%*%</span> d <span class="sc">/</span> ld <span class="sc">-</span> <span class="dv">1</span></span>
-<span id="cb85-2"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb85-2" aria-hidden="true" tabindex="-1"></a>vd_varianza</span></code></pre></div>
+<div class="sourceCode" id="cb84"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb84-1"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb84-1" aria-hidden="true" tabindex="-1"></a>vd_varianza <span class="ot">&lt;-</span> d <span class="sc">%*%</span> d <span class="sc">/</span> ld <span class="sc">-</span> <span class="dv">1</span></span>
+<span id="cb84-2"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb84-2" aria-hidden="true" tabindex="-1"></a>vd_varianza</span></code></pre></div>
 <pre><code>##          [,1]
 ## [1,] 55.75781</code></pre>
 <p>Si utilizamos la función <code>var()</code> obtendremos el mismo resultado.</p>
-<div class="sourceCode" id="cb87"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb87-1"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb87-1" aria-hidden="true" tabindex="-1"></a><span class="fu">var</span>(vd)</span></code></pre></div>
+<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb86-1"><a href="algunas-operaciones-básicas-de-álgebra-lineal.html#cb86-1" aria-hidden="true" tabindex="-1"></a><span class="fu">var</span>(vd)</span></code></pre></div>
 <pre><code>## [1] 57.33112</code></pre>
 
 </div>

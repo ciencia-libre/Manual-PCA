@@ -1,6 +1,6 @@
 # Algunas operaciones básicas de álgebra lineal 
 
-En este capítulo veremos algunas operaciones de álgebra lineal. Esto será suficiente para posteriormente abordar el análisis de componentes principales desde sus bases. Si al momento de leer este capítulo no tienes mucha o ninguna experiencia con esta rama de las matemáticas, te recomiendo publicaciones como *Nociones de geometría analítica y álgebra lineal* o canales en *YouTube* como *3Blue1Brown* (solo en inglés, pero con subtítulos en español).  
+En este capítulo veremos algunas operaciones de álgebra lineal. Esto será suficiente para posteriormente abordar el análisis de componentes principales desde sus bases. Si no tienes mucha o ninguna experiencia con esta rama de las matemáticas, te recomiendo publicaciones como *Nociones de geometría analítica y álgebra lineal* o canales en *YouTube* como *3Blue1Brown* (solo en inglés, pero con subtítulos en español).  
 
 ## Operaciones con vectores
 
