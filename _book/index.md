@@ -1,7 +1,7 @@
 ---
 title: "Análisis de Componentes Principales paso a paso con R"
 author: "Juan Pablo Carreón Hidalgo"
-date: "2022-10-21"
+date: "2022-10-22"
 site: bookdown::bookdown_site
 documentclass: book
 url: https://pca-paso-a-paso.netlify.app/
@@ -47,7 +47,7 @@ Para la creación de este manual se utilizaron los paquetes listados a continuac
 ##  collate  Spanish_Mexico.utf8
 ##  ctype    Spanish_Mexico.utf8
 ##  tz       America/Mexico_City
-##  date     2022-10-21
+##  date     2022-10-22
 ##  pandoc   2.18 @ C:/Program Files/RStudio/bin/quarto/bin/tools/ (via rmarkdown)
 ## 
 ## ─ Packages ───────────────────────────────────────────────────────────────────
